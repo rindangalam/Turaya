@@ -22,8 +22,13 @@ Environment validation: `src/lib/env.ts` fails fast in dev when vars are missing
 |---|---|---|---|
 | `lib/supabase/browser.ts` | Client components | anon | RLS-enforced; sessions via cookies |
 | `lib/supabase/server.ts` | Server components/actions | anon | Reads session from cookies |
-| `lib/supabase/middleware.ts` | Edge middleware | anon | Session refresh only |
+| `lib/supabase/proxy.ts` | `src/proxy.ts` (Next 16 proxy, nodejs runtime) | anon | Session refresh only; returns `{ client, response }` so refreshed cookies are written onto the outgoing response |
 | `lib/supabase/admin.ts` | Server only | service_role | Bypasses RLS; **restricted** to justified flows (role bootstrap, system tasks). Never imported from client code. |
+
+All clients use `cookieEncoding: "base64url"`: Next.js strips `"` from cookie values (RFC 6265
+cookie-octet), which corrupts the raw JSON session; base64url keeps values safe.
+Session cookie name is `<storageKey>` where `storageKey = sb-<ref>-auth-token` and `ref` is the
+first hostname label of `NEXT_PUBLIC_SUPABASE_URL` (local dev: `sb-127-auth-token`).
 
 ## 3. RLS Policy Matrix
 
