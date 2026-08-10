@@ -5,24 +5,38 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  /* Raw palette — DESIGN_SYSTEM.md §2 */
-  --color-ink-950: #141210;
-  --color-ink-900: #1c1a17;
-  --color-ink-800: #2a2722;
-  --color-ink-700: #3a362f;
-  --color-ink-600: #55503f;
-  --color-ink-500: #6e675c;
-  --color-ink-300: #a39b8d;
-  --color-paper-50: #f7f4ee;
-  --color-paper-100: #f1ede4;
-  --color-paper-200: #e8e2d4;
-  --color-paper-300: #dcd4c2;
-  --color-bronze-400: #c2a678;
-  --color-bronze-500: #a98d5f;
-  --color-bronze-600: #8f7649;
-  --color-amber-glow: #e6c9a0;
+  /* Raw palette — DESIGN_SYSTEM.md §2 (dark luxury) */
+  --color-noir-950: #0b0b0c;
+  --color-noir-900: #141416;
+  --color-noir-800: #1d1d21;
+  --color-noir-700: #26262b;
+  --color-noir-600: #3a3a41;
+  --color-noir-500: #5c5c64;
+  --color-noir-400: #76767e;
+  --color-noir-300: #8e8e96;
+  --color-ivory-50: #f5f2ec;
+  --color-ivory-100: #ece7dd;
+  --color-ivory-200: #ddd6c8;
+  --color-ivory-300: #c9c1b0;
+  --color-champagne-300: #e3c98f;
+  --color-champagne-400: #d4b577;
+  --color-champagne-500: #c9a96a;
+  --color-champagne-600: #a8894f;
 
-  /* Semantic tokens (mapped in :root / .dark) */
+  /* Admin-neutral palette (light, utilitarian) — DESIGN_SYSTEM.md §10 */
+  --color-neutral-50: #f7f7f8;
+  --color-neutral-100: #efeff1;
+  --color-neutral-200: #e2e2e6;
+  --color-neutral-300: #c9c9d0;
+  --color-neutral-400: #a1a1ab;
+  --color-neutral-500: #7c7c86;
+  --color-neutral-600: #5f5f68;
+  --color-neutral-700: #4a4a52;
+  --color-neutral-800: #2f2f35;
+  --color-neutral-900: #1b1b1f;
+  --color-neutral-950: #121215;
+
+  /* Semantic tokens (mapped in :root / .dark / .admin) */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -56,7 +70,7 @@
   --color-sidebar-ring: var(--sidebar-ring);
 
   /* Typography — DESIGN_SYSTEM.md §3 */
-  --font-sans: var(--font-manrope);
+  --font-sans: var(--font-figtree);
   --font-display: var(--font-cormorant);
   --font-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
 
@@ -96,8 +110,8 @@
   --radius-4xl: 28px;
 
   /* Shadows — DESIGN_SYSTEM.md §6 */
-  --shadow-soft: 0 1px 2px rgb(20 18 16 / 0.04), 0 8px 24px rgb(20 18 16 / 0.06);
-  --shadow-lifted: 0 2px 4px rgb(20 18 16 / 0.05), 0 16px 48px rgb(20 18 16 / 0.12);
+  --shadow-soft: 0 1px 2px rgb(11 11 12 / 0.25), 0 8px 24px rgb(11 11 12 / 0.35);
+  --shadow-lifted: 0 2px 4px rgb(11 11 12 / 0.3), 0 16px 48px rgb(11 11 12 / 0.45);
 
   /* Motion easings — MOTION_SYSTEM.md §2 */
   --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
@@ -107,73 +121,110 @@
 }
 
 :root {
-  /* Light — paper/ink, DESIGN_SYSTEM.md §2 */
-  --background: var(--color-paper-50);
-  --foreground: var(--color-ink-900);
-  --card: var(--color-paper-100);
-  --card-foreground: var(--color-ink-900);
-  --popover: var(--color-paper-50);
-  --popover-foreground: var(--color-ink-900);
-  --primary: var(--color-ink-900);
-  --primary-foreground: var(--color-paper-50);
-  --secondary: var(--color-paper-200);
-  --secondary-foreground: var(--color-ink-900);
-  --muted: var(--color-paper-200);
-  --muted-foreground: var(--color-ink-500);
-  --accent: var(--color-paper-300);
-  --accent-foreground: var(--color-ink-900);
-  --destructive: #b34a3e;
-  --border: var(--color-paper-200);
-  --input: var(--color-paper-200);
-  --ring: var(--color-bronze-600);
-  --chart-1: var(--color-bronze-500);
-  --chart-2: var(--color-ink-500);
-  --chart-3: var(--color-amber-glow);
-  --chart-4: var(--color-paper-300);
-  --chart-5: var(--color-ink-300);
-  --sidebar: var(--color-paper-100);
-  --sidebar-foreground: var(--color-ink-900);
-  --sidebar-primary: var(--color-ink-900);
-  --sidebar-primary-foreground: var(--color-paper-50);
-  --sidebar-accent: var(--color-paper-300);
-  --sidebar-accent-foreground: var(--color-ink-900);
-  --sidebar-border: var(--color-paper-200);
-  --sidebar-ring: var(--color-bronze-600);
+  /* Admin-neutral light — DESIGN_SYSTEM.md §10.
+     The public site is dark-only and always carries .dark (see layout.tsx). */
+  --background: var(--color-neutral-50);
+  --foreground: var(--color-neutral-900);
+  --card: var(--color-neutral-50);
+  --card-foreground: var(--color-neutral-900);
+  --popover: var(--color-neutral-50);
+  --popover-foreground: var(--color-neutral-900);
+  --primary: var(--color-neutral-900);
+  --primary-foreground: var(--color-neutral-50);
+  --secondary: var(--color-neutral-100);
+  --secondary-foreground: var(--color-neutral-900);
+  --muted: var(--color-neutral-100);
+  --muted-foreground: var(--color-neutral-600);
+  --accent: var(--color-neutral-200);
+  --accent-foreground: var(--color-neutral-900);
+  --destructive: #b4232c;
+  --border: var(--color-neutral-200);
+  --input: var(--color-neutral-200);
+  --ring: var(--color-neutral-500);
+  --chart-1: var(--color-neutral-700);
+  --chart-2: var(--color-neutral-500);
+  --chart-3: var(--color-neutral-400);
+  --chart-4: var(--color-neutral-300);
+  --chart-5: var(--color-neutral-600);
+  --sidebar: var(--color-neutral-50);
+  --sidebar-foreground: var(--color-neutral-900);
+  --sidebar-primary: var(--color-neutral-900);
+  --sidebar-primary-foreground: var(--color-neutral-50);
+  --sidebar-accent: var(--color-neutral-100);
+  --sidebar-accent-foreground: var(--color-neutral-900);
+  --sidebar-border: var(--color-neutral-200);
+  --sidebar-ring: var(--color-neutral-500);
 }
 
 .dark {
-  /* Night — ink, DESIGN_SYSTEM.md §2 */
-  --background: var(--color-ink-950);
-  --foreground: var(--color-paper-50);
-  --card: var(--color-ink-900);
-  --card-foreground: var(--color-paper-50);
-  --popover: var(--color-ink-900);
-  --popover-foreground: var(--color-paper-50);
-  --primary: var(--color-paper-100);
-  --primary-foreground: var(--color-ink-950);
-  --secondary: var(--color-ink-800);
-  --secondary-foreground: var(--color-paper-100);
-  --muted: var(--color-ink-800);
-  --muted-foreground: var(--color-ink-300);
-  --accent: var(--color-ink-800);
-  --accent-foreground: var(--color-paper-100);
+  /* Dark luxury — noir/champagne, DESIGN_SYSTEM.md §2 (public site default) */
+  --background: var(--color-noir-950);
+  --foreground: var(--color-ivory-50);
+  --card: var(--color-noir-900);
+  --card-foreground: var(--color-ivory-50);
+  --popover: var(--color-noir-900);
+  --popover-foreground: var(--color-ivory-50);
+  --primary: var(--color-ivory-100);
+  --primary-foreground: var(--color-noir-950);
+  --secondary: var(--color-noir-800);
+  --secondary-foreground: var(--color-ivory-100);
+  --muted: var(--color-noir-800);
+  --muted-foreground: var(--color-ivory-300);
+  --accent: var(--color-noir-800);
+  --accent-foreground: var(--color-ivory-100);
   --destructive: #e07b6e;
-  --border: var(--color-ink-700);
-  --input: var(--color-ink-800);
-  --ring: var(--color-bronze-400);
-  --chart-1: var(--color-bronze-400);
-  --chart-2: var(--color-amber-glow);
-  --chart-3: var(--color-ink-300);
-  --chart-4: var(--color-ink-600);
-  --chart-5: var(--color-ink-700);
-  --sidebar: var(--color-ink-900);
-  --sidebar-foreground: var(--color-paper-50);
-  --sidebar-primary: var(--color-paper-100);
-  --sidebar-primary-foreground: var(--color-ink-950);
-  --sidebar-accent: var(--color-ink-800);
-  --sidebar-accent-foreground: var(--color-paper-100);
-  --sidebar-border: var(--color-ink-700);
-  --sidebar-ring: var(--color-bronze-400);
+  --border: var(--color-noir-700);
+  --input: var(--color-noir-800);
+  --ring: var(--color-champagne-400);
+  --chart-1: var(--color-champagne-400);
+  --chart-2: var(--color-ivory-100);
+  --chart-3: var(--color-noir-300);
+  --chart-4: var(--color-noir-500);
+  --chart-5: var(--color-noir-600);
+  --sidebar: var(--color-noir-900);
+  --sidebar-foreground: var(--color-ivory-50);
+  --sidebar-primary: var(--color-ivory-100);
+  --sidebar-primary-foreground: var(--color-noir-950);
+  --sidebar-accent: var(--color-noir-800);
+  --sidebar-accent-foreground: var(--color-ivory-100);
+  --sidebar-border: var(--color-noir-700);
+  --sidebar-ring: var(--color-champagne-400);
+}
+
+.admin {
+  /* Admin shell (Sprint 5): force light neutral regardless of .dark on <html>.
+     Applied to the /admin layout wrapper. */
+  --background: var(--color-neutral-50);
+  --foreground: var(--color-neutral-900);
+  --card: var(--color-neutral-50);
+  --card-foreground: var(--color-neutral-900);
+  --popover: var(--color-neutral-50);
+  --popover-foreground: var(--color-neutral-900);
+  --primary: var(--color-neutral-900);
+  --primary-foreground: var(--color-neutral-50);
+  --secondary: var(--color-neutral-100);
+  --secondary-foreground: var(--color-neutral-900);
+  --muted: var(--color-neutral-100);
+  --muted-foreground: var(--color-neutral-600);
+  --accent: var(--color-neutral-200);
+  --accent-foreground: var(--color-neutral-900);
+  --destructive: #b4232c;
+  --border: var(--color-neutral-200);
+  --input: var(--color-neutral-200);
+  --ring: var(--color-neutral-500);
+  --chart-1: var(--color-neutral-700);
+  --chart-2: var(--color-neutral-500);
+  --chart-3: var(--color-neutral-400);
+  --chart-4: var(--color-neutral-300);
+  --chart-5: var(--color-neutral-600);
+  --sidebar: var(--color-neutral-50);
+  --sidebar-foreground: var(--color-neutral-900);
+  --sidebar-primary: var(--color-neutral-900);
+  --sidebar-primary-foreground: var(--color-neutral-50);
+  --sidebar-accent: var(--color-neutral-100);
+  --sidebar-accent-foreground: var(--color-neutral-900);
+  --sidebar-border: var(--color-neutral-200);
+  --sidebar-ring: var(--color-neutral-500);
 }
 
 @layer base {
@@ -191,8 +242,8 @@
   }
 
   ::selection {
-    background: var(--color-bronze-500);
-    color: var(--color-paper-50);
+    background: var(--color-champagne-500);
+    color: var(--color-noir-950);
   }
 
   :focus-visible {

@@ -55,7 +55,7 @@ Result is recorded in the sprint report; contradictions are fixed in place.
 |---|---|---|
 | Sprint 0 | Placeholder content policy; docs before code | `CONTENT_GUIDELINES.md` |
 | Sprint 0 | npm as package manager | `CODE_STYLE.md` |
-| Sprint 0 | Design direction: warm neutrals + bronze; Cormorant Garamond + Manrope | `DESIGN_SYSTEM.md` |
+| Sprint 0 | Design direction: dark luxury (noir + champagne); Cormorant Garamond + Figtree | `DESIGN_SYSTEM.md` |
 | Sprint 0 | Prisma not used initially; Supabase SQL + generated types | `ARCHITECTURE.md` §2 |
 | Sprint 0 | Realtime disabled until a real requirement exists | `SUPABASE.md` §6 |
 | Sprint 0 | No global `media` table; per-entity images + storage conventions | `DATABASE.md` §6 |

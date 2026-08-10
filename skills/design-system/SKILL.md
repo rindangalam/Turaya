@@ -11,11 +11,11 @@ Motion decisions (that's `motion-design`); content/copy decisions.
 
 ## Rules
 1. No raw design values in components — tokens only (`DESIGN_SYSTEM.md`).
-2. Contrast contract §2 is binding: bronze accent never body text on paper; body text ≥ 4.5:1.
-3. Editorial, minimal, calm: no excessive radius/gradients/glass/glow/particles.
+2. Contrast contract §2 is binding: body text ≥ 4.5:1; champagne accent never used where it fails (§2).
+3. Dark luxury, editorial, calm: no excessive radius/gradients/glass/glow/particles.
 4. shadcn/ui primitives themed via tokens; fork only with justification.
 5. One accent moment per viewport.
-6. Public = editorial scale; admin = density-first (same tokens, `DESIGN_SYSTEM.md` §10).
+6. Public = dark-only editorial scale; admin = light neutral utilitarian (`.admin` scope, `DESIGN_SYSTEM.md` §10).
 
 ## Workflow
 1. Read `DESIGN_SYSTEM.md`; map need to tokens.
@@ -23,8 +23,8 @@ Motion decisions (that's `motion-design`); content/copy decisions.
 3. Verify contrast pairs used; responsive behavior at 4 breakpoints.
 
 ## Examples
-- Button: `bg-ink-900 text-paper-50 hover:bg-ink-800`, radius-sm, focus ring bronze.
-- Section label: overline token (0.75rem, 0.16em, uppercase, bronze-500 for large only).
+- Button (public): `bg-ivory-100 text-noir-950 hover:bg-ivory-50`, radius-sm, focus ring champagne-400.
+- Section label: overline token (0.75rem, 0.16em, uppercase, champagne-500 for large only).
 
 ## Common Mistakes
 Hex values in components; random spacing/radius; accent used for body text; template-looking card grids.

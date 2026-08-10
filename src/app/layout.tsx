@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Manrope } from "next/font/google";
+import { Cormorant_Garamond, Figtree } from "next/font/google";
 import { LenisProvider } from "@/components/animations/lenis-provider";
 import "./globals.css";
 
@@ -10,8 +10,8 @@ const cormorant = Cormorant_Garamond({
   display: "swap",
 });
 
-const manrope = Manrope({
-  variable: "--font-manrope",
+const figtree = Figtree({
+  variable: "--font-figtree",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
   display: "swap",
@@ -29,7 +29,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="en"
-      className={`${cormorant.variable} ${manrope.variable} h-full antialiased`}
+      className={`dark ${cormorant.variable} ${figtree.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col">
         <a

@@ -25,7 +25,7 @@ All copy is placeholder-marked until real content exists (`CONTENT_GUIDELINES.md
   Sections render from CMS; order/visibility from DB. Empty/disabled sections are skipped — never shown blank.
 - **Information hierarchy**: 1. Hero (name + one line) → 2. Featured collection → 3. Signature fragrance
   → 4. Notes/ingredients → 5. Craft/story → 6. Gallery/philosophy → 7. Social proof → 8. CTA/store.
-- **Visual hierarchy**: Full-bleed cinematic imagery; oversized display type; hairline rules; one bronze accent moment.
+- **Visual hierarchy**: Full-bleed cinematic low-key imagery; oversized display type; hairline rules; one champagne accent moment.
 - **Interaction hierarchy**: Hero reveal (L3) → nav (L1–2) → scroll storytelling (L3, ≤ 3 scenes)
   → product reveals (L2) → gallery (L2) → CTA (L1).
 - **Motion**: Per `MOTION_SYSTEM.md` budget order 1–7; no animated paragraph spam.
@@ -119,7 +119,7 @@ All: semantic content, headings, no raw DB access; Loading = minimal; Error = `e
 - **Navigation**: transparent over hero → solid on scroll (hairline border, blur on light).
   Desktop links: overline style; hover underline reveal (L1). Mobile: full-screen overlay,
   staggered link entrance (L2), focus management + ESC close, `aria-expanded`.
-- **Footer**: ink-950; brand line, nav columns, social (from settings), legal links. No newsletter (not justified).
+- **Footer**: noir-950; brand line, nav columns, social (from settings), legal links. No newsletter (not justified).
 
 ---
 
