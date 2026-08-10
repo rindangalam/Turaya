@@ -29,37 +29,49 @@ Environment validation: `src/lib/env.ts` fails fast in dev when vars are missing
 
 Principle: the **database is the authorization boundary**. Client-side hiding is not authorization.
 
+All authenticated users are staff. SELECT policies are therefore split:
+`anon` sees published-only rows; `authenticated` sees **all** rows (staff must see drafts,
+and `INSERT/UPDATE ... RETURNING` — used by the CMS — requires the returned row to be
+visible under SELECT policies).
+
 | Table | anon (public) | editor | admin | super_admin |
 |---|---|---|---|---|
-| `profiles` | — | select self | select all, update all | all |
-| `audit_logs` | — | — | select (own org scope) | select |
-| `collections` | select status='published' | CRUD own drafts+published | all | all |
-| `categories` | select status='published' | CRUD | all | all |
-| `products` | select status='published' | CRUD | all | all |
-| `product_images` | select via published product | CRUD | all | all |
-| `collection_products` | select via published collection | CRUD | all | all |
-| `ingredients` | select status='published' | CRUD | all | all |
-| `product_ingredients` | select via published product | CRUD | all | all |
-| `gallery_items` | select status='published' | CRUD | all | all |
-| `journal_posts` | select status='published' | CRUD (self or all) | all | all |
+| `profiles` | — | select self, update self (non-role fields) | select all, update all | all |
+| `audit_logs` | — | — | select | select (+ purge) |
+| `collections` | select published | CRUD | all | all |
+| `categories` | select published | CRUD | all | all |
+| `products` | select published | CRUD | all | all |
+| `product_images` | via published product | CRUD | all | all |
+| `collection_products` | via published collection | CRUD | all | all |
+| `ingredients` | select published | CRUD | all | all |
+| `product_ingredients` | via published product | CRUD | all | all |
+| `gallery_items` | select published | CRUD | all | all |
+| `journal_posts` | select published | CRUD (own rows) | all | all |
 | `journal_categories` | select | CRUD | all | all |
 | `journal_tags` | select | CRUD | all | all |
 | `post_tags` | via published post | CRUD | all | all |
-| `testimonials` | select status='published' | CRUD | all | all |
-| `store_locations` | select status='published' | CRUD | all | all |
-| `faq_items` | select status='published' | CRUD | all | all |
-| `contact_messages` | insert (public form) | select/update (own scope) | all | all |
+| `testimonials` | select published | CRUD | all | all |
+| `store_locations` | select published | CRUD | all | all |
+| `faq_items` | select published | CRUD | all | all |
+| `contact_messages` | insert (public form) | select/update (staff inbox) | +delete | all |
 | `homepage_sections` | select visible=true | CRUD | all | all |
-| `site_settings` | select (public fields) | — | update | all |
-| `seo_metadata` | select | CRUD | all | all |
+| `site_settings` | select (all fields are public contact/brand info) | — | update | all |
+| `seo_metadata` | select | select | all | all |
 
 Notes:
-- "CRUD" for editors = insert/update/delete with `author_id = auth.uid()` where applicable;
-  admin policies are `using (true)`/`with check (true)` guarded by `profiles.role`.
-- Editor policy helper: `auth.uid() in (select id from profiles where role in ('admin','super_admin','editor'))`.
-- Admin helper: `role in ('admin','super_admin')`; Super Admin: `role = 'super_admin'`.
-- Policies are defined as reusable SQL functions (`is_editor()`, `is_admin()`, `is_super_admin()`) to keep policy bodies readable and consistent.
-- `audit_logs` is append-only: no UPDATE/DELETE policies exist.
+- "CRUD" for editors = insert/update/delete guarded by `public.is_editor()`; admin policies
+  use `public.is_admin()`/`is_super_admin()`. All three are `security definer` SQL functions
+  reading `profiles.role` (see migration `0001`).
+- `journal_posts` writes are own-scope for editors (`author_id = auth.uid()` or null);
+  admins can update/delete any post.
+- Role changes are blocked at the DB level: a `protect_role_change` trigger on `profiles`
+  allows role updates only for super_admin (error `P0001: only super_admin may change roles`).
+- **RLS + RETURNING caveat:** with RLS enabled, `INSERT/UPDATE/DELETE ... RETURNING` requires
+  the returned row to be visible under the table's SELECT policies, otherwise Postgres aborts
+  with `new row violates row-level security policy`. This is why authenticated SELECT policies
+  are `using (true)`. `contact_messages` has no anon SELECT policy, so the public contact form
+  must use a minimal insert (supabase-js without `.select()` → `Prefer: return=minimal`).
+- `audit_logs` is append-only: no INSERT/UPDATE/DELETE policies exist (trigger writes as definer).
 
 ## 4. Storage
 
@@ -69,12 +81,12 @@ Notes:
 |---|---|---|---|
 | `products` | public (rendered) | editor+ | product photography |
 | `gallery` | public | editor+ | editorial gallery |
-| `hero` | public | admin+ | hero imagery |
 | `journal` | public | editor+ | post covers |
-| `branding` | public | admin+ | brand assets, OG images |
+| `branding` | public | admin+ | brand assets, OG images, hero imagery |
 
-Public buckets are read-only for anon (no anon upload policy). Upload/delete policies
-check `is_editor()`/`is_admin()` by bucket.
+Public buckets are read-only for anon (anon SELECT policy on `storage.objects` only).
+Upload/update/delete policies check `is_editor()`/`is_admin()` by bucket
+(see migration `0006`).
 
 ### Upload validation (server-side, in storage service)
 
@@ -93,18 +105,22 @@ check `is_editor()`/`is_admin()` by bucket.
 ## 5. Audit Logging
 
 Trigger-based for table mutations (`log_audit()` AFTER INSERT/UPDATE/DELETE on audited
-tables: products, collections, journal_posts, users/profiles, site_settings), plus
+tables: products, collections, journal_posts, profiles, site_settings), plus
 explicit service-side calls for login/logout/publish transitions.
 
 | Event examples | `action` value |
 |---|---|
 | Login success/failure | `auth.login`, `auth.login_failed` |
-| Product created | `product.create` |
-| Product updated | `product.update` |
-| Product archived | `product.archive` |
-| Publish/unpublish | `product.publish`, `product.unpublish` |
-| Profile role change | `user.role_change` |
-| Settings update | `settings.update` |
+| Product created | `products.create` |
+| Product updated | `products.update` |
+| Product archived | `products.archive` (service-side) |
+| Publish/unpublish | `products.publish`, `products.unpublish` (service-side) |
+| Journal post updated | `journal_posts.update` |
+| Profile role change | `user.role_change` (service-side; DB trigger blocks non-super_admin) |
+| Settings update | `site_settings.update` |
+
+Trigger `action` format: `<table>.<create|update|delete>`; `resource` = table name,
+`resource_id` = row id. Seed-time writes are recorded with `actor_id` NULL.
 
 `audit_logs` is immutable and admin-readable; super_admin can purge with justification.
 
@@ -116,11 +132,15 @@ subscriptions only; never subscribe with the service role from client code.
 
 ## 7. Migrations & Tooling
 
-- CLI: `supabase link`, `supabase db push`, local `supabase start`.
+- CLI: `supabase link`, `supabase db push`, local `supabase start` / `supabase db reset`.
 - Every migration includes its RLS policies; a migration that touches a table must
   update the policy matrix here and in `RBAC.md`.
-- `supabase gen types` committed after schema changes.
-- Seed script: `supabase/seed/seed.sql` (idempotent, placeholder-marked content).
+- Migrations `0000`–`0007`: base trigger fn → profiles/audit/helpers → catalog → editorial
+  → community → site → storage → grants (table/sequence/function privileges for
+  `anon`/`authenticated`/`service_role` + default privileges; **required** for any API access).
+- `supabase gen types typescript --local` committed after schema changes
+  (→ `src/lib/supabase/database.types.ts`).
+- Seed script: `supabase/seed.sql` (idempotent, placeholder-marked content, safe to re-run).
 
 ## 8. Anti-Patterns (forbidden)
 

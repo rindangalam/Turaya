@@ -43,12 +43,12 @@
 
 | Resource | editor | admin | super_admin |
 |---|---|---|---|
-| Content tables (products, collections, ingredients, gallery, journal, testimonials, faq, stores) | CRUD (own-scope where applicable) | All | All |
+| Content tables (products, collections, ingredients, gallery, journal, testimonials, faq, stores) | CRUD (own-scope where present: journal) | All | All |
 | `profiles` | self | select all, update non-role fields | All |
 | `audit_logs` | — | select | select, purge |
 | `site_settings` | — | update | all |
-| `seo_metadata` | — | all | all |
-| `contact_messages` | select/update (own scope) | all | all |
+| `seo_metadata` | select | all | all |
+| `contact_messages` | select/update (staff inbox) | all | all |
 
 ## 5. Content Permission Rules (editors)
 
