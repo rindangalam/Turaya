@@ -341,6 +341,7 @@ export type Database = {
           name: string
           origin: string | null
           slug: string
+          sort_order: number
           status: string
           story: string | null
           updated_at: string
@@ -354,6 +355,7 @@ export type Database = {
           name: string
           origin?: string | null
           slug: string
+          sort_order?: number
           status?: string
           story?: string | null
           updated_at?: string
@@ -367,6 +369,7 @@ export type Database = {
           name?: string
           origin?: string | null
           slug?: string
+          sort_order?: number
           status?: string
           story?: string | null
           updated_at?: string
