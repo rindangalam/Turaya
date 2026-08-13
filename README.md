@@ -32,4 +32,12 @@ npm run typecheck  # tsc --noEmit
 
 ## Status
 
-Sprint 2 (Design System) complete — see `docs/SPRINTS.md`.
+Sprints 1–11 complete (Design System → CMS admin: settings, homepage, products,
+collections, categories, ingredients, relations, gallery, journal, testimonials,
+stores, SEO, messages → Public website: homepage, products, collections, ingredients,
+gallery, journal, contact, about, philosophy, stores, faq, privacy, terms, nav/footer,
+boundaries) — see `docs/SPRINTS.md`.
+
+Connected to the hosted Supabase project (ref `yuzsroqibdylpqihrbsh`, region
+`ap-southeast-1`): all migrations `0000`–`0008` + seed applied, admin user
+bootstrapped, verified end-to-end in the browser. See `docs/SUPABASE.md`.

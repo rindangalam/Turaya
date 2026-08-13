@@ -9,12 +9,20 @@
 
 | Environment | Purpose |
 |---|---|
-| Local (`supabase start`) | Development, migrations authored locally |
+| Hosted (`yuzsroqibdylpqihrbsh`) | Live dev project — ref `yuzsroqibdylpqihrbsh`, region `ap-southeast-1`. All migrations `0000`–`0008` + `seed.sql` applied; admin user bootstrapped. |
+| Local (`supabase start`) | Optional; migrations authored locally (requires Docker) |
 | Preview | Per-PR branch projects (or shared preview project) |
 | Production | Live data; **never** run destructive SQL manually |
 
 Keys: anon (client-safe), service_role (server-only), `DATABASE_URL` (tooling).
 Environment validation: `src/lib/env.ts` fails fast in dev when vars are missing.
+`.env.local` (gitignored) holds the three live keys. No `DATABASE_URL` needed for
+the app itself.
+
+**Remote SQL (no CLI/Docker):** the Management API `POST
+https://api.supabase.com/v1/projects/{ref}/database/query` with body `{"query": "<sql>"}`
+and `Authorization: Bearer <access token>`. The access token lives outside the repo
+(user-owned, rotate after use) — never commit it.
 
 ## 2. Clients
 
@@ -138,14 +146,26 @@ subscriptions only; never subscribe with the service role from client code.
 ## 7. Migrations & Tooling
 
 - CLI: `supabase link`, `supabase db push`, local `supabase start` / `supabase db reset`.
+  Without local Docker/CLI, apply remote SQL via the Management API
+  `/v1/projects/{ref}/database/query` (see §1). PowerShell gotcha: `Get-Content -Raw`
+  output can serialize as an object in JSON bodies — build bodies with
+  `[System.IO.File]::ReadAllText(...)` + `ConvertTo-Json -Compress` and post via
+  `curl --data-binary @file`; keep the temp JSON file BOM-free for the auth API.
 - Every migration includes its RLS policies; a migration that touches a table must
   update the policy matrix here and in `RBAC.md`.
-- Migrations `0000`–`0007`: base trigger fn → profiles/audit/helpers → catalog → editorial
+- Migrations `0000`–`0008`: base trigger fn → profiles/audit/helpers → catalog → editorial
   → community → site → storage → grants (table/sequence/function privileges for
-  `anon`/`authenticated`/`service_role` + default privileges; **required** for any API access).
+  `anon`/`authenticated`/`service_role` + default privileges; **required** for any API access)
+  → ingredients `sort_order`.
 - `supabase gen types typescript --local` committed after schema changes
-  (→ `src/lib/supabase/database.types.ts`).
+  (→ `src/lib/supabase/database.types.ts`); last schema change (`ingredients.sort_order`,
+  migration `0008`) was synced by hand.
 - Seed script: `supabase/seed.sql` (idempotent, placeholder-marked content, safe to re-run).
+- **Relationship ambiguity:** since `collection_products` exists there are two FKs between
+  `products` and `collections`. Queries embedding `collections(name)` from `products` must
+  disambiguate with the FK hint `collections!products_collection_id_fkey(name)`
+  (`src/services/products.ts:listProducts`). Embeds from a junction table itself
+  (`collection_products -> products(name)`) stay unambiguous.
 
 ## 8. Anti-Patterns (forbidden)
 

@@ -38,6 +38,7 @@ All copy is placeholder-marked until real content exists (`CONTENT_GUIDELINES.md
 - **States**: Loading = skeletons per section; Error = section-level fallback (retry via revalidation);
   Empty = section hidden (CMS-driven) and homepage still complete; CTA = "Explore the collection" → `/collections`.
 - **SEO**: unique metadata; Organization + Product JSON-LD for signature fragrance.
+- **Status**: ✅ Implemented (Sprint 6 + Sprint 11 shell).
 
 ## F2 — Product Page (`/products/[slug]`)
 
@@ -53,6 +54,7 @@ All copy is placeholder-marked until real content exists (`CONTENT_GUIDELINES.md
 - **States**: Loading = skeleton; Error = `not-found()` for unpublished/archived; Empty = "related" hidden when none.
 - **CTA**: "Discover the collection" (→ collection) + "Contact us" (→ `/contact`).
 - **SEO**: Product schema (name, description, image, sku = slug, offers omitted when no price); canonical.
+- **Status**: ✅ Implemented (Sprint 11). Gallery + thumbnails, notes pyramid, related products, breadcrumb.
 
 ## F3 — Collection Page (`/collections/[slug]`)
 
@@ -63,6 +65,7 @@ All copy is placeholder-marked until real content exists (`CONTENT_GUIDELINES.md
 - **States**: Empty = "Collection coming soon" (placeholder-marked, never blank). Error = `not-found()`.
 - **CTA**: to featured product of the collection.
 - **SEO**: CollectionPage + Breadcrumb schema.
+- **Status**: ✅ Implemented (Sprint 11). `/collections` index (featured first) + detail with story and product grid.
 
 ## F4 — Journal (`/journal`, `/journal/[slug]`)
 
@@ -73,6 +76,7 @@ All copy is placeholder-marked until real content exists (`CONTENT_GUIDELINES.md
 - **States**: Empty = curated "Journal is quiet for now" placeholder; Error = `not-found()`.
 - **Accessibility**: markdown rendered to semantic HTML; proper heading order; no heading skip.
 - **SEO**: Article schema (author, datePublished from `published_at`), OG image from cover.
+- **Status**: ✅ Implemented (Sprint 11). Index (category/date/tags) + article with prev/next.
 
 ## F5 — Gallery (`/gallery`)
 
@@ -83,6 +87,7 @@ All copy is placeholder-marked until real content exists (`CONTENT_GUIDELINES.md
 - **Accessibility**: all items keyboard-focusable; lightbox focus trap; captions + alt.
 - **States**: Empty = placeholder intro card; Error = section error; Loading = skeleton tiles.
 - **CTA**: "Visit the atelier" → `/contact` or `/stores`.
+- **Status**: ✅ Implemented (Sprint 11). Masonry grid with captions + empty state.
 
 ## F6 — Contact (`/contact`)
 
@@ -94,6 +99,7 @@ All copy is placeholder-marked until real content exists (`CONTENT_GUIDELINES.md
 - **States**: Loading = button pending; Success = inline confirmation + clear form; Error = field errors; Empty = n/a.
 - **Security**: honeypot + rate limit (5/hour/IP); zod validation; no PII leaks in logs.
 - **CTA**: submit.
+- **Status**: ✅ Implemented (Sprint 11). `submitContactMessage` server action with honeypot + in-memory rate limit; success/error states.
 
 ## F7 — Ingredients (`/ingredients`)
 
@@ -103,6 +109,7 @@ All copy is placeholder-marked until real content exists (`CONTENT_GUIDELINES.md
 - **Interaction**: ingredient cards hover/tap reveal (L2); gentle marquee of names (L1, decorative only on desktop, pauses on reduced-motion).
 - **States**: Empty = placeholder note; Error = fallback; Loading = skeleton.
 - **SEO**: content indexable; no fake claims — factual text or placeholder.
+- **Status**: ✅ Implemented (Sprint 11).
 
 ## F8 — About / Philosophy / Stores / FAQ / Privacy / Terms
 
@@ -115,6 +122,7 @@ All copy is placeholder-marked until real content exists (`CONTENT_GUIDELINES.md
 | `/privacy`, `/terms` | Legal clarity | static legal pages (real text supplied by owner — placeholder-marked until then) | — |
 
 All: semantic content, headings, no raw DB access; Loading = minimal; Error = `error.tsx`; Empty = n/a (static).
+- **Status**: ✅ Implemented (Sprint 11). Stores + FAQ render from CMS; about/philosophy/privacy/terms are editorial copy (placeholder-marked until owner text supplied).
 
 ## F9 — Navigation & Footer
 
@@ -122,6 +130,7 @@ All: semantic content, headings, no raw DB access; Loading = minimal; Error = `e
   Desktop links: overline style; hover underline reveal (L1). Mobile: full-screen overlay,
   staggered link entrance (L2), focus management + ESC close, `aria-expanded`.
 - **Footer**: noir-950; brand line, nav columns, social (from settings), legal links. No newsletter (not justified).
+- **Status**: ✅ Implemented (Sprint 11). Sticky translucent nav (announcement-aware), mobile overlay menu with staggered entrance + ESC close, footer from `site_settings`.
 
 ---
 
@@ -189,8 +198,19 @@ All: semantic content, headings, no raw DB access; Loading = minimal; Error = `e
   - Delete is a hard delete: storage object + row removed in the same action (table has no
     `deleted_at`).
   - List filters: status tabs (draft/published/archived) + category select.
-- **Journal**: post editor (title, slug, excerpt, markdown body with preview, cover upload,
-  category, tags, publish date, SEO). Draft/publish state machine. Planned for Sprint 10.
+- **Journal** (`/admin/journal`) (Sprint 10, implemented):
+  - List with search (title/slug/excerpt), status filter tabs (draft/published/archived),
+    category filter, cover thumbnail (or file icon), category, tag badges, status badge,
+    updated time; ordered by `updated_at` desc.
+  - Create/edit form: cover upload (JPEG/PNG/WebP/AVIF, ≤8 MB) to the `journal` bucket at a
+    date-partitioned path (`journal/<yyyy>/<mm>/<uuid>.<ext>`), title, slug, category select
+    + inline "new category" (auto-slugged, unique via `23505`), status, excerpt, body
+    (required), tags (pick existing + create new, saved as full replacement of `post_tags`),
+    SEO title/description.
+  - `published_at` is set on first publish transition (create with status `published`, or
+    update draft→published); a previously-published post keeps its date.
+  - `author_id` is set from the current session user (`profiles.id`) on create.
+  - Archive is a soft delete (`deleted_at`); archived posts are excluded from list queries.
 
 ## A5 — Messages (`/admin/messages`)
 

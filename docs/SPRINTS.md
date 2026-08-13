@@ -76,12 +76,19 @@
 - **Deliverables**: Posts draft/publish, categories, tags, cover image, SEO fields.
 - **Tasks**: T10
 - **Exit criteria**: Article lifecycle; published-only visible publicly.
+- **Status**: ✅ Completed.
 
 ## Sprint 11 — Public Website
 - **Goals**: All public routes from CMS data.
-- **Deliverables**: Homepage, about, philosophy, collections, products, ingredients, gallery, journal, contact (form), stores, faq, privacy, terms; `not-found`/`loading`/`error` boundaries; skeleton states.
+- **Deliverables**: Public route group with navigation/footer, homepage, about, philosophy, collections, products, ingredients, gallery, journal, contact (form), stores, faq, privacy, terms; `not-found`/`loading`/`error` boundaries; skeleton states.
 - **Tasks**: T11
 - **Exit criteria**: Every public route renders from CMS; contact form validated + rate-limited; no raw errors.
+- **Status**: ✅ Completed.
+  - Public services: published-only queries in `products`, `collections`, `categories`, `ingredients`, `gallery`, `journal`; new `faq`, `stores`, `testimonials`; `seo.getSeoMetadata(page)`.
+  - `src/app/(public)/` route group: `layout.tsx` (announcement + `PublicNav` + `PublicFooter`), homepage moved from `src/app/page.tsx`.
+  - Contact feature: `lib/validation/contact.ts`, `features/contact/actions.ts` (honeypot + in-memory 5/hour/IP rate limit), `contact-form.tsx` (useActionState).
+  - Pages: `/`, `/products` (+`[slug]` with gallery, notes pyramid, related, breadcrumb), `/collections` (+`[slug]`), `/ingredients`, `/gallery` (empty state), `/journal` (+`[slug]`), `/contact`, `/about`, `/philosophy`, `/stores`, `/faq`, `/privacy`, `/terms`; group + root `not-found`, `loading`, `error`.
+  - Verified: `tsc` + lint green; browser E2E of all public routes incl. category filter, empty state, mobile menu, contact submission (DB row confirmed + cleaned), 404s; admin unaffected.
 
 ## Sprint 12 — Motion System
 - **Goals**: Experience-level motion per MOTION_SYSTEM.md.
