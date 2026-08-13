@@ -57,3 +57,26 @@ export async function getIngredientOptions(): Promise<{ id: string; name: string
 
   return data ?? [];
 }
+
+export type PublicIngredient = Pick<
+  Ingredient,
+  "id" | "name" | "slug" | "origin" | "description" | "story" | "image_path"
+>;
+
+export async function listPublishedIngredients(): Promise<PublicIngredient[]> {
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+    .from("ingredients")
+    .select("id, name, slug, origin, description, story, image_path")
+    .eq("status", "published")
+    .is("deleted_at", null)
+    .order("sort_order", { ascending: true });
+
+  if (error) {
+    console.error(`ingredients: failed to list published: ${error.message}`);
+    return [];
+  }
+
+  return data ?? [];
+}

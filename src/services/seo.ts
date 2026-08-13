@@ -20,3 +20,25 @@ export async function listSeoMetadata(): Promise<SeoMetadata[]> {
 
   return data ?? [];
 }
+
+export type PublicSeoMetadata = Pick<
+  SeoMetadata,
+  "page" | "title" | "description" | "canonical_url" | "og_image_path" | "robots"
+>;
+
+export async function getSeoMetadata(page: string): Promise<PublicSeoMetadata | null> {
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+    .from("seo_metadata")
+    .select("page, title, description, canonical_url, og_image_path, robots")
+    .eq("page", page)
+    .maybeSingle();
+
+  if (error) {
+    console.error(`seo: failed to read ${page}: ${error.message}`);
+    return null;
+  }
+
+  return data;
+}

@@ -31,7 +31,7 @@ export async function listProducts(options: ProductListOptions = {}): Promise<Pr
   let query = supabase
     .from("products")
     .select(
-      "id, name, slug, status, featured, price, updated_at, categories(name), collections(name), product_images(path, sort_order)",
+      "id, name, slug, status, featured, price, updated_at, categories(name), collections!products_collection_id_fkey(name), product_images(path, sort_order)",
     )
     .is("deleted_at", null);
 
@@ -154,4 +154,113 @@ export async function getProductOptions() {
   ]);
 
   return { categories: categories ?? [], collections: collections ?? [] };
+}
+
+export type PublicProduct = {
+  id: string;
+  name: string;
+  slug: string;
+  tagline: string | null;
+  description: string | null;
+  story: string | null;
+  size: string | null;
+  price: number | null;
+  featured: boolean;
+  categoryName: string | null;
+  categorySlug: string | null;
+  collectionName: string | null;
+  collectionSlug: string | null;
+  images: { path: string; alt: string | null }[];
+  notes: { name: string; noteStage: string }[];
+};
+
+export async function listPublishedProducts(): Promise<PublicProduct[]> {
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+    .from("products")
+    .select(
+      "id, name, slug, tagline, price, featured, categories(name, slug), collections!products_collection_id_fkey(name, slug), product_images(path, alt, sort_order)",
+    )
+    .eq("status", "published")
+    .is("deleted_at", null)
+    .order("name", { ascending: true });
+
+  if (error) {
+    console.error(`products: failed to list published: ${error.message}`);
+    return [];
+  }
+
+  return (data ?? []).map((row) => ({
+    id: row.id,
+    name: row.name,
+    slug: row.slug,
+    tagline: row.tagline,
+    description: null,
+    story: null,
+    size: null,
+    price: row.price,
+    featured: row.featured,
+    categoryName: row.categories?.name ?? null,
+    categorySlug: row.categories?.slug ?? null,
+    collectionName: row.collections?.name ?? null,
+    collectionSlug: row.collections?.slug ?? null,
+    images: (row.product_images ?? []).map((image) => ({
+      path: image.path,
+      alt: image.alt,
+    })),
+    notes: [],
+  }));
+}
+
+export async function getPublishedProductBySlug(slug: string): Promise<PublicProduct | null> {
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+    .from("products")
+    .select(
+      "id, name, slug, tagline, description, story, size, price, featured, categories(name, slug), collections!products_collection_id_fkey(name, slug)",
+    )
+    .eq("slug", slug)
+    .eq("status", "published")
+    .is("deleted_at", null)
+    .maybeSingle();
+
+  if (error || !data) {
+    if (error) console.error(`products: failed to get published ${slug}: ${error.message}`);
+    return null;
+  }
+
+  const { data: images } = await supabase
+    .from("product_images")
+    .select("path, alt")
+    .eq("product_id", data.id)
+    .order("sort_order", { ascending: true });
+
+  const { data: notes } = await supabase
+    .from("product_ingredients")
+    .select("note_stage, ingredients(name)")
+    .eq("product_id", data.id)
+    .order("position", { ascending: true });
+
+  return {
+    id: data.id,
+    name: data.name,
+    slug: data.slug,
+    tagline: data.tagline,
+    description: data.description,
+    story: data.story,
+    size: data.size,
+    price: data.price,
+    featured: data.featured,
+    categoryName: data.categories?.name ?? null,
+    categorySlug: data.categories?.slug ?? null,
+    collectionName: data.collections?.name ?? null,
+    collectionSlug: data.collections?.slug ?? null,
+    images: (images ?? []).map((image) => ({ path: image.path, alt: image.alt })),
+    notes: (notes ?? []).map((note) => ({
+      name: note.ingredients?.name ?? "Unknown",
+      noteStage: note.note_stage,
+    })),
+  };
 }

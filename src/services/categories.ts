@@ -39,3 +39,21 @@ export async function getCategory(id: string): Promise<Category | null> {
 
   return data;
 }
+
+export async function listPublishedCategories(): Promise<Category[]> {
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+    .from("categories")
+    .select("*")
+    .eq("status", "published")
+    .is("deleted_at", null)
+    .order("sort_order", { ascending: true });
+
+  if (error) {
+    console.error(`categories: failed to list published: ${error.message}`);
+    return [];
+  }
+
+  return data ?? [];
+}

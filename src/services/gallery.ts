@@ -74,3 +74,20 @@ export async function getGalleryItem(id: string): Promise<GalleryItem | null> {
 
   return data;
 }
+
+export async function listPublishedGalleryItems(): Promise<GalleryItem[]> {
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+    .from("gallery_items")
+    .select("*")
+    .eq("status", "published")
+    .order("sort_order", { ascending: true });
+
+  if (error) {
+    console.error(`gallery: failed to list published: ${error.message}`);
+    return [];
+  }
+
+  return data ?? [];
+}

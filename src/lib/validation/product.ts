@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+import { pgUuid } from "@/lib/validation/uuid";
+
 const slugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
 export const PRODUCT_STATUSES = ["draft", "published", "archived"] as const;
@@ -32,8 +34,8 @@ export const productSchema = z.object({
   tagline: z.string().trim().max(200).nullable().optional(),
   description: z.string().trim().max(2000).nullable().optional(),
   story: z.string().trim().max(10000).nullable().optional(),
-  category_id: z.string().uuid("Choose a category.").nullable().optional(),
-  collection_id: z.string().uuid("Choose a collection.").nullable().optional(),
+  category_id: pgUuid("Choose a category.").nullable().optional(),
+  collection_id: pgUuid("Choose a collection.").nullable().optional(),
   size: z.string().trim().max(40).nullable().optional(),
   price: z
     .string()
