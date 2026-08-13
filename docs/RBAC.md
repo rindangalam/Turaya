@@ -12,13 +12,14 @@
 |---|---|
 | **Super Admin** | Full control: all content, users, roles, settings, audit logs, purges. |
 | **Admin** | All content + user management (read), settings, SEO, messages. Cannot change roles. |
-| **Editor** | Content authoring only: products, collections, ingredients, gallery, journal, testimonials, FAQ, stores, messages (own scope). No settings, no users, no SEO global config. |
+| **Editor** | Content authoring only: products, collections, ingredients, gallery, journal, testimonials, FAQ, stores. Shared inbox: read/update messages (no delete). No settings, no users, no SEO edits. |
 
 ## 2. Route Permission Matrix
 
 | Route | super_admin | admin | editor |
 |---|---|---|---|
 | `/admin` (dashboard) | ✅ | ✅ | ✅ |
+| `/admin/homepage` (sections) | ✅ | ✅ | ✅ |
 | `/admin/products`, `/admin/collections`, `/admin/categories`, `/admin/ingredients`, `/admin/gallery`, `/admin/journal`, `/admin/testimonials`, `/admin/stores` | ✅ | ✅ | ✅ |
 | `/admin/messages` | ✅ | ✅ | ✅ |
 | `/admin/seo` | ✅ | ✅ | — |
@@ -31,6 +32,7 @@
 | UI element | super_admin | admin | editor |
 |---|---|---|---|
 | Sidebar: content sections | ✅ | ✅ | ✅ |
+| Sidebar: Homepage sections | ✅ | ✅ | ✅ |
 | Sidebar: Users, Settings, SEO | ✅ | ✅ | — (hidden) |
 | Product actions: publish/archive | ✅ | ✅ | ✅ |
 | Product actions: delete | ✅ | ✅ | — (archive only) |

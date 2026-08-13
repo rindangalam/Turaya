@@ -14,7 +14,7 @@
   hard delete for join rows and messages marked as read-prunable.
 - `status` values for content: `draft | published | archived` (CHECK constraint).
 - Text: `text`; slugs: `text unique`, lowercase, `[a-z0-9-]`.
-- All entities carry `seo_title`, `seo_description` columns where CMS manages SEO per resource (rationale: avoids a polymorphic join for the most common case; `seo_metadata` table reserved for global/custom pages).
+- All entities carry `seo_title`, `seo_description` columns where CMS manages SEO per resource (rationale: avoids a polymorphic join for the most common case; `seo_metadata` holds per-page meta for static routes).
 
 ## 1. Auth & Roles
 
@@ -126,6 +126,7 @@
 | `story` | text | narrative (may be placeholder) |
 | `image_path` | text | nullable |
 | `status` | text default 'published' | — |
+| `sort_order` | integer default 0 | admin ordering |
 | `created_at`, `updated_at`, `deleted_at` | timestamptz | — |
 
 ### `product_ingredients`
@@ -251,47 +252,53 @@
 | Column | Type | Notes |
 |---|---|---|
 | `id` | uuid PK | — |
-| `section_key` | text NOT NULL | component key, e.g. `hero`, `intro`, `featured_collection` |
-| `title` | text | nullable |
-| `subtitle` | text | nullable |
+| `name` | text NOT NULL | display name |
+| `slug` | text NOT NULL UNIQUE | section key, e.g. `hero`, `intro`, `featured_collection` |
+| `headline` | text | nullable |
+| `subheadline` | text | nullable |
 | `body` | text | nullable |
-| `image_path` | text | nullable |
-| `link_label` | text | nullable |
-| `link_href` | text | nullable |
-| `visible` | boolean default true | — |
+| `image_path` | text | storage path |
+| `button_label` | text | nullable |
+| `button_url` | text | nullable |
 | `sort_order` | integer default 0 | — |
+| `visible` | boolean default true | — |
 | `created_at`, `updated_at` | timestamptz | — |
 
-- **CMS controls content, not structure** — the set of `section_key` values and their
+- Index: `(sort_order)`.
+- **CMS controls content, not structure** — the set of `slug` values and their
   rendering is code; the DB orders and toggles visibility.
 
-### `site_settings`
+### `site_settings` (single settings row)
 | Column | Type | Notes |
 |---|---|---|
-| `id` | uuid PK | single row |
-| `brand_name` | text default 'Turaya' | — |
+| `id` | uuid PK | singleton (seeded as `00000000-0000-0000-0000-000000000001`) |
+| `site_name` | text NOT NULL default 'Turaya' | brand name |
 | `tagline` | text | — |
+| `logo_path` | text | storage path |
 | `contact_email` | text | — |
 | `contact_phone` | text | — |
-| `social` | jsonb | `{instagram, tiktok, youtube, ...}` URLs |
 | `address` | text | — |
-| `hours` | jsonb | — |
-| `updated_by` | uuid FK → profiles | nullable |
-| `created_at`, `updated_at` | timestamptz | — |
+| `instagram_url` | text | full URL |
+| `tiktok_url` | text | full URL |
+| `whatsapp_number` | text | — |
+| `announcement` | text | short banner text |
+| `updated_at` | timestamptz | — |
 
-### `seo_metadata` (global/custom pages)
+- No `created_at`/`updated_by` (matches migration); has an audit trigger.
+- UPDATE/INSERT: admin-only; DELETE: super_admin.
+
+### `seo_metadata` (per-page)
 | Column | Type | Notes |
 |---|---|---|
 | `id` | uuid PK | — |
-| `resource_type` | text NOT NULL | e.g. `page`, `collection` |
-| `resource_slug` | text NOT NULL | unique per type |
+| `page` | text NOT NULL UNIQUE | page key, e.g. `home`, `products` |
 | `title`, `description` | text | nullable |
-| `og_image_path` | text | nullable |
 | `canonical_url` | text | nullable |
-| `robots` | text default 'index,follow' | — |
-| `created_at`, `updated_at` | timestamptz | — |
+| `og_image_path` | text | storage path |
+| `robots` | text default 'index, follow' | — |
+| `updated_at` | timestamptz | — |
 
-- Unique: `(resource_type, resource_slug)`.
+- UPDATE/INSERT: admin-only; DELETE: super_admin.
 
 ## 6. Entity Decision Log
 

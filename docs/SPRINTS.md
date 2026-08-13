@@ -41,30 +41,35 @@
 - **Deliverables**: `/admin` layout + navigation, dashboard (overview, recent activity, content stats, drafts), messages inbox, settings + SEO pages (read/edit), toasts + list states.
 - **Tasks**: T05
 - **Exit criteria**: All admin routes require auth + role; lists have loading/empty/error states.
+- **Status**: ✅ Completed.
 
 ## Sprint 6 — Homepage CMS
 - **Goals**: Homepage driven by CMS sections.
 - **Deliverables**: `homepage_sections` CRUD, ordering/visibility, homepage composition reading sections.
 - **Tasks**: T06
 - **Exit criteria**: Changing section order/visibility updates public homepage; UI code owns layout.
+- **Status**: ✅ Completed.
 
 ## Sprint 7 — Product CMS
 - **Goals**: Full product lifecycle in admin.
 - **Deliverables**: Products list (search/filter/sort), create/edit (draft/publish/archive), image upload via storage, product SEO fields.
 - **Tasks**: T07
 - **Exit criteria**: Product CRUD with upload validation; RLS enforced; audit logs written.
+- **Status**: ✅ Completed.
 
 ## Sprint 8 — Collections + Ingredients
 - **Goals**: Collections and ingredient structures in admin.
 - **Deliverables**: Collections CRUD + ordering/featured; categories CRUD; ingredients CRUD; note-stage mapping (top/heart/base).
 - **Tasks**: T08
 - **Exit criteria**: Relations consistent with DATABASE.md; UI reflects ordering.
+- **Status**: ✅ Completed.
 
 ## Sprint 9 — Gallery CMS
 - **Goals**: Editorial gallery management.
 - **Deliverables**: Upload/delete/reorder/categorize; alt text + caption; storage integration.
 - **Tasks**: T09
 - **Exit criteria**: Upload validation enforced; ordering persisted.
+- **Status**: ✅ Completed.
 
 ## Sprint 10 — Journal CMS
 - **Goals**: Journal authoring.
