@@ -3,13 +3,13 @@ import "server-only";
 import { cache } from "react";
 
 import { createClient } from "@/lib/supabase/server";
-import type { Database } from "@/lib/supabase/database.types";
 
-export type Role = Database["public"]["Tables"]["profiles"]["Row"]["role"];
+export type Role = "super_admin" | "admin" | "editor";
 
 export type SessionUser = {
   id: string;
   email: string | undefined;
+  displayName: string | undefined;
   role: Role;
 };
 
@@ -33,7 +33,7 @@ export const getSessionUser = cache(async (): Promise<SessionUser | null> => {
 
   const { data: profile } = await supabase
     .from("profiles")
-    .select("role")
+    .select("role, display_name")
     .eq("id", user.id)
     .maybeSingle();
 
@@ -43,6 +43,7 @@ export const getSessionUser = cache(async (): Promise<SessionUser | null> => {
   return {
     id: user.id,
     email: user.email ?? undefined,
+    displayName: profile?.display_name ?? undefined,
     role,
   };
 });
