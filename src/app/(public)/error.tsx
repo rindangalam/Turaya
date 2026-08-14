@@ -7,10 +7,10 @@ export default function PublicError({ reset }: { reset: () => void }) {
     <section className="relative overflow-hidden">
       <div className="container-turaya flex min-h-[65svh] flex-col items-start justify-center py-24">
         <div className="flex items-center gap-4">
-          <span aria-hidden className="h-px w-10 bg-champagne-500/80" />
-          <p className="overline text-champagne-400">Terjadi kesalahan</p>
+          <span aria-hidden className="h-px w-10 bg-terra-500/80" />
+          <p className="overline text-terra-500">Terjadi kesalahan</p>
         </div>
-        <h1 className="mt-6 max-w-[18ch] font-display text-display-lg text-ivory-50">
+        <h1 className="mt-6 max-w-[18ch] font-display text-display-lg text-foreground">
           Maaf, ada yang tidak beres
         </h1>
         <p className="mt-6 max-w-md text-body-lg text-muted-foreground">
