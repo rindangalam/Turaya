@@ -45,7 +45,7 @@ export default async function PrivacyPage() {
           ].map((section, index) => (
             <div key={section.title} className="border-t border-border/50 py-8 first:border-t-0 first:pt-0 last:pb-0">
               <div className="flex items-baseline gap-5">
-                <span className="overline text-caption tabular-nums text-terra-500/70">
+                <span className="overline text-caption tabular-nums text-terra-500">
                   {String(index + 1).padStart(2, "0")}
                 </span>
                 <h2 className="font-display text-heading-lg text-terra-500">{section.title}</h2>

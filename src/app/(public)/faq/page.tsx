@@ -55,7 +55,7 @@ export default async function FaqPage() {
                   )}
                 >
                   <span className="flex items-baseline gap-5">
-                    <span className="overline text-caption tabular-nums text-terra-500/70">
+                    <span className="overline text-caption tabular-nums text-terra-500">
                       {String(index + 1).padStart(2, "0")}
                     </span>
                     <span className="font-display text-heading-lg text-foreground">

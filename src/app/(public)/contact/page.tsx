@@ -49,7 +49,7 @@ export default async function ContactPage() {
               entry ? (
                 <div key={entry.label} className="border-t border-terra-500/30 pt-5">
                   <p className="flex items-center gap-4">
-                    <span className="overline text-caption tabular-nums text-terra-500/70">
+                    <span className="overline text-caption tabular-nums text-terra-500">
                       {entry.index}
                     </span>
                     <span className="overline text-caption text-muted-foreground">{entry.label}</span>
@@ -67,7 +67,7 @@ export default async function ContactPage() {
           {settings?.address ? (
             <div className="border-t border-terra-500/30 pt-5">
               <p className="flex items-center gap-4">
-                <span className="overline text-caption tabular-nums text-terra-500/70">03</span>
+                <span className="overline text-caption tabular-nums text-terra-500">03</span>
                 <span className="overline text-caption text-muted-foreground">Alamat</span>
               </p>
               <p className="mt-3 max-w-xs whitespace-pre-line text-body leading-relaxed text-muted-foreground">
@@ -79,7 +79,7 @@ export default async function ContactPage() {
           {settings?.instagram_url ? (
             <div className="border-t border-terra-500/30 pt-5">
               <p className="flex items-center gap-4">
-                <span className="overline text-caption tabular-nums text-terra-500/70">04</span>
+                <span className="overline text-caption tabular-nums text-terra-500">04</span>
                 <span className="overline text-caption text-muted-foreground">Media sosial</span>
               </p>
               <a

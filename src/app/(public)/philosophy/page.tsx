@@ -35,7 +35,7 @@ export default async function PhilosophyPage() {
 
           <div>
             <div className="flex items-baseline gap-4">
-              <span className="overline text-caption tabular-nums text-terra-500/70">01</span>
+              <span className="overline text-caption tabular-nums text-terra-500">01</span>
               <h2 className="font-display text-heading-lg text-terra-500">Lambat dan sadar</h2>
             </div>
             <p className="mt-3 text-body leading-relaxed text-muted-foreground">
@@ -47,7 +47,7 @@ export default async function PhilosophyPage() {
 
           <div>
             <div className="flex items-baseline gap-4">
-              <span className="overline text-caption tabular-nums text-terra-500/70">02</span>
+              <span className="overline text-caption tabular-nums text-terra-500">02</span>
               <h2 className="font-display text-heading-lg text-terra-500">Menghormati sumber</h2>
             </div>
             <p className="mt-3 text-body leading-relaxed text-muted-foreground">
@@ -59,7 +59,7 @@ export default async function PhilosophyPage() {
 
           <div>
             <div className="flex items-baseline gap-4">
-              <span className="overline text-caption tabular-nums text-terra-500/70">03</span>
+              <span className="overline text-caption tabular-nums text-terra-500">03</span>
               <h2 className="font-display text-heading-lg text-terra-500">
                 Sederhana, tidak sederhana-pura
               </h2>
