@@ -53,8 +53,8 @@ export default async function StoresPage() {
                 >
                   <div className="flex items-baseline justify-between gap-6">
                     <div>
-                      <p className="overline text-caption text-champagne-400">{store.city}</p>
-                      <h2 className="mt-2 font-display text-display-md text-ivory-50">
+                      <p className="overline text-caption text-terra-500">{store.city}</p>
+                      <h2 className="mt-2 font-display text-display-md text-foreground">
                         {store.name}
                       </h2>
                     </div>
@@ -77,7 +77,7 @@ export default async function StoresPage() {
                         return (
                           <div key={day} className="flex justify-between gap-6 border-b border-border/20 pb-1.5 text-body-sm">
                             <dt className="text-muted-foreground">{day}</dt>
-                            <dd className="tabular-nums text-ivory-200">{rest.join(":").trim()}</dd>
+                            <dd className="tabular-nums text-muted-foreground">{rest.join(":").trim()}</dd>
                           </div>
                         );
                       })}
@@ -87,7 +87,7 @@ export default async function StoresPage() {
                     {store.phone ? (
                       <a
                         href={`tel:${store.phone}`}
-                        className="text-body-sm text-ivory-100 transition-colors hover:text-champagne-400"
+                        className="text-body-sm text-foreground transition-colors hover:text-terra-500"
                       >
                         {store.phone}
                       </a>
@@ -95,7 +95,7 @@ export default async function StoresPage() {
                     {store.email ? (
                       <a
                         href={`mailto:${store.email}`}
-                        className="text-body-sm text-ivory-100 transition-colors hover:text-champagne-400"
+                        className="text-body-sm text-foreground transition-colors hover:text-terra-500"
                       >
                         {store.email}
                       </a>

@@ -47,16 +47,16 @@ export default async function ContactPage() {
           ].map(
             (entry) =>
               entry ? (
-                <div key={entry.label} className="border-t border-champagne-400/40 pt-5">
+                <div key={entry.label} className="border-t border-terra-500/30 pt-5">
                   <p className="flex items-center gap-4">
-                    <span className="overline text-caption tabular-nums text-champagne-500/70">
+                    <span className="overline text-caption tabular-nums text-terra-500/70">
                       {entry.index}
                     </span>
-                    <span className="overline text-caption text-ivory-400">{entry.label}</span>
+                    <span className="overline text-caption text-muted-foreground">{entry.label}</span>
                   </p>
                   <a
                     href={entry.href}
-                    className="mt-3 block font-display text-heading-lg text-ivory-50 transition-colors hover:text-champagne-400"
+                    className="mt-3 block font-display text-heading-lg text-foreground transition-colors hover:text-terra-500"
                   >
                     {entry.value}
                   </a>
@@ -65,10 +65,10 @@ export default async function ContactPage() {
           )}
 
           {settings?.address ? (
-            <div className="border-t border-champagne-400/40 pt-5">
+            <div className="border-t border-terra-500/30 pt-5">
               <p className="flex items-center gap-4">
-                <span className="overline text-caption tabular-nums text-champagne-500/70">03</span>
-                <span className="overline text-caption text-ivory-400">Alamat</span>
+                <span className="overline text-caption tabular-nums text-terra-500/70">03</span>
+                <span className="overline text-caption text-muted-foreground">Alamat</span>
               </p>
               <p className="mt-3 max-w-xs whitespace-pre-line text-body leading-relaxed text-muted-foreground">
                 {settings.address}
@@ -77,16 +77,16 @@ export default async function ContactPage() {
           ) : null}
 
           {settings?.instagram_url ? (
-            <div className="border-t border-champagne-400/40 pt-5">
+            <div className="border-t border-terra-500/30 pt-5">
               <p className="flex items-center gap-4">
-                <span className="overline text-caption tabular-nums text-champagne-500/70">04</span>
-                <span className="overline text-caption text-ivory-400">Media sosial</span>
+                <span className="overline text-caption tabular-nums text-terra-500/70">04</span>
+                <span className="overline text-caption text-muted-foreground">Media sosial</span>
               </p>
               <a
                 href={settings.instagram_url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-3 block font-display text-heading-lg text-ivory-50 transition-colors hover:text-champagne-400"
+                className="mt-3 block font-display text-heading-lg text-foreground transition-colors hover:text-terra-500"
               >
                 Instagram
               </a>

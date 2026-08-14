@@ -51,20 +51,20 @@ export default async function FaqPage() {
                 <summary
                   className={cn(
                     "flex cursor-pointer list-none items-center justify-between gap-4 py-6",
-                    "focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50",
+                    "focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring",
                   )}
                 >
                   <span className="flex items-baseline gap-5">
-                    <span className="overline text-caption tabular-nums text-champagne-500/70">
+                    <span className="overline text-caption tabular-nums text-terra-500/70">
                       {String(index + 1).padStart(2, "0")}
                     </span>
-                    <span className="font-display text-heading-lg text-ivory-50">
+                    <span className="font-display text-heading-lg text-foreground">
                       {item.question}
                     </span>
                   </span>
                   <span
                     aria-hidden="true"
-                    className="relative block size-6 shrink-0 text-champagne-400"
+                    className="relative block size-6 shrink-0 text-terra-500"
                   >
                     <span className="absolute left-0 top-1/2 h-px w-full -translate-y-1/2 bg-current" />
                     <span className="absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-current transition-transform duration-300 group-open:scale-y-0" />

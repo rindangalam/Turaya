@@ -46,15 +46,15 @@ export default async function AboutPage() {
       <section className="container-turaya grid gap-12 py-16 md:py-24 lg:grid-cols-[1fr_1.4fr] lg:gap-20">
         <div>
           <div className="flex items-center gap-4">
-            <span aria-hidden className="h-px w-10 bg-champagne-500/80" />
-            <p className="overline text-champagne-400">01</p>
+            <span aria-hidden className="h-px w-10 bg-terra-500/80" />
+            <p className="overline text-terra-500">01</p>
           </div>
-          <h2 className="mt-6 max-w-[14ch] font-display text-display-md text-ivory-50">
+          <h2 className="mt-6 max-w-[14ch] font-display text-display-md text-foreground">
             Dari mana kami berasal
           </h2>
         </div>
         <div className="flex flex-col gap-6">
-          <p className="text-body-lg leading-relaxed text-ivory-200">
+          <p className="text-body-lg leading-relaxed text-muted-foreground">
             Turaya bermula dari sebuah pertanyaan sederhana: mengapa sebagian besar parfum yang kita
             kenal berasal dari jarak ribuan kilometer, padahal tanah kita sendiri kaya akan aroma?
           </p>
@@ -74,17 +74,17 @@ export default async function AboutPage() {
       <section className="border-t border-border/50">
         <div className="container-turaya py-16 md:py-24">
           <div className="flex items-center gap-4">
-            <span aria-hidden className="h-px w-10 bg-champagne-500/80" />
-            <p className="overline text-champagne-400">02</p>
+            <span aria-hidden className="h-px w-10 bg-terra-500/80" />
+            <p className="overline text-terra-500">02</p>
           </div>
-          <h2 className="mt-6 font-display text-display-md text-ivory-50">Yang kami pegang teguh</h2>
+          <h2 className="mt-6 font-display text-display-md text-foreground">Yang kami pegang teguh</h2>
           <div className="mt-12 grid gap-10 md:grid-cols-3">
             {VALUES.map((value, index) => (
-              <div key={value.title} className="border-t border-champagne-400/40 pt-6">
+              <div key={value.title} className="border-t border-terra-500/30 pt-6">
                 <p className="overline text-caption tabular-nums text-muted-foreground">
                   {String(index + 1).padStart(2, "0")}
                 </p>
-                <h3 className="mt-4 font-display text-heading-lg text-champagne-400">
+                <h3 className="mt-4 font-display text-heading-lg text-terra-500">
                   {value.title}
                 </h3>
                 <p className="mt-3 text-body leading-relaxed text-muted-foreground">

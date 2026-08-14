@@ -32,10 +32,10 @@ export function ContactForm() {
         className="flex h-full min-h-72 flex-col items-start justify-center border border-border/60 bg-input/20 p-8"
       >
         <div className="flex items-center gap-4">
-          <span aria-hidden className="inline-block size-2 rotate-45 bg-champagne-400" />
-          <p className="overline text-champagne-400">Terkirim</p>
+          <span aria-hidden className="inline-block size-2 rotate-45 bg-terra-500" />
+          <p className="overline text-terra-500">Terkirim</p>
         </div>
-        <h2 className="mt-5 font-display text-display-md text-ivory-50">
+        <h2 className="mt-5 font-display text-display-md text-foreground">
           Terima kasih telah menghubungi kami
         </h2>
         <p className="mt-4 max-w-sm text-body leading-relaxed text-muted-foreground">
