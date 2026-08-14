@@ -65,11 +65,11 @@ export default async function CollectionsPage() {
                         className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                       />
                     ) : (
-                      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,var(--color-noir-800),var(--color-noir-950))]">
+                      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,var(--color-clay-100),var(--color-clay-200))]">
                         <div className="flex h-full items-center justify-center">
                           <span
                             aria-hidden
-                            className="font-display text-[5rem] leading-none text-noir-700 transition-colors duration-500 group-hover:text-noir-600"
+                            className="font-display text-[5rem] leading-none text-roast-300 transition-colors duration-500 group-hover:text-roast-500"
                           >
                             {collection.name.charAt(0).toUpperCase()}
                           </span>
@@ -77,14 +77,14 @@ export default async function CollectionsPage() {
                       </div>
                     )}
                     {collection.featured ? (
-                      <span className="absolute left-4 top-4 rounded-full bg-noir-950/80 px-3 py-1 text-caption uppercase tracking-wider text-champagne-400 backdrop-blur">
+                      <span className="absolute left-4 top-4 rounded-sm bg-roast-800/80 px-3 py-1 text-caption uppercase tracking-wider text-honey-300">
                         Koleksi utama
                       </span>
                     ) : null}
-                    <span className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-champagne-500/0 via-champagne-500/60 to-champagne-500/0 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                    <span className="absolute inset-x-0 top-0 h-px bg-terra-500/60 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
                   </div>
                   <div className="mt-6 flex items-baseline justify-between gap-6">
-                    <h2 className="font-display text-display-md text-ivory-50 transition-colors group-hover:text-champagne-400">
+                    <h2 className="font-display text-display-md text-foreground transition-colors group-hover:text-terra-500">
                       {collection.name}
                     </h2>
                     <span

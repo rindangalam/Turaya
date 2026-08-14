@@ -74,7 +74,7 @@ export default async function ProductsPage({
 
       <section className="container-turaya py-16 md:py-24">
         <div className="mb-10 flex items-baseline justify-between gap-6 border-b border-border/50 pb-5">
-          <h2 className="overline text-caption text-ivory-400">
+          <h2 className="overline text-caption text-roast-300">
             {validCategory
               ? categories.find((c) => c.slug === validCategory)?.name
               : "Semua Produk"}
@@ -86,13 +86,13 @@ export default async function ProductsPage({
 
         {filtered.length === 0 ? (
           <div className="flex flex-col items-start gap-4 border border-dashed border-border/60 p-10">
-            <p className="font-display text-heading-lg text-ivory-200">Belum ada produk</p>
+            <p className="font-display text-heading-lg text-foreground">Belum ada produk</p>
             <p className="max-w-md text-body-sm text-muted-foreground">
               Belum ada produk pada kategori ini. Silakan kembali lagi nanti.
             </p>
             <Link
               href={categoryHref(undefined)}
-              className="mt-2 text-body-sm text-champagne-400 underline-offset-4 hover:underline"
+              className="mt-2 text-body-sm text-terra-500 underline-offset-4 hover:underline"
             >
               Lihat semua produk
             </Link>
@@ -123,8 +123,8 @@ function CategoryChip({
       href={href}
       aria-current={active ? "page" : undefined}
       className={cn(
-        "rounded-full border border-border/60 px-4 py-1.5 text-body-sm text-muted-foreground transition-colors hover:border-champagne-400/60 hover:text-champagne-400 focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50",
-        active && "border-champagne-400/60 bg-champagne-400/10 text-champagne-400",
+        "rounded-sm border border-border/60 px-4 py-1.5 text-body-sm text-muted-foreground transition-colors hover:border-terra-500/60 hover:text-terra-500 focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50",
+        active && "border-terra-500/60 bg-terra-500/10 text-terra-500",
       )}
     >
       {label}

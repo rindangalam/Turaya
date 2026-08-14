@@ -57,26 +57,26 @@ export default async function IngredientsPage() {
                         className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                       />
                     ) : (
-                      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,var(--color-noir-800),var(--color-noir-950))]">
+                      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,var(--color-clay-100),var(--color-clay-200))]">
                         <div className="flex h-full items-center justify-center">
                           <span
                             aria-hidden
-                            className="font-display text-[4rem] leading-none text-noir-700 transition-colors duration-500 group-hover:text-noir-600"
+                            className="font-display text-[4rem] leading-none text-roast-300 transition-colors duration-500 group-hover:text-roast-500"
                           >
                             {ingredient.name.charAt(0).toUpperCase()}
                           </span>
                         </div>
                       </div>
                     )}
-                    <span className="absolute right-4 top-4 text-caption tabular-nums text-ivory-300/60">
+                    <span className="absolute right-4 top-4 text-caption tabular-nums text-roast-300/60">
                       {String(index + 1).padStart(2, "0")}
                     </span>
                   </div>
                   <div className="flex flex-1 flex-col p-6">
                     <div className="flex items-baseline justify-between gap-4">
-                      <h2 className="font-display text-heading-lg text-ivory-50">{ingredient.name}</h2>
+                      <h2 className="font-display text-heading-lg text-foreground">{ingredient.name}</h2>
                       {ingredient.origin ? (
-                        <span className="shrink-0 text-caption uppercase tracking-wider text-champagne-400">
+                        <span className="shrink-0 text-caption uppercase tracking-wider text-terra-500">
                           {ingredient.origin}
                         </span>
                       ) : null}

@@ -31,7 +31,7 @@ export default async function GalleryPage() {
       <section className="container-turaya py-16 md:py-24">
         {items.length === 0 ? (
           <div className="flex flex-col items-start gap-4 border border-dashed border-border/60 p-10">
-            <p className="font-display text-heading-lg text-ivory-200">Galeri masih kosong</p>
+            <p className="font-display text-heading-lg text-foreground">Galeri masih kosong</p>
             <p className="max-w-md text-body-sm text-muted-foreground">
               Foto-foto suasana akan segera hadir di sini. Silakan kembali lagi nanti.
             </p>
@@ -48,14 +48,14 @@ export default async function GalleryPage() {
                   sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
                   className="h-auto w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                 />
-                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-noir-950/80 via-transparent to-transparent opacity-70 transition-opacity duration-500 group-hover:opacity-100" />
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-roast-800/90 via-transparent to-transparent opacity-70 transition-opacity duration-500 group-hover:opacity-100" />
                 <figcaption className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 px-5 pb-5">
                   {item.caption ? (
-                    <p className="text-body-sm leading-relaxed text-ivory-100">{item.caption}</p>
+                    <p className="text-body-sm leading-relaxed text-cream-100">{item.caption}</p>
                   ) : (
                     <span />
                   )}
-                  <span aria-hidden className="overline text-caption tabular-nums text-champagne-400/80">
+                  <span aria-hidden className="overline text-caption tabular-nums text-honey-300/80">
                     {String(index + 1).padStart(2, "0")}
                   </span>
                 </figcaption>
