@@ -46,3 +46,19 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# brainstorm / visual-companion artifacts
+.superpowers/brainstorm/
+
+# =====================================================================
+# ANTI AI-SLOP — binding rules (see docs/specs/2026-08-14-terracotta-redesign-design.md)
+# Jangan menambahkan pola berikut ke kode:
+#   1. Gradient ungu/biru/teal atau gradient text pada judul
+#   2. Glassmorphism / backdrop-blur mencolok / glow / neon
+#   3. Emoji di CTA, judul, atau konten UI
+#   4. Tombol pill rounded-full dengan bayangan tebal atau gradasi
+#   5. Ikon generik asal pasang, tilt 3D palsu, parallax tak perlu
+#   6. Copy AI-generik ("Elevate your senses", "Unlock the magic", dsb)
+#   7. Radius tidak konsisten (selalu 2px/rounded-sm)
+# Uji tiap fitur: "Apakah ini bisa muncul di buku cetak tahun 1960?"
+# =====================================================================
