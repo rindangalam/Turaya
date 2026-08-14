@@ -23,6 +23,23 @@
   --color-champagne-500: #c9a96a;
   --color-champagne-600: #a8894f;
 
+  /* Terracotta palette — spesifikasi terracotta §2.1 */
+  --color-clay-50: #f4eee3;
+  --color-clay-100: #eae1d1;
+  --color-clay-200: #dcd0bc;
+  --color-clay-300: #c4b69d;
+  --color-terra-400: #c66a3f;
+  --color-terra-500: #b4552d;
+  --color-honey-300: #e9c68f;
+  --color-honey-400: #d9a441;
+  --color-roast-300: #a68f72;
+  --color-roast-500: #7a5c3e;
+  --color-roast-600: #5a4430;
+  --color-roast-700: #3e2c22;
+  --color-roast-800: #2e2018;
+  --color-cream-100: #f8f4eb;
+  --color-cream-200: #ede5d8;
+
   /* Admin-neutral palette (light, utilitarian) — DESIGN_SYSTEM.md §10 */
   --color-neutral-50: #f7f7f8;
   --color-neutral-100: #efeff1;
@@ -109,9 +126,9 @@
   --radius-3xl: 24px;
   --radius-4xl: 28px;
 
-  /* Shadows — DESIGN_SYSTEM.md §6 */
-  --shadow-soft: 0 1px 2px rgb(11 11 12 / 0.25), 0 8px 24px rgb(11 11 12 / 0.35);
-  --shadow-lifted: 0 2px 4px rgb(11 11 12 / 0.3), 0 16px 48px rgb(11 11 12 / 0.45);
+  /* Shadows — spesifikasi §2.3 (tanpa glow) */
+  --shadow-soft: 0 1px 2px rgb(62 44 34 / 0.12), 0 8px 24px rgb(62 44 34 / 0.14);
+  --shadow-lifted: 0 2px 4px rgb(62 44 34 / 0.14), 0 16px 48px rgb(62 44 34 / 0.18);
 
   /* Motion easings — MOTION_SYSTEM.md §2 */
   --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
@@ -157,38 +174,38 @@
 }
 
 .dark {
-  /* Dark luxury — noir/champagne, DESIGN_SYSTEM.md §2 (public site default) */
-  --background: var(--color-noir-950);
-  --foreground: var(--color-ivory-50);
-  --card: var(--color-noir-900);
-  --card-foreground: var(--color-ivory-50);
-  --popover: var(--color-noir-900);
-  --popover-foreground: var(--color-ivory-50);
-  --primary: var(--color-ivory-100);
-  --primary-foreground: var(--color-noir-950);
-  --secondary: var(--color-noir-800);
-  --secondary-foreground: var(--color-ivory-100);
-  --muted: var(--color-noir-800);
-  --muted-foreground: var(--color-ivory-300);
-  --accent: var(--color-noir-800);
-  --accent-foreground: var(--color-ivory-100);
-  --destructive: #e07b6e;
-  --border: var(--color-noir-700);
-  --input: var(--color-noir-800);
-  --ring: var(--color-champagne-400);
-  --chart-1: var(--color-champagne-400);
-  --chart-2: var(--color-ivory-100);
-  --chart-3: var(--color-noir-300);
-  --chart-4: var(--color-noir-500);
-  --chart-5: var(--color-noir-600);
-  --sidebar: var(--color-noir-900);
-  --sidebar-foreground: var(--color-ivory-50);
-  --sidebar-primary: var(--color-ivory-100);
-  --sidebar-primary-foreground: var(--color-noir-950);
-  --sidebar-accent: var(--color-noir-800);
-  --sidebar-accent-foreground: var(--color-ivory-100);
-  --sidebar-border: var(--color-noir-700);
-  --sidebar-ring: var(--color-champagne-400);
+  /* Terracotta "Rempah & Tanah" — spesifikasi §2 (situs publik, terang dominan) */
+  --background: var(--color-clay-50);
+  --foreground: var(--color-roast-700);
+  --card: var(--color-cream-100);
+  --card-foreground: var(--color-roast-700);
+  --popover: var(--color-cream-100);
+  --popover-foreground: var(--color-roast-700);
+  --primary: var(--color-terra-500);
+  --primary-foreground: var(--color-cream-100);
+  --secondary: var(--color-clay-100);
+  --secondary-foreground: var(--color-roast-700);
+  --muted: var(--color-clay-100);
+  --muted-foreground: var(--color-roast-500);
+  --accent: var(--color-clay-100);
+  --accent-foreground: var(--color-roast-700);
+  --destructive: #b4232c;
+  --border: var(--color-clay-300);
+  --input: var(--color-clay-200);
+  --ring: var(--color-terra-500);
+  --chart-1: var(--color-terra-500);
+  --chart-2: var(--color-honey-400);
+  --chart-3: var(--color-roast-300);
+  --chart-4: var(--color-roast-500);
+  --chart-5: var(--color-roast-600);
+  --sidebar: var(--color-cream-100);
+  --sidebar-foreground: var(--color-roast-700);
+  --sidebar-primary: var(--color-terra-500);
+  --sidebar-primary-foreground: var(--color-cream-100);
+  --sidebar-accent: var(--color-clay-100);
+  --sidebar-accent-foreground: var(--color-roast-700);
+  --sidebar-border: var(--color-clay-300);
+  --sidebar-ring: var(--color-terra-500);
 }
 
 .admin {
@@ -250,8 +267,8 @@
   }
 
   ::selection {
-    background: var(--color-champagne-500);
-    color: var(--color-noir-950);
+    background: var(--color-honey-300);
+    color: var(--color-roast-800);
   }
 
   :focus-visible {
@@ -264,17 +281,17 @@
   }
 
   ::-webkit-scrollbar-track {
-    background: var(--color-noir-950);
+    background: var(--color-clay-50);
   }
 
   ::-webkit-scrollbar-thumb {
-    background: var(--color-noir-600);
-    border: 2px solid var(--color-noir-950);
+    background: var(--color-roast-300);
+    border: 2px solid var(--color-clay-50);
     border-radius: 8px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: var(--color-noir-500);
+    background: var(--color-roast-500);
   }
 }
 
