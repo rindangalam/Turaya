@@ -10,7 +10,7 @@ export function PageHeader({
   description?: string | null;
 }) {
   return (
-    <section className="border-b border-border/60 bg-clay-100/60">
+    <section className="border-b border-border/60 bg-clay-100/40">
       <div className="container-turaya py-20 md:py-28">
         <Reveal>
           <div className="flex items-center gap-4">

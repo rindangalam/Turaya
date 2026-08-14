@@ -8,7 +8,7 @@ export default function NotFound() {
       <div className="container-turaya flex min-h-[65svh] flex-col items-start justify-center py-24">
         <span
           aria-hidden
-          className="pointer-events-none absolute right-8 top-1/2 -translate-y-1/2 select-none font-display text-[20vw] leading-none text-roast-700/25"
+          className="pointer-events-none absolute right-8 top-1/2 -translate-y-1/2 select-none font-display text-[20vw] leading-none text-roast-700/55"
         >
           404
         </span>
