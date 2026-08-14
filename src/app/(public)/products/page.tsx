@@ -74,7 +74,7 @@ export default async function ProductsPage({
 
       <section className="container-turaya py-16 md:py-24">
         <div className="mb-10 flex items-baseline justify-between gap-6 border-b border-border/50 pb-5">
-          <h2 className="overline text-caption text-roast-300">
+          <h2 className="overline text-caption text-terra-500">
             {validCategory
               ? categories.find((c) => c.slug === validCategory)?.name
               : "Semua Produk"}
@@ -124,7 +124,7 @@ function CategoryChip({
       aria-current={active ? "page" : undefined}
       className={cn(
         "rounded-sm border border-border/60 px-4 py-1.5 text-body-sm text-muted-foreground transition-colors hover:border-terra-500/60 hover:text-terra-500 focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50",
-        active && "border-terra-500/60 bg-terra-500/10 text-terra-500",
+        active && "border-terra-500/70 font-medium text-terra-500",
       )}
     >
       {label}

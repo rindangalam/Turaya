@@ -68,7 +68,7 @@ export default async function IngredientsPage() {
                         </div>
                       </div>
                     )}
-                    <span className="absolute right-4 top-4 text-caption tabular-nums text-roast-300/60">
+                    <span aria-hidden className="absolute right-4 top-4 text-caption tabular-nums text-roast-300/60">
                       {String(index + 1).padStart(2, "0")}
                     </span>
                   </div>
