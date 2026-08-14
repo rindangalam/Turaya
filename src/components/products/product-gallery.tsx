@@ -49,7 +49,7 @@ export function ProductGallery({
               className={cn(
                 "relative aspect-square overflow-hidden rounded-sm border bg-input/20 transition-colors focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50",
                 index === active
-                  ? "border-champagne-400/70"
+                  ? "border-terra-500/70"
                   : "border-border/40 hover:border-border",
               )}
             >

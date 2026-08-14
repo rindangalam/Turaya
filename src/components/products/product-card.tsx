@@ -38,18 +38,18 @@ export function ProductCard({ product, className }: { product: ProductCardProduc
             className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
           />
         ) : (
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,var(--color-noir-800),var(--color-noir-950))]">
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,var(--color-clay-100),var(--color-clay-200))]">
             <div className="flex h-full items-center justify-center">
               <span
                 aria-hidden
-                className="font-display text-[6rem] leading-none text-noir-700 transition-colors duration-500 group-hover:text-noir-600"
+                className="font-display text-[6rem] leading-none text-roast-300 transition-colors duration-500 group-hover:text-roast-500"
               >
                 {initial}
               </span>
             </div>
             <div className="absolute inset-x-0 bottom-0 flex items-center justify-between p-5">
               <span className="overline text-caption text-muted-foreground">{product.slug}</span>
-              <span aria-hidden className="h-px w-8 bg-champagne-500/50" />
+              <span aria-hidden className="h-px w-8 bg-terra-500/50" />
             </div>
           </div>
         )}
@@ -57,13 +57,13 @@ export function ProductCard({ product, className }: { product: ProductCardProduc
 
       <div className="mt-5">
         {product.categoryName ? (
-          <p className="overline text-caption text-champagne-400">{product.categoryName}</p>
+          <p className="overline text-caption text-terra-500">{product.categoryName}</p>
         ) : null}
         <div className="mt-1.5 flex items-baseline justify-between gap-4">
-          <h3 className="font-display text-heading-lg text-ivory-50 transition-colors group-hover:text-champagne-400">
+          <h3 className="font-display text-heading-lg text-foreground transition-colors group-hover:text-terra-500">
             {product.name}
           </h3>
-          <span className="shrink-0 text-body-sm tabular-nums text-champagne-400">
+          <span className="shrink-0 text-body-sm tabular-nums text-terra-500">
             {formatPrice(product.price)}
           </span>
         </div>
