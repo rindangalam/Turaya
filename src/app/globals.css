@@ -241,6 +241,14 @@
     @apply bg-background text-foreground font-sans antialiased;
   }
 
+  h1,
+  h2,
+  h3,
+  h4 {
+    text-wrap: balance;
+    text-rendering: optimizeLegibility;
+  }
+
   ::selection {
     background: var(--color-champagne-500);
     color: var(--color-noir-950);
@@ -249,6 +257,24 @@
   :focus-visible {
     outline: 2px solid var(--color-ring);
     outline-offset: 2px;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--color-noir-950);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-noir-600);
+    border: 2px solid var(--color-noir-950);
+    border-radius: 8px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-noir-500);
   }
 }
 
@@ -265,6 +291,15 @@
   line-height: 1.2;
   letter-spacing: 0.16em;
   text-transform: uppercase;
+}
+
+@keyframes scroll-cue {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(320%);
+  }
 }
 
 /* Reduced motion fallback (belt; JS handles GSAP/Lenis separately) */

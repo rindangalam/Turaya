@@ -1,17 +1,18 @@
 import type { Metadata } from "next";
 
 import { PageHeader } from "@/components/layout/page-header";
-import { getSeoMetadata } from "@/services/seo";
+import { buildPageMetadata } from "@/services/seo";
 import { listPublishedStores } from "@/services/stores";
 
 export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const seo = await getSeoMetadata("stores");
-  return {
-    title: seo?.title ?? "Toko",
-    description: seo?.description ?? "Temukan Turaya di toko terdekat.",
-  };
+  return buildPageMetadata({
+    page: "stores",
+    path: "/stores",
+    fallbackTitle: "Toko",
+    fallbackDescription: "Temukan Turaya di toko terdekat.",
+  });
 }
 
 function formatHours(hours: unknown): string[] {
@@ -43,16 +44,26 @@ export default async function StoresPage() {
           </p>
         ) : (
           <div className="grid gap-8 md:grid-cols-2">
-            {stores.map((store) => {
+            {stores.map((store, index) => {
               const hours = formatHours(store.hours);
               return (
                 <article
                   key={store.id}
                   className="flex flex-col gap-6 border border-border/40 bg-input/10 p-8"
                 >
-                  <div>
-                    <p className="overline text-caption text-champagne-400">{store.city}</p>
-                    <h2 className="mt-2 font-display text-display-md text-ivory-50">{store.name}</h2>
+                  <div className="flex items-baseline justify-between gap-6">
+                    <div>
+                      <p className="overline text-caption text-champagne-400">{store.city}</p>
+                      <h2 className="mt-2 font-display text-display-md text-ivory-50">
+                        {store.name}
+                      </h2>
+                    </div>
+                    <span
+                      aria-hidden
+                      className="overline text-caption tabular-nums text-muted-foreground"
+                    >
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
                   </div>
                   <p className="whitespace-pre-line text-body leading-relaxed text-muted-foreground">
                     {store.address}
@@ -60,19 +71,19 @@ export default async function StoresPage() {
                     {store.city}, {store.country}
                   </p>
                   {hours.length > 0 ? (
-                    <dl className="space-y-1">
+                    <dl className="space-y-1.5">
                       {hours.map((line) => {
                         const [day, ...rest] = line.split(":");
                         return (
-                          <div key={day} className="flex justify-between gap-6 text-body-sm">
+                          <div key={day} className="flex justify-between gap-6 border-b border-border/20 pb-1.5 text-body-sm">
                             <dt className="text-muted-foreground">{day}</dt>
-                            <dd className="text-ivory-200">{rest.join(":").trim()}</dd>
+                            <dd className="tabular-nums text-ivory-200">{rest.join(":").trim()}</dd>
                           </div>
                         );
                       })}
                     </dl>
                   ) : null}
-                  <div className="mt-auto flex flex-wrap gap-6 border-t border-border/40 pt-6">
+                  <div className="mt-auto flex flex-wrap gap-x-8 gap-y-2 border-t border-border/40 pt-6">
                     {store.phone ? (
                       <a
                         href={`tel:${store.phone}`}

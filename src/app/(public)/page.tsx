@@ -1,14 +1,18 @@
-import { getSiteSettings } from "@/services/settings";
+import type { Metadata } from "next";
+
+import { buildPageMetadata } from "@/services/seo";
 import { HomepageSections } from "@/features/homepage/homepage-sections";
 
 export const dynamic = "force-dynamic";
 
-export async function generateMetadata() {
-  const settings = await getSiteSettings();
-  return {
-    title: settings?.site_name ?? "Turaya",
-    description: settings?.tagline ?? undefined,
-  };
+export async function generateMetadata(): Promise<Metadata> {
+  return buildPageMetadata({
+    page: "home",
+    path: "/",
+    fallbackTitle: "Turaya",
+    fallbackDescription:
+      "Parfum lokal dari bahan Indonesia — wewangian dengan karakter negeri sendiri.",
+  });
 }
 
 export default async function Home() {

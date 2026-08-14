@@ -29,13 +29,16 @@ export function ContactForm() {
     return (
       <div
         role="status"
-        className="flex h-full min-h-64 flex-col items-start justify-center border border-border/60 bg-input/20 p-8"
+        className="flex h-full min-h-72 flex-col items-start justify-center border border-border/60 bg-input/20 p-8"
       >
-        <p className="overline text-champagne-400">Terkirim</p>
-        <h2 className="mt-3 font-display text-display-md text-ivory-50">
+        <div className="flex items-center gap-4">
+          <span aria-hidden className="inline-block size-2 rotate-45 bg-champagne-400" />
+          <p className="overline text-champagne-400">Terkirim</p>
+        </div>
+        <h2 className="mt-5 font-display text-display-md text-ivory-50">
           Terima kasih telah menghubungi kami
         </h2>
-        <p className="mt-4 max-w-sm text-body text-muted-foreground">
+        <p className="mt-4 max-w-sm text-body leading-relaxed text-muted-foreground">
           Pesan Anda sudah kami terima. Tim kami akan segera membalas melalui email.
         </p>
       </div>
@@ -114,6 +117,11 @@ export function ContactForm() {
       <div>
         <Button type="submit" size="lg" disabled={pending} className={cn("w-full sm:w-auto")}>
           {pending ? "Mengirim…" : "Kirim Pesan"}
+          {!pending ? (
+            <span aria-hidden className="transition-transform duration-300 group-hover/button:translate-x-0.5">
+              →
+            </span>
+          ) : null}
         </Button>
       </div>
     </form>

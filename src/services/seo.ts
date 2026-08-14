@@ -1,6 +1,10 @@
 import "server-only";
 
+import type { Metadata } from "next";
+
 import { createClient } from "@/lib/supabase/server";
+import { buildMetadata } from "@/lib/seo/metadata";
+import { getStoragePublicUrl } from "@/lib/storage";
 import type { Database } from "@/lib/supabase/database.types";
 
 export type SeoMetadata = Database["public"]["Tables"]["seo_metadata"]["Row"];
@@ -41,4 +45,42 @@ export async function getSeoMetadata(page: string): Promise<PublicSeoMetadata | 
   }
 
   return data;
+}
+
+const OG_IMAGE_BUCKET = "branding";
+
+export async function buildPageMetadata({
+  page,
+  path,
+  fallbackTitle,
+  fallbackDescription,
+  type = "website",
+}: {
+  page: string;
+  path: string;
+  fallbackTitle: string;
+  fallbackDescription: string;
+  type?: "website" | "article" | "product";
+}): Promise<Metadata> {
+  const seo = await getSeoMetadata(page);
+  const title = seo?.title ?? fallbackTitle;
+  const metadata = buildMetadata({
+    title,
+    description: seo?.description ?? fallbackDescription,
+    path,
+    ogImageUrl: seo?.og_image_path
+      ? getStoragePublicUrl(OG_IMAGE_BUCKET, seo.og_image_path)
+      : null,
+    canonicalUrl: seo?.canonical_url,
+    robots: seo?.robots,
+    type,
+  });
+
+  // CMS titles sometimes already carry the brand ("Turaya — …", "Koleksi — Turaya");
+  // use them as-is instead of letting the root template append a duplicate.
+  if (title.includes("Turaya")) {
+    metadata.title = { absolute: title };
+  }
+
+  return metadata;
 }

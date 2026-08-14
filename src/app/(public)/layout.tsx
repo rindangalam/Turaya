@@ -12,8 +12,11 @@ export default async function PublicLayout({
   return (
     <>
       {settings?.announcement ? (
-        <div className="bg-noir-900 px-4 py-2 text-center">
-          <p className="text-caption text-ivory-100">{settings.announcement}</p>
+        <div className="border-b border-border/60 bg-noir-900 px-4 py-2.5 text-center">
+          <p className="overline text-caption text-ivory-100">
+            <span aria-hidden className="mr-2 inline-block size-1.5 rounded-full bg-champagne-400" />
+            {settings.announcement}
+          </p>
         </div>
       ) : null}
       <PublicNav siteName={settings?.site_name ?? "Turaya"} />

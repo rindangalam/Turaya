@@ -95,12 +95,31 @@
 - **Deliverables**: Hero timeline (GSAP), scroll storytelling, navigation transitions, page transitions, hover/preview interactions, reduced-motion paths.
 - **Tasks**: T12
 - **Exit criteria**: Motion budget respected; `prefers-reduced-motion` fully functional.
+- **Status**: ✅ Completed.
+  - `motion-provider.tsx` (replaces `lenis-provider`): registers GSAP + ScrollTrigger, syncs Lenis via `gsap.ticker` (`autoRaf:false`), `ScrollTrigger.refresh()` on route change; skipped on `prefers-reduced-motion` and on `/admin`.
+  - `HeroTimeline` (L3, GSAP `matchMedia`): overline → word mask reveal (stagger 120ms) → body → CTA, `ease-luxury`, budget ≤1.2s; subtle image scale settle; CTA wrapped in `Magnetic` (≤6px, desktop only). Replaces the old hero `Reveal`/`SplitLines` composition.
+  - `StoryScene` (L3, ScrollTrigger): homepage `story` section — pinned crossfade (max 3 scenes), scrub progress line, `anticipatePin`; reduced-motion renders static stacked paragraphs. Section seeded (`Kisah`, sort 2, About → 3) in `seed.sql` and applied live.
+  - Navigation L1: underline reveal on desktop nav links (`after:` scale-x, 250ms) + existing mobile overlay stagger.
+  - Page transitions: `(public)/template.tsx` fade + 12px rise, 350ms `ease-luxury`, interruptible; reduced-motion → instant swap (no wrapper). Uses `usePrefersReducedMotion` (live `useSyncExternalStore`), not motion's cached hook.
+  - `CursorPreview`: cursor-following image preview on `/collections` cards (`data-preview-src`), desktop-only (`pointer: fine` + `lg`), spring-follow, hidden on reduced-motion/touch.
+  - `MOTION` easings retyped as mutable beziers (`Bezier`) for GSAP; reduced-motion emulation via `matchMedia` override verified: no hero anim, static story, no pin/Lenis, instant transitions.
+  - Verified: `tsc` + lint green; browser E2E — hero timeline settles, story pin + scrub math correct (progress 0.223 at expected scroll), mobile pin works, page transition wrapper normal/absent reduced, CursorPreview shows on `data-preview-src`, mobile menu intact, `/admin` unaffected, no new console errors.
 
 ## Sprint 13 — SEO
 - **Goals**: Complete search metadata.
 - **Deliverables**: Metadata builders, OG image generation, sitemap, robots, JSON-LD (Organization, Product, Article, Breadcrumb).
 - **Tasks**: T13
 - **Exit criteria**: Structured data validates; sitemap/robots correct per environment.
+- **Status**: ✅ Completed.
+  - `src/lib/seo/`: `site.ts` (`getSiteUrl`/`getAbsoluteUrl` from `NEXT_PUBLIC_SITE_URL`, dev fallback), `metadata.ts` (`buildMetadata` — canonical, OG 1200×630, Twitter summary_large_image, robots passthrough), `jsonld.ts` (Organization, Product, BreadcrumbList, CollectionPage, Article, FAQPage builders).
+  - `src/services/seo.ts`: `buildPageMetadata({page, path, fallbackTitle, fallbackDescription})` merges CMS fields (title/description/canonical/og_image_path/robots) into `buildMetadata`; titles containing "Turaya" are emitted absolute to avoid the root template doubling the brand.
+  - JSON-LD: Organization (root layout, from `site_settings` incl. logo/contact/sameAs); Product + BreadcrumbList on `/products/[slug]` (sku = slug, offers only when price set); CollectionPage + Breadcrumb on `/collections/[slug]`; Article + Breadcrumb on `/journal/[slug]` (datePublished = `published_at`); FAQPage on `/faq` only when ≥2 published items.
+  - `src/app/sitemap.ts`: static routes + published products/collections/posts, `lastModified` from `updated_at`, excludes drafts/archived/admin.
+  - `src/app/robots.ts`: preview/dev → disallow all; production → allow all + sitemap + `/admin` disallow.
+  - `src/app/api/og/route.tsx`: ImageResponse brand card (noir/ivory/champagne, Cormorant Garamond + Figtree via runtime TTF fetch with module cache, `title`/`overline` query params). Note: satori requires TTF/OTF (woff2 → "Unsupported OpenType signature").
+  - `NEXT_PUBLIC_SITE_URL` added to `.env.example` + `.env.local`.
+  - All 16 public routes verified: unique titles, canonical, absolute OG image, robots meta; sitemap/robots correct per env; JSON-LD present on product/collection/journal pages; `/api/og` renders 1200×630 PNG.
+  - Verified: `tsc` + lint green; browser E2E across every public route + detail pages; admin/login unaffected.
 
 ## Sprint 14 — Accessibility
 - **Goals**: WCAG 2.2 AA audit pass.

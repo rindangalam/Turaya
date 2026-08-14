@@ -1,16 +1,17 @@
 import type { Metadata } from "next";
 
 import { PageHeader } from "@/components/layout/page-header";
-import { getSeoMetadata } from "@/services/seo";
+import { buildPageMetadata, getSeoMetadata } from "@/services/seo";
 
 export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const seo = await getSeoMetadata("about");
-  return {
-    title: seo?.title ?? "Tentang",
-    description: seo?.description ?? "Kisah di balik Turaya.",
-  };
+  return buildPageMetadata({
+    page: "about",
+    path: "/about",
+    fallbackTitle: "Tentang",
+    fallbackDescription: "Kisah di balik Turaya.",
+  });
 }
 
 const VALUES = [
@@ -42,9 +43,15 @@ export default async function AboutPage() {
         }
       />
 
-      <section className="container-turaya grid gap-12 py-16 md:py-24 lg:grid-cols-2">
+      <section className="container-turaya grid gap-12 py-16 md:py-24 lg:grid-cols-[1fr_1.4fr] lg:gap-20">
         <div>
-          <h2 className="font-display text-display-md text-ivory-50">Dari mana kami berasal</h2>
+          <div className="flex items-center gap-4">
+            <span aria-hidden className="h-px w-10 bg-champagne-500/80" />
+            <p className="overline text-champagne-400">01</p>
+          </div>
+          <h2 className="mt-6 max-w-[14ch] font-display text-display-md text-ivory-50">
+            Dari mana kami berasal
+          </h2>
         </div>
         <div className="flex flex-col gap-6">
           <p className="text-body-lg leading-relaxed text-ivory-200">
@@ -66,12 +73,23 @@ export default async function AboutPage() {
 
       <section className="border-t border-border/50">
         <div className="container-turaya py-16 md:py-24">
-          <h2 className="font-display text-display-md text-ivory-50">Yang kami pegang teguh</h2>
+          <div className="flex items-center gap-4">
+            <span aria-hidden className="h-px w-10 bg-champagne-500/80" />
+            <p className="overline text-champagne-400">02</p>
+          </div>
+          <h2 className="mt-6 font-display text-display-md text-ivory-50">Yang kami pegang teguh</h2>
           <div className="mt-12 grid gap-10 md:grid-cols-3">
-            {VALUES.map((value) => (
+            {VALUES.map((value, index) => (
               <div key={value.title} className="border-t border-champagne-400/40 pt-6">
-                <h3 className="font-display text-heading-lg text-champagne-400">{value.title}</h3>
-                <p className="mt-3 text-body leading-relaxed text-muted-foreground">{value.body}</p>
+                <p className="overline text-caption tabular-nums text-muted-foreground">
+                  {String(index + 1).padStart(2, "0")}
+                </p>
+                <h3 className="mt-4 font-display text-heading-lg text-champagne-400">
+                  {value.title}
+                </h3>
+                <p className="mt-3 text-body leading-relaxed text-muted-foreground">
+                  {value.body}
+                </p>
               </div>
             ))}
           </div>

@@ -33,10 +33,16 @@ export function PublicNav({ siteName }: { siteName: string }) {
       <div className="container-turaya flex h-16 items-center justify-between md:h-20">
         <Link
           href="/"
-          className="font-display text-heading-lg tracking-[0.02em] text-ivory-50"
+          className="group inline-flex items-center gap-3"
           aria-label={`${siteName} — Beranda`}
         >
-          {siteName}
+          <span
+            aria-hidden
+            className="inline-block size-2 rotate-45 bg-champagne-500 transition-transform duration-500 group-hover:rotate-[135deg]"
+          />
+          <span className="font-display text-heading-lg tracking-[0.02em] text-ivory-50">
+            {siteName}
+          </span>
         </Link>
 
         <nav aria-label="Utama" className="hidden items-center gap-8 lg:flex">
@@ -45,8 +51,8 @@ export function PublicNav({ siteName }: { siteName: string }) {
               key={item.href}
               href={item.href}
               className={cn(
-                "overline text-ivory-300 transition-colors hover:text-champagne-400",
-                isActive(item.href) && "text-champagne-400",
+                "overline relative text-ivory-300 transition-colors duration-[250ms] hover:text-champagne-400 after:absolute after:-bottom-1 after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-champagne-400 after:transition-transform after:duration-[250ms] hover:after:scale-x-100",
+                isActive(item.href) && "text-champagne-400 after:scale-x-100",
               )}
             >
               {item.label}

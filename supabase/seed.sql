@@ -147,9 +147,16 @@ from (values
   ('ae000000-0000-0000-0000-000000000001'::uuid, 'Hero', 'hero',
    'Aroma dari negeri sendiri', 'Parfum dan home fragrance dengan bahan lokal pilihan.',
    'Temukan koleksi kami.', 'Lihat Koleksi', '/collections', 1, true),
+  ('ae000000-0000-0000-0000-000000000003'::uuid, 'Kisah', 'story',
+   'Kisah di balik setiap aroma', 'Dari kampung ke meja tuang.',
+   'Setiap aroma Turaya dimulai di kampung halaman para petani dan peracik.
+
+Bahan-bahan lokal dikeringkan, disuling, dan dirayakan dengan sabar.
+
+Dari tangan mereka, cerita itu dituang ke dalam setiap botol yang sampai ke tanganmu.', NULL, NULL, 2, true),
   ('ae000000-0000-0000-0000-000000000002'::uuid, 'About', 'about',
    'Tentang Turaya', 'Setiap aroma punya cerita.',
-   'Turaya adalah rumah aroma nusantara.', NULL, NULL, 2, true)
+   'Turaya adalah rumah aroma nusantara.', NULL, NULL, 3, true)
 ) as h(id, name, slug, headline, subheadline, body, button_label, button_url, sort_order, visible)
 where not exists (select 1 from public.homepage_sections where slug = h.slug);
 

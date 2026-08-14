@@ -63,9 +63,15 @@ No fake reviews/ratings; no offer markup without real pricing.
 
 ## 8. Validation Checklist
 
-- [ ] Unique titles/descriptions on every public route (script check)
-- [ ] Canonical correct per environment
-- [ ] JSON-LD validates (Organization, Product, Article, Breadcrumb, FAQ)
-- [ ] Sitemap lists only indexable URLs; robots correct per env
-- [ ] OG renders and links correct
-- [ ] No admin/draft URLs indexable
+- [x] Unique titles/descriptions on every public route (script check)
+- [x] Canonical correct per environment
+- [x] JSON-LD validates (Organization, Product, Article, Breadcrumb, FAQ)
+- [x] Sitemap lists only indexable URLs; robots correct per env
+- [x] OG renders and links correct
+- [x] No admin/draft URLs indexable
+
+> **Implementation notes (Sprint 13):**
+> - `buildMetadata` in `src/lib/seo/metadata.ts`; CMS merge via `buildPageMetadata` in `src/services/seo.ts`.
+> - Titles that already contain the brand are emitted as absolute (root template `%s — Turaya` otherwise doubles it).
+> - `/api/og` brand card uses TTF fonts at runtime (satori does not support woff2); `NEXT_PUBLIC_SITE_URL` drives canonical/sitemap/robots with `http://localhost:3000` dev fallback.
+> - SEO metadata status: implemented and verified for all public routes.

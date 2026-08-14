@@ -117,3 +117,18 @@ Anything not in the table stays static by default.
 | Lenis | Smooth scroll (desktop), disabled on reduced-motion/touch when unnecessary |
 
 Integration notes: initialize Lenis + GSAP ScrollTrigger sync once in a shared provider; keep both behind the reduced-motion guard.
+
+## 10. Implemented Components (Sprint 12)
+
+| Component | Level | Purpose |
+|---|---|---|
+| `animations/motion-provider.tsx` | — | Lenis ↔ GSAP ScrollTrigger sync (gsap.ticker), route-change refresh; disabled on reduced-motion and `/admin` |
+| `features/homepage/hero-timeline.tsx` | L3 | Homepage hero: overline → word mask stagger → body → CTA, `ease-luxury` ≤1.2s |
+| `features/homepage/story-scene.tsx` | L3 | Pinned scroll storytelling (max 3 scenes) + progress line; static on reduced-motion |
+| `app/(public)/template.tsx` | L2 | Page transition: fade + 12px rise, 350ms, interruptible; instant on reduced-motion |
+| `animations/cursor-preview.tsx` | L2 | Cursor-following image preview (`data-preview-src`), desktop-only |
+| `animations/magnetic.tsx`, `reveal.tsx`, `split-lines.tsx`, `parallax.tsx` | L1–L2 | Shared primitives (reduced-motion aware) |
+
+All GSAP scenes run inside `gsap.matchMedia("(prefers-reduced-motion: no-preference)")`
+with `gsap.context`/`mm.revert()` cleanup. New motion must use `MOTION` tokens in
+`src/lib/motion.ts` and guard reduced motion the same way.

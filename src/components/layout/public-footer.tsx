@@ -1,21 +1,48 @@
 import Link from "next/link";
 
 import type { SiteSettings } from "@/services/settings";
-import { PUBLIC_NAV_ITEMS } from "./nav-items";
 
-const FOOTER_LINKS: { label: string; href: string }[] = [
-  { label: "Tentang Kami", href: "/about" },
-  { label: "Filosofi", href: "/philosophy" },
+const FOOTER_EXPLORE: { label: string; href: string }[] = [
+  { label: "Produk", href: "/products" },
+  { label: "Koleksi", href: "/collections" },
   { label: "Bahan", href: "/ingredients" },
   { label: "Galeri", href: "/gallery" },
+  { label: "Jurnal", href: "/journal" },
 ];
 
-const FOOTER_SUPPORT: { label: string; href: string }[] = [
-  { label: "Jurnal", href: "/journal" },
+const FOOTER_INFO: { label: string; href: string }[] = [
+  { label: "Tentang Kami", href: "/about" },
+  { label: "Filosofi", href: "/philosophy" },
   { label: "Toko", href: "/stores" },
   { label: "FAQ", href: "/faq" },
   { label: "Kontak", href: "/contact" },
 ];
+
+function FooterColumn({
+  title,
+  links,
+}: {
+  title: string;
+  links: { label: string; href: string }[];
+}) {
+  return (
+    <nav aria-label={`Footer — ${title}`}>
+      <p className="overline text-caption text-ivory-500">{title}</p>
+      <ul className="mt-5 space-y-3">
+        {links.map((link) => (
+          <li key={link.href}>
+            <Link
+              href={link.href}
+              className="text-body-sm transition-colors hover:text-champagne-400"
+            >
+              {link.label}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  );
+}
 
 export function PublicFooter({ settings }: { settings: SiteSettings | null }) {
   const year = new Date().getFullYear();
@@ -23,7 +50,7 @@ export function PublicFooter({ settings }: { settings: SiteSettings | null }) {
   return (
     <footer className="bg-noir-950 text-ivory-300">
       <div className="container-turaya">
-        <div className="grid gap-12 py-16 md:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1.2fr]">
+        <div className="grid gap-12 py-16 md:grid-cols-2 lg:grid-cols-[1.6fr_1fr_1fr_1.2fr]">
           <div>
             <Link href="/" className="font-display text-heading-lg text-ivory-50">
               {settings?.site_name ?? "Turaya"}
@@ -54,37 +81,8 @@ export function PublicFooter({ settings }: { settings: SiteSettings | null }) {
             ) : null}
           </div>
 
-          <nav aria-label="Footer — Menu">
-            <p className="overline text-caption text-ivory-500">Menu</p>
-            <ul className="mt-5 space-y-3">
-              {PUBLIC_NAV_ITEMS.map((item) => (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    className="text-body-sm transition-colors hover:text-champagne-400"
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
-
-          <nav aria-label="Footer — Lainnya">
-            <p className="overline text-caption text-ivory-500">Informasi</p>
-            <ul className="mt-5 space-y-3">
-              {[...FOOTER_LINKS, ...FOOTER_SUPPORT].map((item) => (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    className="text-body-sm transition-colors hover:text-champagne-400"
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
+          <FooterColumn title="Jelajahi" links={FOOTER_EXPLORE} />
+          <FooterColumn title="Informasi" links={FOOTER_INFO} />
 
           <div>
             <p className="overline text-caption text-ivory-500">Ikuti Kami</p>
@@ -111,6 +109,13 @@ export function PublicFooter({ settings }: { settings: SiteSettings | null }) {
                   >
                     TikTok
                   </a>
+                </li>
+              ) : null}
+              {!settings?.instagram_url && !settings?.tiktok_url ? (
+                <li>
+                  <p className="text-body-sm text-muted-foreground">
+                    @turaya.id
+                  </p>
                 </li>
               ) : null}
             </ul>

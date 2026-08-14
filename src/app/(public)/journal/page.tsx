@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 
 import { PageHeader } from "@/components/layout/page-header";
-import { getSeoMetadata } from "@/services/seo";
+import { buildPageMetadata } from "@/services/seo";
 import { listPublishedPosts } from "@/services/journal";
 import { getStoragePublicUrl } from "@/lib/storage";
 import { formatRelativeTime } from "@/lib/format";
@@ -11,11 +11,12 @@ import { formatRelativeTime } from "@/lib/format";
 export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const seo = await getSeoMetadata("journal");
-  return {
-    title: seo?.title ?? "Jurnal",
-    description: seo?.description ?? "Catatan, kisah, dan perjalanan Turaya.",
-  };
+  return buildPageMetadata({
+    page: "journal",
+    path: "/journal",
+    fallbackTitle: "Jurnal",
+    fallbackDescription: "Catatan, kisah, dan perjalanan Turaya.",
+  });
 }
 
 export default async function JournalPage() {
@@ -56,14 +57,29 @@ export default async function JournalPage() {
                         className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                       />
                     ) : (
-                      <div className="flex h-full items-end p-5">
-                        <span className="overline text-caption text-muted-foreground">{post.slug}</span>
+                      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,var(--color-noir-800),var(--color-noir-950))]">
+                        <div className="flex h-full items-center justify-center">
+                          <span
+                            aria-hidden
+                            className="font-display text-[4rem] leading-none text-noir-700 transition-colors duration-500 group-hover:text-noir-600"
+                          >
+                            {post.title.charAt(0).toUpperCase()}
+                          </span>
+                        </div>
                       </div>
                     )}
+                    <span className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-champagne-500/0 via-champagne-500/60 to-champagne-500/0 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
                   </div>
-                  <div className="mt-5 flex flex-wrap items-center gap-3 text-caption uppercase tracking-wider text-muted-foreground">
-                    {post.categoryName ? <span className="text-champagne-400">{post.categoryName}</span> : null}
-                    {post.publishedAt ? <time dateTime={post.publishedAt}>{formatRelativeTime(post.publishedAt)}</time> : null}
+                  <div className="mt-5 flex flex-wrap items-center gap-x-3 gap-y-1 text-caption uppercase tracking-wider text-muted-foreground">
+                    {post.categoryName ? (
+                      <span className="flex items-center gap-3 text-champagne-400">
+                        {post.categoryName}
+                        <span aria-hidden className="inline-block size-1 rotate-45 bg-champagne-500/60" />
+                      </span>
+                    ) : null}
+                    {post.publishedAt ? (
+                      <time dateTime={post.publishedAt}>{formatRelativeTime(post.publishedAt)}</time>
+                    ) : null}
                   </div>
                   <h2 className="mt-3 font-display text-heading-lg text-ivory-50 transition-colors group-hover:text-champagne-400">
                     {post.title}

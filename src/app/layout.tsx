@@ -1,6 +1,12 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Figtree } from "next/font/google";
-import { LenisProvider } from "@/components/animations/lenis-provider";
+
+import { MotionProvider } from "@/components/animations/motion-provider";
+import { JsonLd } from "@/components/seo/jsonld";
+import { OrganizationJsonLd } from "@/lib/seo/jsonld";
+import { getSiteUrl } from "@/lib/seo/site";
+import { getStoragePublicUrl } from "@/lib/storage";
+import { getSiteSettings } from "@/services/settings";
 import "./globals.css";
 
 const cormorant = Cormorant_Garamond({
@@ -18,27 +24,44 @@ const figtree = Figtree({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(getSiteUrl()),
   title: {
     default: "Turaya",
     template: "%s — Turaya",
   },
-  description: "[PLACEHOLDER — brand description for search engines]",
+  description: "Parfum lokal dari bahan Indonesia — wewangian dengan karakter negeri sendiri.",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const settings = await getSiteSettings();
+  const siteUrl = getSiteUrl();
+
+  const sameAs = [settings?.instagram_url, settings?.tiktok_url].filter(
+    (url): url is string => Boolean(url),
+  );
+
+  const organization = OrganizationJsonLd({
+    name: settings?.site_name ?? "Turaya",
+    url: siteUrl,
+    logoUrl: settings?.logo_path ? getStoragePublicUrl("branding", settings.logo_path) : undefined,
+    contactEmail: settings?.contact_email,
+    sameAs,
+  });
+
   return (
     <html
-      lang="en"
+      lang="id"
       className={`dark ${cormorant.variable} ${figtree.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col">
+        <JsonLd data={organization} />
         <a
           href="#main"
           className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-100 focus:rounded-sm focus:bg-primary focus:px-4 focus:py-2 focus:text-primary-foreground"
         >
           Skip to content
         </a>
-        <LenisProvider>{children}</LenisProvider>
+        <MotionProvider>{children}</MotionProvider>
       </body>
     </html>
   );

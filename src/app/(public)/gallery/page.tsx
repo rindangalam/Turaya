@@ -2,18 +2,19 @@ import type { Metadata } from "next";
 import Image from "next/image";
 
 import { PageHeader } from "@/components/layout/page-header";
-import { getSeoMetadata } from "@/services/seo";
+import { buildPageMetadata } from "@/services/seo";
 import { listPublishedGalleryItems } from "@/services/gallery";
 import { getStoragePublicUrl } from "@/lib/storage";
 
 export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const seo = await getSeoMetadata("gallery");
-  return {
-    title: seo?.title ?? "Galeri",
-    description: seo?.description ?? "Galeri suasana dan proses kreatif Turaya.",
-  };
+  return buildPageMetadata({
+    page: "gallery",
+    path: "/gallery",
+    fallbackTitle: "Galeri",
+    fallbackDescription: "Galeri suasana dan proses kreatif Turaya.",
+  });
 }
 
 export default async function GalleryPage() {
@@ -37,8 +38,8 @@ export default async function GalleryPage() {
           </div>
         ) : (
           <div className="columns-1 gap-4 sm:columns-2 lg:columns-3 [&>*]:mb-4">
-            {items.map((item) => (
-              <figure key={item.id} className="group relative break-inside-avoid overflow-hidden rounded-sm bg-input/20">
+            {items.map((item, index) => (
+              <figure key={item.id} className="group relative break-inside-avoid overflow-hidden bg-input/20">
                 <Image
                   src={getStoragePublicUrl("gallery", item.path)}
                   alt={item.alt}
@@ -47,11 +48,17 @@ export default async function GalleryPage() {
                   sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
                   className="h-auto w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                 />
-                {item.caption ? (
-                  <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-noir-950/90 to-transparent px-5 pb-4 pt-16">
-                    <p className="text-body-sm text-ivory-100">{item.caption}</p>
-                  </figcaption>
-                ) : null}
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-noir-950/80 via-transparent to-transparent opacity-70 transition-opacity duration-500 group-hover:opacity-100" />
+                <figcaption className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 px-5 pb-5">
+                  {item.caption ? (
+                    <p className="text-body-sm leading-relaxed text-ivory-100">{item.caption}</p>
+                  ) : (
+                    <span />
+                  )}
+                  <span aria-hidden className="overline text-caption tabular-nums text-champagne-400/80">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                </figcaption>
               </figure>
             ))}
           </div>

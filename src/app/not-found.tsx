@@ -1,22 +1,36 @@
 import Link from "next/link";
 
+import { Button } from "@/components/ui/button";
+
 export default function RootNotFound() {
   return (
-    <main id="main" className="container-turaya flex min-h-[60svh] flex-col items-start justify-center py-24">
-      <p className="overline text-champagne-400">404 — Tidak ditemukan</p>
-      <h1 className="mt-4 font-display text-display-lg text-ivory-50">
-        Halaman yang Anda cari tidak ada
-      </h1>
-      <p className="mt-5 max-w-md text-body-lg text-muted-foreground">
-        Alamat mungkin salah, atau halaman telah dipindahkan. Mari kembali ke beranda untuk
-        melanjutkan menjelajah.
-      </p>
-      <Link
-        href="/"
-        className="mt-10 inline-flex items-center justify-center rounded-sm bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/80 focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
-      >
-        Kembali ke beranda
-      </Link>
+    <main id="main" className="relative overflow-hidden">
+      <div className="container-turaya flex min-h-[65svh] flex-col items-start justify-center py-24">
+        <span
+          aria-hidden
+          className="pointer-events-none absolute right-8 top-1/2 -translate-y-1/2 select-none font-display text-[20vw] leading-none text-noir-800/60"
+        >
+          404
+        </span>
+        <div className="relative">
+          <div className="flex items-center gap-4">
+            <span aria-hidden className="h-px w-10 bg-champagne-500/80" />
+            <p className="overline text-champagne-400">404 — Tidak ditemukan</p>
+          </div>
+          <h1 className="mt-6 max-w-[18ch] font-display text-display-lg text-ivory-50">
+            Halaman yang Anda cari tidak ada
+          </h1>
+          <p className="mt-6 max-w-md text-body-lg text-muted-foreground">
+            Alamat mungkin salah, atau halaman telah dipindahkan. Mari kembali ke beranda untuk
+            melanjutkan menjelajah.
+          </p>
+          <div className="mt-10">
+            <Button size="lg" render={<Link href="/" />}>
+              Kembali ke beranda
+            </Button>
+          </div>
+        </div>
+      </div>
     </main>
   );
 }

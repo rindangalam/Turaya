@@ -32,11 +32,14 @@ npm run typecheck  # tsc --noEmit
 
 ## Status
 
-Sprints 1–11 complete (Design System → CMS admin: settings, homepage, products,
+Sprints 1–13 complete (Design System → CMS admin: settings, homepage, products,
 collections, categories, ingredients, relations, gallery, journal, testimonials,
 stores, SEO, messages → Public website: homepage, products, collections, ingredients,
 gallery, journal, contact, about, philosophy, stores, faq, privacy, terms, nav/footer,
-boundaries) — see `docs/SPRINTS.md`.
+boundaries → Motion system: hero timeline, scroll storytelling, page transitions,
+cursor preview, reduced-motion paths → SEO: metadata builders, canonical/OG/Twitter,
+JSON-LD (Organization/Product/Article/Breadcrumb/FAQ), sitemap, robots, OG image API)
+— see `docs/SPRINTS.md`.
 
 Connected to the hosted Supabase project (ref `yuzsroqibdylpqihrbsh`, region
 `ap-southeast-1`): all migrations `0000`–`0008` + seed applied, admin user

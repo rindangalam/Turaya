@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 
 import { PageHeader } from "@/components/layout/page-header";
-import { getSeoMetadata } from "@/services/seo";
+import { buildPageMetadata } from "@/services/seo";
 import { listPublishedIngredients } from "@/services/ingredients";
 import { getStoragePublicUrl } from "@/lib/storage";
 import { cn } from "@/lib/utils";
@@ -10,11 +10,12 @@ import { cn } from "@/lib/utils";
 export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const seo = await getSeoMetadata("ingredients");
-  return {
-    title: seo?.title ?? "Bahan",
-    description: seo?.description ?? "Bahan-bahan pilihan Nusantara dalam racikan Turaya.",
-  };
+  return buildPageMetadata({
+    page: "ingredients",
+    path: "/ingredients",
+    fallbackTitle: "Bahan",
+    fallbackDescription: "Bahan-bahan pilihan Nusantara dalam racikan Turaya.",
+  });
 }
 
 export default async function IngredientsPage() {
@@ -35,7 +36,7 @@ export default async function IngredientsPage() {
           </p>
         ) : (
           <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
-            {ingredients.map((ingredient) => {
+            {ingredients.map((ingredient, index) => {
               const imageUrl = ingredient.image_path
                 ? getStoragePublicUrl("ingredients", ingredient.image_path)
                 : null;
@@ -43,26 +44,34 @@ export default async function IngredientsPage() {
                 <article
                   key={ingredient.id}
                   className={cn(
-                    "flex flex-col overflow-hidden rounded-sm border border-border/40 bg-input/10 transition-colors hover:border-border/70",
+                    "group flex flex-col overflow-hidden border border-border/40 bg-input/10 transition-colors hover:border-border/70",
                   )}
                 >
-                  {imageUrl ? (
-                    <div className="relative aspect-[16/10] w-full bg-input/20">
+                  <div className="relative aspect-[16/10] w-full overflow-hidden bg-input/20">
+                    {imageUrl ? (
                       <Image
                         src={imageUrl}
                         alt={ingredient.name}
                         fill
                         sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-                        className="object-cover"
+                        className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                       />
-                    </div>
-                  ) : (
-                    <div className="flex aspect-[16/10] w-full items-end bg-input/20 p-5">
-                      <span className="overline text-caption text-muted-foreground">
-                        {ingredient.slug}
-                      </span>
-                    </div>
-                  )}
+                    ) : (
+                      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,var(--color-noir-800),var(--color-noir-950))]">
+                        <div className="flex h-full items-center justify-center">
+                          <span
+                            aria-hidden
+                            className="font-display text-[4rem] leading-none text-noir-700 transition-colors duration-500 group-hover:text-noir-600"
+                          >
+                            {ingredient.name.charAt(0).toUpperCase()}
+                          </span>
+                        </div>
+                      </div>
+                    )}
+                    <span className="absolute right-4 top-4 text-caption tabular-nums text-ivory-300/60">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                  </div>
                   <div className="flex flex-1 flex-col p-6">
                     <div className="flex items-baseline justify-between gap-4">
                       <h2 className="font-display text-heading-lg text-ivory-50">{ingredient.name}</h2>
@@ -76,7 +85,7 @@ export default async function IngredientsPage() {
                       <p className="mt-3 text-body text-muted-foreground">{ingredient.description}</p>
                     ) : null}
                     {ingredient.story ? (
-                      <p className="mt-4 text-body-sm leading-relaxed text-ivory-300/70">
+                      <p className="mt-4 border-t border-border/40 pt-4 text-body-sm leading-relaxed text-muted-foreground">
                         {ingredient.story}
                       </p>
                     ) : null}
