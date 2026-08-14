@@ -12,7 +12,7 @@ Noir surfaces, champagne gold accents, ivory text; a private-club perfumery feel
 
 - Dark-first: the public site is **dark-only** (no light mode for visitors).
 - Editorial composition over decorative layout; darkness is the canvas.
-- Typography carries most of the emotional weight (Cormorant display on noir).
+- Typography carries most of the emotional weight (Fraunces display).
 - One accent moment per viewport (champagne). Never compete.
 - Imagery is photographic, low-key, atmospheric (deep shadows, candlelight, amber glass).
 - References (quality only, never copied): Tom Ford, Diptyque, Frederic Malle, Byredo.
