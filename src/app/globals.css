@@ -69,9 +69,9 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 
-  /* Typography — DESIGN_SYSTEM.md §3 */
-  --font-sans: var(--font-figtree);
-  --font-display: var(--font-cormorant);
+  /* Typography — spesifikasi terracotta §2.2 */
+  --font-sans: var(--font-inter);
+  --font-display: var(--font-fraunces);
   --font-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
 
   /* Type scale — DESIGN_SYSTEM.md §3 */

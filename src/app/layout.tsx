@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Figtree } from "next/font/google";
+import { Fraunces, Inter } from "next/font/google";
 
 import { MotionProvider } from "@/components/animations/motion-provider";
 import { JsonLd } from "@/components/seo/jsonld";
@@ -9,17 +9,17 @@ import { getStoragePublicUrl } from "@/lib/storage";
 import { getSiteSettings } from "@/services/settings";
 import "./globals.css";
 
-const cormorant = Cormorant_Garamond({
-  variable: "--font-cormorant",
+const fraunces = Fraunces({
+  variable: "--font-fraunces",
   subsets: ["latin"],
-  weight: ["300", "400", "500"],
+  weight: ["400", "500", "600"],
   display: "swap",
 });
 
-const figtree = Figtree({
-  variable: "--font-figtree",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "500", "600"],
   display: "swap",
 });
 
@@ -51,7 +51,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html
       lang="id"
-      className={`dark ${cormorant.variable} ${figtree.variable} h-full antialiased`}
+      className={`dark ${fraunces.variable} ${inter.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col">
         <JsonLd data={organization} />
