@@ -47,9 +47,9 @@ export function ProductGallery({
               aria-label={`Lihat gambar ${index + 1}`}
               aria-current={index === active}
               className={cn(
-                "relative aspect-square overflow-hidden rounded-sm border bg-input/20 transition-colors focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50",
+                "relative aspect-square overflow-hidden rounded-sm border bg-input/20 transition-colors focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring",
                 index === active
-                  ? "border-terra-500/70"
+                  ? "border-terra-500"
                   : "border-border/40 hover:border-border",
               )}
             >
