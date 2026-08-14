@@ -2,20 +2,20 @@ import { ImageResponse } from "next/og";
 
 export const runtime = "nodejs";
 
-const CORMORANT_BOLD_URL =
-  "https://fonts.gstatic.com/s/cormorantgaramond/v21/co3umX5slCNuHLi8bLeY9MK7whWMhyjypVO7abI26QOD_s06GnM.ttf";
-const FIGTREE_MEDIUM_URL =
-  "https://fonts.gstatic.com/s/figtree/v9/_Xmz-HUzqDCFdgfMsYiV_F7wfS-Bs_dNQF5e.ttf";
+const FRAUNCES_MEDIUM_URL =
+  "https://fonts.gstatic.com/s/fraunces/v38/6NUh8FyLNQOQZAnv9bYEvDiIdE9Ea92uemAk_WBq8U_9v0c2Wa0K7iN7hzFUPJH58nib1603gg7S2nfgRYIchRujDg.ttf";
+const INTER_MEDIUM_URL =
+  "https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuI6fMZg.ttf";
 
-let cachedFonts: { cormorant: ArrayBuffer; figtree: ArrayBuffer } | null = null;
+let cachedFonts: { fraunces: ArrayBuffer; inter: ArrayBuffer } | null = null;
 
 async function loadFonts() {
   if (cachedFonts) return cachedFonts;
-  const [cormorant, figtree] = await Promise.all([
-    fetch(CORMORANT_BOLD_URL).then((res) => res.arrayBuffer()),
-    fetch(FIGTREE_MEDIUM_URL).then((res) => res.arrayBuffer()),
+  const [fraunces, inter] = await Promise.all([
+    fetch(FRAUNCES_MEDIUM_URL).then((res) => res.arrayBuffer()),
+    fetch(INTER_MEDIUM_URL).then((res) => res.arrayBuffer()),
   ]);
-  cachedFonts = { cormorant, figtree };
+  cachedFonts = { fraunces, inter };
   return cachedFonts;
 }
 
@@ -36,8 +36,8 @@ export async function GET(request: Request) {
           flexDirection: "column",
           justifyContent: "space-between",
           padding: 64,
-          backgroundColor: "#0b0b0c",
-          color: "#f5f2ec",
+          backgroundColor: "#f4eee3",
+          color: "#3e2c22",
         }}
       >
         <div
@@ -52,8 +52,8 @@ export async function GET(request: Request) {
               fontSize: 36,
               fontWeight: 500,
               letterSpacing: 6,
-              color: "#d4b577",
-              fontFamily: "Figtree",
+              color: "#b4552d",
+              fontFamily: "Inter",
             }}
           >
             TURAYA
@@ -62,7 +62,7 @@ export async function GET(request: Request) {
             style={{
               height: 1,
               flex: 1,
-              backgroundColor: "#d4b577",
+              backgroundColor: "#b4552d",
               opacity: 0.35,
             }}
           />
@@ -82,8 +82,8 @@ export async function GET(request: Request) {
               fontSize: 18,
               fontWeight: 500,
               letterSpacing: 4,
-              color: "#d4b577",
-              fontFamily: "Figtree",
+              color: "#b4552d",
+              fontFamily: "Inter",
             }}
           >
             {overline}
@@ -92,8 +92,8 @@ export async function GET(request: Request) {
             style={{
               fontSize: 62,
               lineHeight: 1.1,
-              color: "#f5f2ec",
-              fontFamily: "CormorantGaramond",
+              color: "#3e2c22",
+              fontFamily: "Fraunces",
             }}
           >
             {title}
@@ -105,11 +105,11 @@ export async function GET(request: Request) {
       width: 1200,
       height: 630,
       fonts: [
-        ...(fonts?.cormorant
-          ? [{ name: "CormorantGaramond", data: fonts.cormorant, weight: 500 as const }]
+        ...(fonts?.fraunces
+          ? [{ name: "Fraunces", data: fonts.fraunces, weight: 500 as const }]
           : []),
-        ...(fonts?.figtree
-          ? [{ name: "Figtree", data: fonts.figtree, weight: 500 as const }]
+        ...(fonts?.inter
+          ? [{ name: "Inter", data: fonts.inter, weight: 500 as const }]
           : []),
       ],
     },
