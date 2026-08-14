@@ -102,7 +102,7 @@ export function HeroTimeline({
   return (
     <section
       ref={rootRef}
-      className="relative flex min-h-[70svh] flex-col items-start justify-center overflow-hidden bg-roast-800"
+      className="relative flex min-h-[78svh] flex-col items-start justify-center overflow-hidden bg-roast-800"
     >
       {imageUrl ? (
         <div data-hero-image className="absolute inset-0">
@@ -118,13 +118,34 @@ export function HeroTimeline({
       ) : null}
       <div className="absolute inset-0 bg-gradient-to-t from-roast-700 via-roast-800/25 to-transparent" />
       <div className="absolute inset-0 bg-gradient-to-r from-roast-800/70 via-transparent to-transparent" />
+
+      {/* Ornamen dekoratif tanpa gambar: cincin aroma + teks skala besar */}
+      <div aria-hidden className="pointer-events-none absolute -right-40 top-1/2 -translate-y-1/2">
+        <div className="h-[36rem] w-[36rem] rounded-full border border-honey-300/15" />
+      </div>
+      <div aria-hidden className="pointer-events-none absolute -right-20 top-1/2 -translate-y-1/2">
+        <div className="h-[24rem] w-[24rem] rounded-full border border-honey-300/20" />
+      </div>
+      <div aria-hidden className="pointer-events-none absolute -right-4 top-1/2 -translate-y-1/2">
+        <div className="h-[12rem] w-[12rem] rounded-full border border-terra-500/30" />
+      </div>
+      <span
+        aria-hidden
+        className="pointer-events-none absolute -bottom-16 -right-6 select-none font-display text-[26rem] leading-none text-roast-800/60"
+      >
+        T
+      </span>
+
       <div className="container-turaya relative flex flex-col items-start justify-center">
         {subheadline ? (
           <p data-hero-overline className="overline mb-6 text-honey-300">
             {subheadline}
           </p>
         ) : null}
-        <h1 className="max-w-[16ch] font-display text-display-xl text-cream-100" aria-label={headline ?? name}>
+        <h1
+          className="max-w-[16ch] font-display text-display-xl text-cream-100"
+          aria-label={headline ?? name}
+        >
           {words.map((word, index) => (
             <Fragment key={`${word}-${index}`}>
               <span
@@ -145,12 +166,16 @@ export function HeroTimeline({
           </p>
         ) : null}
         {buttonLabel && buttonUrl ? (
-          <div data-hero-cta className="mt-10">
+          <div data-hero-cta className="mt-10 flex items-center gap-6">
             <Magnetic>
               <Button size="lg" render={<Link href={buttonUrl} />}>
                 {buttonLabel}
               </Button>
             </Magnetic>
+            <div aria-hidden className="hidden items-center gap-3 md:flex">
+              <span className="h-px w-8 bg-honey-300/40" />
+              <span className="overline text-caption text-clay-200/70">Bahan lokal pilihan</span>
+            </div>
           </div>
         ) : null}
       </div>

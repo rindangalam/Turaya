@@ -5,9 +5,11 @@ import Image from "next/image";
 import { createClient } from "@/lib/supabase/server";
 import { Button } from "@/components/ui/button";
 import { Reveal } from "@/components/animations/reveal";
+import { ProductCard } from "@/components/products/product-card";
 import { HeroTimeline } from "@/features/homepage/hero-timeline";
 import { StoryScene } from "@/features/homepage/story-scene";
 import { getVisibleSections } from "@/services/homepage";
+import { listPublishedProducts } from "@/services/products";
 import type { VisibleHomepageSection } from "@/services/homepage";
 
 async function resolveImageUrl(path: string | null | undefined): Promise<string | null> {
@@ -78,6 +80,42 @@ function AboutSection({ section, imageUrl }: { section: VisibleHomepageSection; 
   );
 }
 
+async function FeaturedProductsSection() {
+  const products = await listPublishedProducts();
+  const featured = products.filter((product) => product.featured).slice(0, 3);
+
+  if (featured.length === 0) return null;
+
+  return (
+    <section className="border-t border-border/50">
+      <div className="container-turaya py-24">
+        <Reveal>
+          <div className="flex flex-wrap items-end justify-between gap-6">
+            <div>
+              <div className="flex items-center gap-4">
+                <span aria-hidden className="h-px w-10 bg-terra-500/80" />
+                <p className="overline text-terra-500">Koleksi terpilih</p>
+              </div>
+              <h2 className="mt-6 font-display text-display-md">Produk unggulan</h2>
+            </div>
+            <Button variant="outline" render={<Link href="/products" />}>
+              Lihat semua produk
+            </Button>
+          </div>
+        </Reveal>
+
+        <div className="mt-14 grid grid-cols-1 gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
+          {featured.map((product, index) => (
+            <Reveal key={product.slug} delay={index * 0.08}>
+              <ProductCard product={product} />
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export async function HomepageSections() {
   const sections = await getVisibleSections();
 
@@ -116,6 +154,8 @@ export async function HomepageSections() {
     const imageUrl = await resolveImageUrl(section.image_path);
     rendered.push(render(section, imageUrl));
   }
+
+  rendered.push(<FeaturedProductsSection key="featured-products" />);
 
   return <>{rendered}</>;
 }
