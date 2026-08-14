@@ -62,3 +62,5 @@ next-env.d.ts
 #   7. Radius tidak konsisten (selalu 2px/rounded-sm)
 # Uji tiap fitur: "Apakah ini bisa muncul di buku cetak tahun 1960?"
 # =====================================================================
+
+dev-server.log
