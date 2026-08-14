@@ -29,7 +29,7 @@ export function PublicNav({ siteName }: { siteName: string }) {
     href === "/" ? pathname === "/" : pathname === href || pathname.startsWith(`${href}/`);
 
   return (
-    <div className="sticky top-0 z-50 border-b border-border/60 bg-cream-100/90 backdrop-blur">
+    <div className="border-b border-border/60 bg-cream-100/90 backdrop-blur">
       <div className="container-turaya flex h-16 items-center justify-between md:h-20">
         <Link
           href="/"

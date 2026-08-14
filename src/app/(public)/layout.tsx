@@ -11,7 +11,7 @@ export default async function PublicLayout({
 
   return (
     <>
-      <header>
+      <header className="fixed inset-x-0 top-0 z-50">
         {settings?.announcement ? (
           <div className="border-b border-border/60 bg-roast-700 px-4 py-2.5 text-center">
             <p className="overline text-caption text-cream-200">
@@ -22,6 +22,14 @@ export default async function PublicLayout({
         ) : null}
         <PublicNav siteName={settings?.site_name ?? "Turaya"} />
       </header>
+      <div aria-hidden className="pointer-events-none">
+        {settings?.announcement ? (
+          <div className="border-b border-transparent px-4 py-2.5">
+            <p className="overline text-caption text-transparent">&nbsp;</p>
+          </div>
+        ) : null}
+        <div className="h-16 md:h-20" />
+      </div>
       <main id="main" className="flex-1">
         {children}
       </main>
