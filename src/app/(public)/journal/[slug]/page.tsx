@@ -89,11 +89,11 @@ export default async function JournalPostPage({
         <nav aria-label="Breadcrumb" className="mb-10">
           <Link
             href="/journal"
-            className="group inline-flex items-center gap-2 text-caption uppercase tracking-wider text-muted-foreground transition-colors hover:text-champagne-400"
+            className="group inline-flex items-center gap-2 text-caption uppercase tracking-wider text-muted-foreground transition-colors hover:text-terra-500"
           >
             <span
               aria-hidden
-              className="inline-block size-1.5 rotate-45 bg-champagne-500/70 transition-transform duration-300 group-hover:-translate-x-0.5"
+              className="inline-block size-1.5 rotate-45 bg-terra-500/70 transition-transform duration-300 group-hover:-translate-x-0.5"
             />
             Jurnal
           </Link>
@@ -101,18 +101,18 @@ export default async function JournalPostPage({
 
         <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-caption uppercase tracking-wider text-muted-foreground">
           {post.categoryName ? (
-            <span className="flex items-center gap-3 text-champagne-400">
+            <span className="flex items-center gap-3 text-terra-500">
               {post.categoryName}
-              <span aria-hidden className="inline-block size-1 rotate-45 bg-champagne-500/60" />
+              <span aria-hidden className="inline-block size-1 rotate-45 bg-terra-500/60" />
             </span>
           ) : null}
           {post.publishedAt ? (
             <time dateTime={post.publishedAt}>{formatRelativeTime(post.publishedAt)}</time>
           ) : null}
-          <span aria-hidden className="text-champagne-500/40">·</span>
+          <span aria-hidden className="text-terra-500/40">·</span>
           <span>{(post.body.length / 1200).toFixed(1)} menit baca</span>
         </div>
-        <h1 className="mt-5 max-w-[18ch] font-display text-display-lg text-ivory-50">
+        <h1 className="mt-5 max-w-[18ch] font-display text-display-lg text-foreground">
           {post.title}
         </h1>
         {post.excerpt ? (
@@ -132,7 +132,7 @@ export default async function JournalPostPage({
           </div>
         ) : null}
 
-        <div className="mt-12 whitespace-pre-line font-serif text-body-lg leading-loose text-ivory-200">
+        <div className="mt-12 whitespace-pre-line font-serif text-body-lg leading-loose text-foreground">
           {post.body}
         </div>
 
@@ -143,7 +143,7 @@ export default async function JournalPostPage({
               {post.tagNames.map((tag) => (
                 <li
                   key={tag}
-                  className="rounded-full border border-border/60 px-3 py-1 text-body-sm text-ivory-200"
+                  className="rounded-sm border border-border/60 px-3 py-1 text-body-sm text-muted-foreground"
                 >
                   #{tag}
                 </li>
@@ -165,7 +165,7 @@ export default async function JournalPostPage({
                   <p className="overline text-caption text-muted-foreground">
                     Tulisan berikutnya
                   </p>
-                  <p className="mt-2 max-w-prose font-display text-heading-lg text-ivory-50 transition-colors group-hover:text-champagne-400">
+                  <p className="mt-2 max-w-prose font-display text-heading-lg text-foreground transition-colors group-hover:text-terra-500">
                     {previousPost.title}
                   </p>
                 </Link>
@@ -180,7 +180,7 @@ export default async function JournalPostPage({
                   <p className="overline text-caption text-muted-foreground">
                     Tulisan sebelumnya
                   </p>
-                  <p className="mt-2 max-w-prose font-display text-heading-lg text-ivory-50 transition-colors group-hover:text-champagne-400">
+                  <p className="mt-2 max-w-prose font-display text-heading-lg text-foreground transition-colors group-hover:text-terra-500">
                     {nextPost.title}
                   </p>
                 </Link>

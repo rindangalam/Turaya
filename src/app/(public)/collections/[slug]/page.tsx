@@ -72,16 +72,16 @@ export default async function CollectionDetailPage({
             <nav aria-label="Breadcrumb" className="mb-8">
               <Link
                 href="/collections"
-                className="overline text-caption text-muted-foreground transition-colors hover:text-champagne-400"
+                className="overline text-caption text-muted-foreground transition-colors hover:text-terra-500"
               >
                 ← Semua koleksi
               </Link>
             </nav>
             <div className="flex items-center gap-4">
-              <span aria-hidden className="h-px w-10 bg-champagne-500/80" />
-              <p className="overline text-champagne-400">Koleksi</p>
+              <span aria-hidden className="h-px w-10 bg-terra-500/80" />
+              <p className="overline text-terra-500">Koleksi</p>
             </div>
-            <h1 className="mt-6 max-w-[18ch] font-display text-display-lg text-ivory-50">
+            <h1 className="mt-6 max-w-[18ch] font-display text-display-lg text-foreground">
               {collection.name}
             </h1>
             {collection.description ? (
@@ -113,12 +113,12 @@ export default async function CollectionDetailPage({
       <section className="border-t border-border/50">
         <div className="container-turaya py-16 md:py-24">
           <div className="flex items-center gap-4">
-            <span aria-hidden className="h-px w-8 bg-champagne-500/70" />
-            <h2 className="font-display text-display-md text-ivory-50">Isi koleksi</h2>
+            <span aria-hidden className="h-px w-8 bg-terra-500/70" />
+            <h2 className="font-display text-display-md text-foreground">Isi koleksi</h2>
           </div>
           {products.length === 0 ? (
             <div className="mt-8 flex flex-col items-start gap-4 border border-dashed border-border/60 p-10">
-              <p className="font-display text-heading-lg text-ivory-200">
+              <p className="font-display text-heading-lg text-foreground">
                 Koleksi ini masih kosong
               </p>
               <p className="max-w-md text-body-sm text-muted-foreground">

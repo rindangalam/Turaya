@@ -100,31 +100,31 @@ export default async function ProductDetailPage({
         <nav aria-label="Breadcrumb" className="mb-10">
           <ol className="flex flex-wrap items-center gap-x-3 gap-y-2 text-caption uppercase tracking-wider text-muted-foreground">
             <li>
-              <Link href="/" className="transition-colors hover:text-champagne-400">
+              <Link href="/" className="transition-colors hover:text-terra-500">
                 Beranda
               </Link>
             </li>
-            <li aria-hidden="true" className="text-champagne-500/60">◆</li>
+            <li aria-hidden="true" className="text-terra-500/60">◆</li>
             <li>
-              <Link href="/products" className="transition-colors hover:text-champagne-400">
+              <Link href="/products" className="transition-colors hover:text-terra-500">
                 Produk
               </Link>
             </li>
             {product.categorySlug ? (
               <>
-                <li aria-hidden="true" className="text-champagne-500/60">◆</li>
+                <li aria-hidden="true" className="text-terra-500/60">◆</li>
                 <li>
                   <Link
                     href={`/products?kategori=${product.categorySlug}`}
-                    className="transition-colors hover:text-champagne-400"
+                    className="transition-colors hover:text-terra-500"
                   >
                     {product.categoryName}
                   </Link>
                 </li>
               </>
             ) : null}
-            <li aria-hidden="true" className="text-champagne-500/60">◆</li>
-            <li aria-current="page" className="text-ivory-200">
+            <li aria-hidden="true" className="text-terra-500/60">◆</li>
+            <li aria-current="page" className="text-foreground">
               {product.name}
             </li>
           </ol>
@@ -135,18 +135,18 @@ export default async function ProductDetailPage({
 
           <div className="flex flex-col">
             <div className="flex items-center gap-4">
-              <span aria-hidden className="h-px w-8 bg-champagne-500/70" />
-              <p className="overline text-champagne-400">
+              <span aria-hidden className="h-px w-8 bg-terra-500/70" />
+              <p className="overline text-terra-500">
                 {product.categoryName ?? "Turaya"}
               </p>
             </div>
-            <h1 className="mt-5 font-display text-display-md text-ivory-50">{product.name}</h1>
+            <h1 className="mt-5 font-display text-display-md text-foreground">{product.name}</h1>
             {product.tagline ? (
               <p className="mt-4 text-body-lg text-muted-foreground">{product.tagline}</p>
             ) : null}
 
             <div className="mt-8 flex items-baseline gap-5 border-y border-border/50 py-6">
-              <span className="font-display text-heading-lg tabular-nums text-champagne-400">
+              <span className="font-display text-heading-lg tabular-nums text-terra-500">
                 {formatPrice(product.price)}
               </span>
               {product.size ? (
@@ -165,8 +165,8 @@ export default async function ProductDetailPage({
             {product.notes.length > 0 ? (
               <section aria-label="Piramida wangi" className="mt-10">
                 <div className="flex items-center gap-4">
-                  <span aria-hidden className="h-px w-8 bg-champagne-500/70" />
-                  <h2 className="overline text-caption text-ivory-400">Piramida wangi</h2>
+                  <span aria-hidden className="h-px w-8 bg-terra-500/70" />
+                  <h2 className="overline text-caption text-muted-foreground">Piramida wangi</h2>
                 </div>
                 <dl className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-3">
                   {(["top", "middle", "base"] as const).map((stage) => (
@@ -174,7 +174,7 @@ export default async function ProductDetailPage({
                       <dt className="flex items-center gap-2.5 text-caption uppercase tracking-wider text-muted-foreground">
                         <span
                           aria-hidden
-                          className="inline-block size-1.5 rotate-45 bg-champagne-500/70"
+                          className="inline-block size-1.5 rotate-45 bg-terra-500/70"
                         />
                         {NOTE_STAGE_LABELS[stage]} notes
                       </dt>
@@ -184,7 +184,7 @@ export default async function ProductDetailPage({
                             {noteStages[stage].map((note) => (
                               <li
                                 key={note.name}
-                                className="rounded-full border border-border/60 bg-input/20 px-3 py-1 text-body-sm text-ivory-200"
+                                className="rounded-sm border border-border/60 bg-input/20 px-3 py-1 text-body-sm text-muted-foreground"
                               >
                                 {note.name}
                               </li>
@@ -204,7 +204,7 @@ export default async function ProductDetailPage({
 
             {product.story ? (
               <section className="mt-10">
-                <h2 className="overline text-caption text-ivory-400">Kisah</h2>
+                <h2 className="overline text-caption text-muted-foreground">Kisah</h2>
                 <p className="mt-4 whitespace-pre-line text-body leading-relaxed text-muted-foreground">
                   {product.story}
                 </p>
@@ -236,14 +236,14 @@ export default async function ProductDetailPage({
           <div className="container-turaya py-16 md:py-20">
             <div className="flex items-baseline justify-between gap-6">
               <div className="flex items-center gap-4">
-                <span aria-hidden className="h-px w-8 bg-champagne-500/70" />
-                <h2 className="font-display text-display-md text-ivory-50">
+                <span aria-hidden className="h-px w-8 bg-terra-500/70" />
+                <h2 className="font-display text-display-md text-foreground">
                   Anda mungkin juga suka
                 </h2>
               </div>
               <Link
                 href="/products"
-                className="hidden text-caption uppercase tracking-wider text-muted-foreground transition-colors hover:text-champagne-400 sm:block"
+                className="hidden text-caption uppercase tracking-wider text-muted-foreground transition-colors hover:text-terra-500 sm:block"
               >
                 Semua produk →
               </Link>
