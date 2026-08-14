@@ -113,7 +113,7 @@ export function PublicFooter({ settings }: { settings: SiteSettings | null }) {
               ) : null}
               {!settings?.instagram_url && !settings?.tiktok_url ? (
                 <li>
-                  <p className="text-body-sm text-muted-foreground">
+                  <p className="text-body-sm text-clay-200">
                     @turaya.id
                   </p>
                 </li>
