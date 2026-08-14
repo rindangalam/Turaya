@@ -123,7 +123,7 @@ function CategoryChip({
       href={href}
       aria-current={active ? "page" : undefined}
       className={cn(
-        "rounded-sm border border-border/60 px-4 py-1.5 text-body-sm text-muted-foreground transition-colors hover:border-terra-500/60 hover:text-terra-500 focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50",
+        "rounded-sm border border-border/60 px-4 py-1.5 text-body-sm text-muted-foreground transition-colors hover:border-terra-500/60 hover:text-terra-500 focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring",
         active && "border-terra-500/70 font-medium text-terra-500",
       )}
     >
