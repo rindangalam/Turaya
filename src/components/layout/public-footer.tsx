@@ -1,6 +1,8 @@
 import Link from "next/link";
+import Image from "next/image";
 
 import type { SiteSettings } from "@/services/settings";
+import { getStoragePublicUrl } from "@/lib/storage";
 
 const FOOTER_EXPLORE: { label: string; href: string }[] = [
   { label: "Produk", href: "/products" },
@@ -46,14 +48,29 @@ function FooterColumn({
 
 export function PublicFooter({ settings }: { settings: SiteSettings | null }) {
   const year = new Date().getFullYear();
+  const logoUrl = settings?.logo_path
+    ? getStoragePublicUrl("branding", settings.logo_path)
+    : undefined;
 
   return (
     <footer className="bg-roast-800 text-clay-200">
       <div className="container-turaya">
         <div className="grid gap-12 py-16 md:grid-cols-2 lg:grid-cols-[1.6fr_1fr_1fr_1.2fr]">
           <div>
-            <Link href="/" className="font-display text-heading-lg text-cream-100">
-              {settings?.site_name ?? "Turaya"}
+            <Link href="/" className="inline-flex items-center gap-3">
+              {logoUrl ? (
+                <Image
+                  src={logoUrl}
+                  alt=""
+                  aria-hidden
+                  width={36}
+                  height={36}
+                  className="size-9 rounded-full object-cover ring-1 ring-honey-300/40"
+                />
+              ) : null}
+              <span className="font-display text-heading-lg text-cream-100">
+                {settings?.site_name ?? "Turaya"}
+              </span>
             </Link>
             <p className="mt-4 max-w-xs text-body-sm leading-relaxed">
               {settings?.tagline ??

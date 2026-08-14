@@ -68,3 +68,7 @@ dev-server.log
 # instagram scrape (large binaries + expiring source URLs)
 /scripts/instagram-assets/
 /scripts/instagram-data.json
+/scripts/instagram-highlights/
+/scripts/instagram-highlights.json
+/scripts/pw-profile/
+

@@ -1,4 +1,5 @@
 import { getSiteSettings } from "@/services/settings";
+import { getStoragePublicUrl } from "@/lib/storage";
 import { PublicNav } from "@/components/layout/public-nav";
 import { PublicFooter } from "@/components/layout/public-footer";
 
@@ -8,6 +9,9 @@ export default async function PublicLayout({
   children: React.ReactNode;
 }) {
   const settings = await getSiteSettings();
+  const logoUrl = settings?.logo_path
+    ? getStoragePublicUrl("branding", settings.logo_path)
+    : undefined;
 
   return (
     <>
@@ -20,7 +24,7 @@ export default async function PublicLayout({
             </p>
           </div>
         ) : null}
-        <PublicNav siteName={settings?.site_name ?? "Turaya"} />
+        <PublicNav siteName={settings?.site_name ?? "Turaya"} logoUrl={logoUrl} />
       </header>
       <div aria-hidden className="pointer-events-none">
         {settings?.announcement ? (

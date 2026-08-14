@@ -2,13 +2,14 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";
 
 import { cn } from "@/lib/utils";
 import { PUBLIC_NAV_ITEMS } from "./nav-items";
 
-export function PublicNav({ siteName }: { siteName: string }) {
+export function PublicNav({ siteName, logoUrl }: { siteName: string; logoUrl?: string }) {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -36,10 +37,21 @@ export function PublicNav({ siteName }: { siteName: string }) {
           className="group inline-flex items-center gap-3"
           aria-label={`${siteName} — Beranda`}
         >
-          <span
-            aria-hidden
-            className="inline-block size-2 rotate-45 bg-terra-500 transition-transform duration-500 group-hover:rotate-[135deg]"
-          />
+          {logoUrl ? (
+            <Image
+              src={logoUrl}
+              alt=""
+              aria-hidden
+              width={36}
+              height={36}
+              className="size-8 rounded-full object-cover ring-1 ring-terra-500/40 md:size-9"
+            />
+          ) : (
+            <span
+              aria-hidden
+              className="inline-block size-2 rotate-45 bg-terra-500 transition-transform duration-500 group-hover:rotate-[135deg]"
+            />
+          )}
           <span className="font-display text-heading-lg tracking-[0.02em] text-foreground">
             {siteName}
           </span>
