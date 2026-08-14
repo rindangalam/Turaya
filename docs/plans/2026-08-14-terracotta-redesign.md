@@ -167,7 +167,7 @@ git commit -m "style: swap public fonts to Fraunces + Inter"
   --color-clay-200: #dcd0bc;
   --color-clay-300: #c4b69d;
   --color-terra-400: #c66a3f;
-  --color-terra-500: #b4552d;
+  --color-terra-500: #a94d28;
   --color-honey-300: #e9c68f;
   --color-honey-400: #d9a441;
   --color-roast-300: #a68f72;
