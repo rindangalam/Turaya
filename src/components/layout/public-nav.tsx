@@ -29,7 +29,7 @@ export function PublicNav({ siteName }: { siteName: string }) {
     href === "/" ? pathname === "/" : pathname === href || pathname.startsWith(`${href}/`);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border/60 bg-noir-950/90 backdrop-blur">
+    <header className="sticky top-0 z-50 border-b border-border/60 bg-cream-100/90 backdrop-blur">
       <div className="container-turaya flex h-16 items-center justify-between md:h-20">
         <Link
           href="/"
@@ -38,9 +38,9 @@ export function PublicNav({ siteName }: { siteName: string }) {
         >
           <span
             aria-hidden
-            className="inline-block size-2 rotate-45 bg-champagne-500 transition-transform duration-500 group-hover:rotate-[135deg]"
+            className="inline-block size-2 rotate-45 bg-terra-500 transition-transform duration-500 group-hover:rotate-[135deg]"
           />
-          <span className="font-display text-heading-lg tracking-[0.02em] text-ivory-50">
+          <span className="font-display text-heading-lg tracking-[0.02em] text-foreground">
             {siteName}
           </span>
         </Link>
@@ -51,8 +51,8 @@ export function PublicNav({ siteName }: { siteName: string }) {
               key={item.href}
               href={item.href}
               className={cn(
-                "overline relative text-ivory-300 transition-colors duration-[250ms] hover:text-champagne-400 after:absolute after:-bottom-1 after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-champagne-400 after:transition-transform after:duration-[250ms] hover:after:scale-x-100",
-                isActive(item.href) && "text-champagne-400 after:scale-x-100",
+                "overline relative text-muted-foreground transition-colors duration-[250ms] hover:text-terra-500 after:absolute after:-bottom-1 after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-terra-500 after:transition-transform after:duration-[250ms] hover:after:scale-x-100",
+                isActive(item.href) && "text-terra-500 after:scale-x-100",
               )}
             >
               {item.label}
@@ -66,7 +66,7 @@ export function PublicNav({ siteName }: { siteName: string }) {
           aria-expanded={menuOpen}
           aria-controls="public-nav-menu"
           aria-label={menuOpen ? "Tutup menu" : "Buka menu"}
-          className="inline-flex size-10 items-center justify-center text-ivory-100 lg:hidden"
+          className="inline-flex size-10 items-center justify-center text-foreground lg:hidden"
         >
           <span className="relative block h-3.5 w-6">
             <span
@@ -100,7 +100,7 @@ export function PublicNav({ siteName }: { siteName: string }) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="border-t border-border/60 bg-noir-950/95 backdrop-blur lg:hidden"
+            className="border-t border-border/60 bg-cream-100/95 backdrop-blur lg:hidden"
           >
             <ul className="container-turaya flex flex-col py-4">
               {PUBLIC_NAV_ITEMS.map((item, index) => (
@@ -114,12 +114,12 @@ export function PublicNav({ siteName }: { siteName: string }) {
                     href={item.href}
                     onClick={() => setMenuOpen(false)}
                     className={cn(
-                      "flex items-center justify-between border-b border-border/40 py-4 text-heading-lg text-ivory-100",
-                      isActive(item.href) && "text-champagne-400",
+                      "flex items-center justify-between border-b border-border/40 py-4 text-heading-lg text-foreground",
+                      isActive(item.href) && "text-terra-500",
                     )}
                   >
                     <span className="font-display">{item.label}</span>
-                    <span className="overline text-caption text-ivory-400">0{index + 1}</span>
+                    <span className="overline text-caption text-roast-300">0{index + 1}</span>
                   </Link>
                 </motion.li>
               ))}

@@ -12,9 +12,9 @@ export default async function PublicLayout({
   return (
     <>
       {settings?.announcement ? (
-        <div className="border-b border-border/60 bg-noir-900 px-4 py-2.5 text-center">
-          <p className="overline text-caption text-ivory-100">
-            <span aria-hidden className="mr-2 inline-block size-1.5 rounded-full bg-champagne-400" />
+        <div className="border-b border-border/60 bg-roast-700 px-4 py-2.5 text-center">
+          <p className="overline text-caption text-cream-200">
+            <span aria-hidden className="mr-2 inline-block size-1.5 rounded-full bg-honey-300" />
             {settings.announcement}
           </p>
         </div>
