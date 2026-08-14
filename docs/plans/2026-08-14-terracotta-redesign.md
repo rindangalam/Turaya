@@ -700,7 +700,7 @@ Gunakan `chrome-devtools_emulate` viewport `390x844x1,mobile,touch`. Periksa: ti
 
 - [ ] **Step 5: Cek kontras tombol solid**
 
-Evaluasi computed style tombol `bg-primary`: warna bg `rgb(180, 85, 45)` (terra-500) dan teks `rgb(248, 244, 235)` (cream-100). Hitung rasio kontras ≈ 6.4:1 → lolos WCAG AA (≥ 4.5:1).
+Evaluasi computed style tombol `bg-primary`: warna bg `rgb(169, 77, 40)` (terra-500) dan teks `rgb(248, 244, 235)` (cream-100). Hitung rasio kontras ≈ 5.1:1 → lolos WCAG AA (≥ 4.5:1).
 
 - [ ] **Step 6: Final commit (jika ada sisa)**
 

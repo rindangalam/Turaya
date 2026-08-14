@@ -35,7 +35,7 @@ Aturan ruh desain:
 | `--color-clay-100` | `#EAE1D1` | latar kartu/kotak |
 | `--color-clay-200` | `#DCD0BC` | border kuat / placeholder |
 | `--color-clay-300` | `#C4B69D` | border lembut |
-| `--color-terra-500` (accent) | `#B4552D` | terracotta — aksen utama, tombol solid |
+| `--color-terra-500` (accent) | `#A94D28` | terracotta — aksen utama, tombol solid |
 | `--color-terra-400` | `#C66A3F` | hover accent |
 | `--color-honey-400` | `#D9A441` | madu — aksen sekunder, overline |
 | `--color-roast-700` (dark) | `#3E2C22` | cokelat pekat — teks utama, blok gelap |

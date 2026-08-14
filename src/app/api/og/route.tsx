@@ -9,7 +9,7 @@ const INTER_MEDIUM_URL =
 
 const OG_BG = "#f4eee3";
 const OG_FG = "#3e2c22";
-const OG_ACCENT = "#b4552d";
+const OG_ACCENT = "#a94d28";
 
 let cachedFonts: { fraunces: ArrayBuffer; inter: ArrayBuffer } | null = null;
 
