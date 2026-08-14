@@ -285,13 +285,12 @@ Dalam `buttonVariants` ganti:
 
 ```tsx
       variant: {
-        default:
-          "bg-primary text-primary-foreground shadow-none hover:bg-[color-mix(in_oklch,var(--primary),var(--foreground)_8%)]",
+        default: "bg-primary text-primary-foreground hover:bg-primary/80",
         outline:
-          "border border-border bg-transparent text-foreground hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:border-input dark:hover:bg-input/50",
+          "border-border bg-background hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50",
 ```
 
-menjadi (solid terracotta tanpa shadow, outline hairline):
+menjadi (solid terracotta tanpa shadow, outline hairline — token-based agar admin netral tetap konsisten):
 
 ```tsx
       variant: {
