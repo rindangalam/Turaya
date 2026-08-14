@@ -102,7 +102,7 @@ export function HeroTimeline({
   return (
     <section
       ref={rootRef}
-      className="relative flex min-h-[70svh] flex-col items-start justify-center overflow-hidden"
+      className="relative flex min-h-[70svh] flex-col items-start justify-center overflow-hidden bg-roast-800"
     >
       {imageUrl ? (
         <div data-hero-image className="absolute inset-0">
@@ -116,15 +116,15 @@ export function HeroTimeline({
           />
         </div>
       ) : null}
-      <div className="absolute inset-0 bg-gradient-to-t from-background via-background/25 to-transparent" />
-      <div className="absolute inset-0 bg-gradient-to-r from-background/70 via-transparent to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-t from-roast-700 via-roast-800/25 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-r from-roast-800/70 via-transparent to-transparent" />
       <div className="container-turaya relative flex flex-col items-start justify-center">
         {subheadline ? (
-          <p data-hero-overline className="overline mb-6 text-champagne-400">
+          <p data-hero-overline className="overline mb-6 text-honey-300">
             {subheadline}
           </p>
         ) : null}
-        <h1 className="max-w-[16ch] font-display text-display-xl" aria-label={headline ?? name}>
+        <h1 className="max-w-[16ch] font-display text-display-xl text-cream-100" aria-label={headline ?? name}>
           {words.map((word, index) => (
             <Fragment key={`${word}-${index}`}>
               <span
@@ -140,7 +140,7 @@ export function HeroTimeline({
           ))}
         </h1>
         {body ? (
-          <p data-hero-body className="mt-6 max-w-prose text-body-lg text-muted-foreground">
+          <p data-hero-body className="mt-6 max-w-prose text-body-lg text-clay-200">
             {body}
           </p>
         ) : null}
@@ -161,9 +161,9 @@ export function HeroTimeline({
         className="absolute bottom-8 left-0 right-0 hidden justify-center md:flex"
       >
         <div className="flex flex-col items-center gap-3 opacity-70">
-          <span className="overline text-caption text-ivory-300">Gulir</span>
-          <span className="relative block h-10 w-px overflow-hidden bg-border">
-            <span className="absolute inset-x-0 top-0 h-1/2 animate-[scroll-cue_2.4s_var(--ease-standard)_infinite] bg-champagne-400" />
+          <span className="overline text-caption text-clay-200">Gulir</span>
+          <span className="relative block h-10 w-px overflow-hidden bg-roast-600">
+            <span className="absolute inset-x-0 top-0 h-1/2 animate-[scroll-cue_2.4s_var(--ease-standard)_infinite] bg-honey-300" />
           </span>
         </div>
       </div>

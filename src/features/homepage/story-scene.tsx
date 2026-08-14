@@ -84,8 +84,8 @@ export function StoryScene({ name, headline, subheadline, body }: StorySceneProp
       <div className="container-turaya relative">
         {subheadline ? (
           <div className="flex items-center gap-4">
-            <span aria-hidden className="h-px w-10 bg-champagne-500/80" />
-            <p className="overline text-champagne-400">{subheadline}</p>
+            <span aria-hidden className="h-px w-10 bg-terra-500/80" />
+            <p className="overline text-terra-500">{subheadline}</p>
           </div>
         ) : null}
         {headline ? (
@@ -116,7 +116,7 @@ export function StoryScene({ name, headline, subheadline, body }: StorySceneProp
               </div>
             ))}
             <div className="absolute bottom-8 left-0 h-px w-full overflow-hidden bg-border">
-              <div data-story-progress className="h-full origin-left scale-x-0 bg-champagne-400" />
+              <div data-story-progress className="h-full origin-left scale-x-0 bg-terra-500" />
             </div>
           </div>
         </div>

@@ -24,8 +24,8 @@ function AboutSection({ section, imageUrl }: { section: VisibleHomepageSection; 
           {section.subheadline ? (
             <Reveal>
               <div className="flex items-center gap-4">
-                <span aria-hidden className="h-px w-10 bg-champagne-500/80" />
-                <p className="overline text-champagne-400">{section.subheadline}</p>
+                <span aria-hidden className="h-px w-10 bg-terra-500/80" />
+                <p className="overline text-terra-500">{section.subheadline}</p>
               </div>
             </Reveal>
           ) : null}
@@ -68,7 +68,7 @@ function AboutSection({ section, imageUrl }: { section: VisibleHomepageSection; 
                 <span className="overline text-caption text-muted-foreground">
                   {section.name}
                 </span>
-                <span aria-hidden className="h-px w-8 bg-champagne-500/60" />
+                <span aria-hidden className="h-px w-8 bg-terra-500/60" />
               </figcaption>
             </figure>
           </Reveal>
