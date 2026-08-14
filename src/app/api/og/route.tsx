@@ -7,6 +7,10 @@ const FRAUNCES_MEDIUM_URL =
 const INTER_MEDIUM_URL =
   "https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuI6fMZg.ttf";
 
+const OG_BG = "#f4eee3";
+const OG_FG = "#3e2c22";
+const OG_ACCENT = "#b4552d";
+
 let cachedFonts: { fraunces: ArrayBuffer; inter: ArrayBuffer } | null = null;
 
 async function loadFonts() {
@@ -36,8 +40,8 @@ export async function GET(request: Request) {
           flexDirection: "column",
           justifyContent: "space-between",
           padding: 64,
-          backgroundColor: "#f4eee3",
-          color: "#3e2c22",
+          backgroundColor: OG_BG,
+          color: OG_FG,
         }}
       >
         <div
@@ -52,7 +56,7 @@ export async function GET(request: Request) {
               fontSize: 36,
               fontWeight: 500,
               letterSpacing: 6,
-              color: "#b4552d",
+              color: OG_ACCENT,
               fontFamily: "Inter",
             }}
           >
@@ -62,7 +66,7 @@ export async function GET(request: Request) {
             style={{
               height: 1,
               flex: 1,
-              backgroundColor: "#b4552d",
+              backgroundColor: OG_ACCENT,
               opacity: 0.35,
             }}
           />
@@ -82,7 +86,7 @@ export async function GET(request: Request) {
               fontSize: 18,
               fontWeight: 500,
               letterSpacing: 4,
-              color: "#b4552d",
+              color: OG_ACCENT,
               fontFamily: "Inter",
             }}
           >
@@ -92,7 +96,8 @@ export async function GET(request: Request) {
             style={{
               fontSize: 62,
               lineHeight: 1.1,
-              color: "#3e2c22",
+              fontWeight: 500,
+              color: OG_FG,
               fontFamily: "Fraunces",
             }}
           >

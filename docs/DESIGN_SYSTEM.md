@@ -82,10 +82,10 @@ are re-declared under the `.admin` scope in `globals.css`.
 
 | Role | Family | Weights | Notes |
 |---|---|---|---|
-| Display | **Cormorant Garamond** | 300, 400, 500 | Editorial serif; large headlines, hero, quotes |
-| Body/UI | **Figtree** | 400, 500, 600, 700 | Humanist sans; body, nav, buttons, admin |
+| Display | **Fraunces** | 400, 500, 600 | Editorial serif; large headlines, hero, quotes |
+| Body/UI | **Inter** | 400, 500, 600, 700 | Neutral sans; body, nav, buttons, admin |
 
-Loaded via `next/font/google` (`Cormorant_Garamond`, `Figtree`), `display: swap`.
+Loaded via `next/font/google` (`Fraunces`, `Inter`), `display: swap`.
 Letter-spacing: display headlines `-0.01em`; overlines/labels `0.16em` uppercase.
 
 ### Type scale (fluid where noted)
