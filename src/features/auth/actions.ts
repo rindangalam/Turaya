@@ -3,6 +3,7 @@
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
+import { getSiteUrl } from "@/lib/seo/site";
 import { writeAudit } from "@/lib/auth/audit";
 import {
   clearLoginFailures,
@@ -105,11 +106,11 @@ export async function sendPasswordReset(
   const supabase = await createClient();
 
   // Always succeed (or return a neutral error) so the endpoint cannot be
-  // used to enumerate registered emails.
-  const origin = (await headers()).get("origin") ?? "http://127.0.0.1:3000";
-  await supabase.auth.resetPasswordForEmail(email, {
-    redirectTo: `${origin}/auth/confirm`,
-  });
+  // used to enumerate registered emails. Use the configured site URL, never
+  // a client-controlled header, so the recovery link always points at our
+  // own domain (prevents password-reset poisoning).
+  const redirectTo = `${getSiteUrl()}/auth/confirm`;
+  await supabase.auth.resetPasswordForEmail(email, { redirectTo });
 
   return undefined;
 }
