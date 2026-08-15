@@ -40,10 +40,12 @@
 - [ ] Buckets not writable by anon
 
 ### Infrastructure & Headers
-- [ ] Security headers via Next.js config: `X-Content-Type-Options: nosniff`,
+- [x] Security headers via Next.js config: `X-Content-Type-Options: nosniff`,
       `Referrer-Policy: strict-origin-when-cross-origin`, `X-Frame-Options: DENY`,
-      `Permissions-Policy` (camera/mic/geolocation off)
-- [ ] CSP reviewed (inline scripts scoped; `next/font` etc. allowed); nonce/`unsafe-inline` avoided
+      `Permissions-Policy` (camera/mic/geolocation off), HSTS
+- [x] CSP in place (`frame-ancestors 'none'`, `base-uri`, `form-action`);
+      `script-src` allows `'unsafe-inline' 'unsafe-eval'` for Next hydration +
+      GSAP/Motion — see §5 Known Limitations #2 for the nonce upgrade path
 - [ ] HTTPS only (Vercel); HSTS in prod
 
 ### Secrets & Environment
@@ -80,3 +82,28 @@
 
 Sprint 17 checklist above must be 100% green (or explicitly mitigated + documented)
 before production deployment.
+
+## 5. Known Limitations (accepted hardening debt)
+
+Documented so they are not silently lost. Neither is a blocker; both require
+infrastructure or framework setup beyond the current codebase.
+
+1. **Rate limits are in-process only.** `loginRateLimit` (`src/lib/auth/rate-limit.ts`)
+   and the contact-form limiter (`src/features/contact/actions.ts`) use an in-memory
+   `Map`. Correct per-instance; a multi-instance deployment (e.g. Vercel serverless)
+   can rotate past them because state is not shared. Supabase Auth's own protections
+   remain the primary login defense. **Fix when multi-instance:** move to a shared
+   store (Redis/Upstash) keyed by email+IP.
+
+2. **CSP allows `'unsafe-inline'` / `'unsafe-eval'` in `script-src`.**
+   `next.config.ts` needs them for Next.js hydration + GSAP/Motion. This weakens
+   inline-script XSS protection. **Fix when time allows:** switch to nonce/hash-based
+   CSP (Next.js `middleware`-injected nonces) and drop the inline allowances.
+
+3. **Session cookie attributes follow Supabase defaults.** `Secure`/`SameSite` are set
+   by the Supabase Auth server; they are not pinned in app code. Verify on the live
+   domain that cookies are served with `Secure; HttpOnly; SameSite=Lax`.
+
+4. **`/api/og` fetches fonts at build/edge runtime.** URLs are hardcoded to
+   `fonts.gstatic.com`, so it is not an SSRF primitive; it does add a network call on
+   first render. Consider inlining the font files if offline resilience matters.
