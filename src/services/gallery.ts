@@ -91,3 +91,21 @@ export async function listPublishedGalleryItems(): Promise<GalleryItem[]> {
 
   return data ?? [];
 }
+
+export async function listTestimonialPhotos(): Promise<GalleryItem[]> {
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+    .from("gallery_items")
+    .select("*")
+    .eq("status", "published")
+    .like("path", "testimoni-%")
+    .order("path", { ascending: true });
+
+  if (error) {
+    console.error(`gallery: failed to list testimonial photos: ${error.message}`);
+    return [];
+  }
+
+  return data ?? [];
+}

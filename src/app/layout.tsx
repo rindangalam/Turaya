@@ -23,14 +23,19 @@ const inter = Inter({
   display: "swap",
 });
 
-export const metadata: Metadata = {
-  metadataBase: new URL(getSiteUrl()),
-  title: {
-    default: "Turaya",
-    template: "%s — Turaya",
-  },
-  description: "Parfum lokal dari bahan Indonesia — wewangian dengan karakter negeri sendiri.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const settings = await getSiteSettings();
+  return {
+    metadataBase: new URL(getSiteUrl()),
+    title: {
+      default: "Turaya",
+      template: "%s — Turaya",
+    },
+    description: settings?.tagline
+      ? `Parfum dan home fragrance lokal dari bahan Nusantara — ${settings.tagline}.`
+      : "Parfum lokal dari bahan Indonesia — wewangian dengan karakter negeri sendiri.",
+  };
+}
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const settings = await getSiteSettings();

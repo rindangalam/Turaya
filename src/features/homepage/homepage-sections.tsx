@@ -10,6 +10,8 @@ import { HeroTimeline } from "@/features/homepage/hero-timeline";
 import { StoryScene } from "@/features/homepage/story-scene";
 import { getVisibleSections } from "@/services/homepage";
 import { listPublishedProducts } from "@/services/products";
+import { listTestimonialPhotos } from "@/services/gallery";
+import { getStoragePublicUrl } from "@/lib/storage";
 import type { VisibleHomepageSection } from "@/services/homepage";
 
 async function resolveImageUrl(path: string | null | undefined): Promise<string | null> {
@@ -116,6 +118,53 @@ async function FeaturedProductsSection() {
   );
 }
 
+async function TestimonialsSection() {
+  const photos = await listTestimonialPhotos();
+
+  if (photos.length === 0) return null;
+
+  return (
+    <section className="border-t border-border/50">
+      <div className="container-turaya py-24">
+        <Reveal>
+          <div className="max-w-2xl">
+            <div className="flex items-center gap-4">
+              <span aria-hidden className="h-px w-10 bg-terra-500/80" />
+              <p className="overline text-terra-500">Testimoni</p>
+            </div>
+            <h2 className="mt-6 font-display text-display-md">Kata mereka</h2>
+            <p className="mt-4 text-body-lg leading-relaxed text-muted-foreground">
+              Cerita dan pesan dari pelanggan yang sudah menemani perjalanan Turaya.
+            </p>
+          </div>
+        </Reveal>
+
+        <div className="mt-14 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4">
+          {photos.map((photo, index) => (
+            <Reveal key={photo.id} delay={(index % 4) * 0.06}>
+              <figure className="group relative aspect-[3/4] overflow-hidden bg-input/20">
+                <Image
+                  src={getStoragePublicUrl("gallery", photo.path)}
+                  alt={`Testimoni pelanggan Turaya ${index + 1}`}
+                  fill
+                  sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
+                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                />
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-roast-800/70 via-transparent to-transparent opacity-80 transition-opacity duration-500 group-hover:opacity-100" />
+                <figcaption className="absolute inset-x-0 bottom-0 px-4 pb-4">
+                  <span className="overline text-caption text-honey-300/90">
+                    {photo.caption || "Testimoni pelanggan"}
+                  </span>
+                </figcaption>
+              </figure>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export async function HomepageSections() {
   const sections = await getVisibleSections();
 
@@ -156,7 +205,9 @@ export async function HomepageSections() {
   }
 
   rendered.push(<FeaturedProductsSection key="featured-products" />);
+  rendered.push(<TestimonialsSection key="testimonials" />);
 
   return <>{rendered}</>;
 }
+
 
