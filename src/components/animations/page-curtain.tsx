@@ -54,11 +54,12 @@ export function PageCurtain() {
           className="absolute inset-y-0 w-1/2 bg-noir-950"
           style={{
             left: index === 0 ? "0%" : "50%",
-            transform: covering ? "translateY(0%)" : `translateY(${index === 0 ? "-102%" : "102%"})`,
+            transform: covering
+              ? "translateY(0%)"
+              : `translateY(${index === 0 ? "-102%" : "102%"})`,
             transition: covering
               ? "none"
-              : "transform 780ms cubic-bezier(0.16, 1, 0.3, 1)",
-            transitionDelay: covering ? "0ms" : `${index * 70}ms`,
+              : `transform 780ms cubic-bezier(0.16, 1, 0.3, 1) ${index * 70}ms`,
           }}
         />
       ))}
