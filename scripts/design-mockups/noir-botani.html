@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Turaya — Mockup: Noir Botani</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=Hanken+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #141416;
+    --surface: #1d1d21;
+    --surface-2: #26262b;
+    --text: #f5f2ec;
+    --muted: #a3a3ab;
+    --gold: #c9a96a;
+    --gold-bright: #d4b577;
+    --line: rgba(245, 242, 236, 0.12);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Hanken Grotesk", system-ui, sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+  .display { font-family: "Fraunces", serif; font-weight: 300; letter-spacing: -0.01em; }
+
+  .wrap { max-width: 1480px; margin: 0 auto; padding: 0 56px; }
+  @media (min-width: 1600px) { .wrap { max-width: 1560px; } }
+
+  /* NAV */
+  nav {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 28px 0; border-bottom: 1px solid var(--line);
+  }
+  .logo { font-size: 22px; letter-spacing: 0.35em; font-weight: 500; text-decoration: none; color: var(--text); }
+  .nav-links { display: flex; gap: 36px; list-style: none; }
+  .nav-links a { color: var(--muted); text-decoration: none; font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; transition: color 0.3s; }
+  .nav-links a:hover { color: var(--gold-bright); }
+  .badge-mockup {
+    position: fixed; top: 16px; right: 16px; z-index: 50;
+    background: var(--gold); color: #141416; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.12em; text-transform: uppercase; padding: 6px 14px; border-radius: 999px;
+  }
+
+  /* HERO */
+  .hero { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 72px; align-items: center; padding: 96px 0 112px; }
+  .overline { font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); font-weight: 500; }
+  h1.display { font-size: clamp(44px, 5.2vw, 72px); line-height: 1.08; margin: 24px 0 20px; }
+  h1 em { font-style: italic; color: var(--gold-bright); font-weight: 300; }
+  .lede { max-width: 46ch; color: var(--muted); font-size: 17px; }
+  .cta-row { display: flex; gap: 16px; margin-top: 40px; flex-wrap: wrap; }
+  .btn { display: inline-block; padding: 15px 34px; font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; text-decoration: none; transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1); }
+  .btn-solid { background: var(--gold); color: #141416; font-weight: 600; }
+  .btn-solid:hover { background: var(--gold-bright); transform: translateY(-2px); }
+  .btn-ghost { border: 1px solid rgba(245,242,236,0.28); color: var(--text); font-weight: 500; }
+  .btn-ghost:hover { border-color: var(--gold); color: var(--gold-bright); }
+  .hero-media { position: relative; }
+  .hero-media img { width: 100%; aspect-ratio: 4/5; object-fit: cover; filter: brightness(0.82) saturate(0.92); display: block; }
+  .hero-frame { position: absolute; inset: 18px -18px -18px 18px; border: 1px solid var(--gold); opacity: 0.35; pointer-events: none; }
+  .hero-note { margin-top: 14px; font-size: 12.5px; color: var(--muted); font-style: italic; }
+
+  /* SECTIONS */
+  section { padding: 88px 0; }
+  .sec-head { display: flex; align-items: baseline; justify-content: space-between; gap: 24px; margin-bottom: 52px; }
+  h2.display { font-size: clamp(30px, 3vw, 42px); line-height: 1.15; }
+  .sec-link { color: var(--gold-bright); font-size: 12.5px; letter-spacing: 0.16em; text-transform: uppercase; text-decoration: none; white-space: nowrap; }
+  .sec-link:hover { text-decoration: underline; }
+
+  /* PRODUCTS */
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+  .card { background: var(--surface); border: 1px solid var(--line); transition: transform 0.5s cubic-bezier(0.16,1,0.3,1), border-color 0.4s; }
+  .card:hover { transform: translateY(-6px); border-color: rgba(201,169,106,0.45); }
+  .card img { width: 100%; aspect-ratio: 1/1.15; object-fit: cover; display: block; filter: saturate(0.94); transition: filter 0.5s; }
+  .card:hover img { filter: saturate(1.05) brightness(1.05); }
+  .card-body { padding: 22px 22px 26px; }
+  .p-name { font-family: "Fraunces", serif; font-size: 19px; font-weight: 400; }
+  .p-tag { color: var(--muted); font-size: 13.5px; margin-top: 4px; }
+  .p-price { margin-top: 14px; color: var(--gold-bright); font-size: 14.5px; letter-spacing: 0.06em; }
+
+  /* STORY SPLIT */
+  .split { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 72px; align-items: center; background: var(--surface); border: 1px solid var(--line); padding: 64px; }
+  .split img { width: 100%; aspect-ratio: 1/1; object-fit: cover; display: block; filter: brightness(0.85); }
+  .split p { color: var(--muted); margin-top: 20px; max-width: 52ch; }
+
+  /* JOURNAL */
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .post img { width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block; filter: brightness(0.85) saturate(0.92); transition: filter 0.5s; }
+  .post:hover img { filter: brightness(0.95) saturate(1); }
+  .post-body { padding: 20px 4px; }
+  .j-title { font-family: "Fraunces", serif; font-size: 20px; font-weight: 400; line-height: 1.3; }
+  .j-meta { font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+  a.plain { text-decoration: none; color: inherit; display: block; }
+
+  /* TESTIMONI */
+  .quote-row { display: grid; grid-template-columns: auto 1fr auto; gap: 40px; align-items: center; border: 1px solid var(--line); padding: 48px 56px; background: linear-gradient(120deg, var(--surface), transparent); }
+  blockquote { font-family: "Fraunces", serif; font-style: italic; font-weight: 300; font-size: clamp(20px, 2.2vw, 27px); line-height: 1.45; }
+  .q-who { color: var(--gold-bright); font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; margin-top: 16px; font-family: "Hanken Grotesk"; font-style: normal; }
+  .quote-imgs { display: flex; gap: 12px; }
+  .quote-imgs img { width: 84px; height: 84px; object-fit: cover; border-radius: 50%; border: 1px solid var(--gold); opacity: 0.9; }
+
+  /* FOOTER */
+  footer { border-top: 1px solid var(--line); padding: 56px 0 40px; margin-top: 48px; }
+  .foot { display: flex; justify-content: space-between; gap: 40px; flex-wrap: wrap; }
+  .foot-brand { font-size: 18px; letter-spacing: 0.3em; }
+  .foot small { color: var(--muted); display: block; margin-top: 10px; max-width: 34ch; line-height: 1.7; }
+  .foot-links { display: flex; gap: 64px; }
+  .foot-col b { display: block; font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); font-weight: 500; margin-bottom: 14px; }
+  .foot-col a { display: block; color: var(--muted); text-decoration: none; font-size: 14px; padding: 4px 0; }
+  .foot-col a:hover { color: var(--text); }
+  .copyright { margin-top: 44px; padding-top: 22px; border-top: 1px solid var(--line); color: var(--muted); font-size: 12.5px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+
+  @media (max-width: 900px) {
+    .hero, .split { grid-template-columns: 1fr; gap: 40px; }
+    .grid-4 { grid-template-columns: repeat(2, 1fr); }
+    .grid-3 { grid-template-columns: 1fr; }
+    .quote-row { grid-template-columns: 1fr; padding: 36px; }
+    .nav-links { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="badge-mockup">Mockup · Noir Botani</div>
+
+<div class="wrap">
+  <nav>
+    <a class="logo" href="#">TURAYA</a>
+    <ul class="nav-links">
+      <li><a href="#produk">Produk</a></li>
+      <li><a href="#">Koleksi</a></li>
+      <li><a href="#journal">Journal</a></li>
+      <li><a href="#">Bahan</a></li>
+      <li><a href="#">Toko</a></li>
+    </ul>
+  </nav>
+
+  <header class="hero">
+    <div>
+      <span class="overline">Aroma dari negeri sendiri</span>
+      <h1 class="display">Isi ulang jiwamu <em>dengan wewangian</em></h1>
+      <p class="lede">Parfum artisan yang diracik dari cengkih, melati, dan vanili Nusantara — dipanen dari kebun keluarga, diracik dalam batch kecil.</p>
+      <div class="cta-row">
+        <a class="btn btn-solid" href="#produk">Jelajahi koleksi</a>
+        <a class="btn btn-ghost" href="#">Cerita Turaya</a>
+      </div>
+    </div>
+    <div class="hero-media">
+      <img src="https://yuzsroqibdylpqihrbsh.supabase.co/storage/v1/object/public/branding/hero.jpg" alt="Koleksi parfum Turaya">
+      <div class="hero-frame"></div>
+      <p class="hero-note">Butik & studio — Bandung</p>
+    </div>
+  </header>
+
+  <section id="produk">
+    <div class="sec-head">
+      <h2 class="display">Produk unggulan</h2>
+      <a class="sec-link" href="#">Lihat semua →</a>
+    </div>
+    <div class="grid-4">
+      <a class="plain" href="#"><article class="card">
+        <img src="https://yuzsroqibdylpqihrbsh.supabase.co/storage/v1/object/public/products/turaya-no-1.jpg" alt="Turaya No. 1">
+        <div class="card-body"><div class="p-name">Turaya No. 1</div><div class="p-tag">Aroma pembuka</div><div class="p-price">Rp 450.000</div></div>
+      </article></a>
+      <a class="plain" href="#"><article class="card">
+        <img src="https://yuzsroqibdylpqihrbsh.supabase.co/storage/v1/object/public/products/turaya-no-2.jpg" alt="Turaya No. 2">
+        <div class="card-body"><div class="p-name">Turaya No. 2</div><div class="p-tag">Aroma senja</div><div class="p-price">Rp 550.000</div></div>
+      </article></a>
+      <a class="plain" href="#"><article class="card">
+        <img src="https://yuzsroqibdylpqihrbsh.supabase.co/storage/v1/object/public/products/diffuser-taman-melati.jpg" alt="Diffuser Taman Melati">
+        <div class="card-body"><div class="p-name">Diffuser Taman Melati</div><div class="p-tag">Melati & pandan</div><div class="p-price">Rp 245.000</div></div>
+      </article></a>
+      <a class="plain" href="#"><article class="card">
+        <img src="https://yuzsroqibdylpqihrbsh.supabase.co/storage/v1/object/public/products/lilin-rumah-kampung.jpg" alt="Lilin Rumah Kampung">
+        <div class="card-body"><div class="p-name">Lilin Rumah Kampung</div><div class="p-tag">Cengkih & kayu manis</div><div class="p-price">Rp 185.000</div></div>
+      </article></a>
+    </div>
+  </section>
+
+  <section>
+    <div class="split">
+      <img src="https://yuzsroqibdylpqihrbsh.supabase.co/storage/v1/object/public/gallery/store-2025-09-a.jpg" alt="Studio Turaya">
+      <div>
+        <span class="overline">Filosofi</span>
+        <h2 class="display" style="margin-top:18px;">Racikan kecil,<br>cerita yang panjang.</h2>
+        <p>Setiap botol lahir dari kebun keluarga di berbagai penjuru Indonesia. Kami bekerja langsung dengan petani — tanpa perantara, tanpa terburu-buru.</p>
+        <div class="cta-row"><a class="btn btn-ghost" href="#">Baca filosofi kami</a></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="journal">
+    <div class="sec-head">
+      <h2 class="display">Dari journal</h2>
+      <a class="sec-link" href="#">Semua tulisan →</a>
+    </div>
+    <div class="grid-3">
+      <a class="plain post" href="#">
+        <img src="https://yuzsroqibdylpqihrbsh.supabase.co/storage/v1/object/public/journal/petrichor.jpg" alt="Wangi Petrichor">
+        <div class="post-body"><div class="j-meta">Bahan · 4 mnt</div><div class="j-title">Wangi Petrichor: Kesegaran Setelah Hujan</div></div>
+      </a>
+      <a class="plain post" href="#">
+        <img src="https://yuzsroqibdylpqihrbsh.supabase.co/storage/v1/object/public/journal/mengenal-aroma-cengkih.jpg" alt="Mengenal Aroma Cengkih">
+        <div class="post-body"><div class="j-meta">Bahan · 5 mnt</div><div class="j-title">Mengenal Aroma Cengkih</div></div>
+      </a>
+      <a class="plain post" href="#">
+        <img src="https://yuzsroqibdylpqihrbsh.supabase.co/storage/v1/object/public/journal/ritual-menyambut-panen.jpg" alt="Ritual Menyambut Panen">
+        <div class="post-body"><div class="j-meta">Cerita kebun · 6 mnt</div><div class="j-title">Ritual Menyambut Panen</div></div>
+      </a>
+    </div>
+  </section>
+
+  <section>
+    <div class="quote-row">
+      <blockquote>"Isi ulang jiwamu dengan wewangian — kalimat sederhana yang mengubah cara saya memakai parfum setiap pagi."<div class="q-who">— Pelanggan Turaya</div></blockquote>
+      <div class="quote-imgs">
+        <img src="https://yuzsroqibdylpqihrbsh.supabase.co/storage/v1/object/public/gallery/testimoni-104" alt="Testimoni pelanggan">
+        <img src="https://yuzsroqibdylpqihrbsh.supabase.co/storage/v1/object/public/gallery/testimoni-103" alt="Testimoni pelanggan">
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="foot">
+      <div>
+        <div class="foot-brand">TURAYA</div>
+        <small>Parfum artisan dari bahan Nusantara. Diracik batch kecil di Bandung sejak 2024.</small>
+      </div>
+      <div class="foot-links">
+        <div class="foot-col">
+          <b>Jelajah</b>
+          <a href="#">Produk</a><a href="#">Koleksi</a><a href="#">Journal</a>
+        </div>
+        <div class="foot-col">
+          <b>Tentang</b>
+          <a href="#">Filosofi</a><a href="#">Bahan</a><a href="#">Toko</a>
+        </div>
+        <div class="foot-col">
+          <b>Bantuan</b>
+          <a href="#">FAQ</a><a href="#">Kontak</a><a href="#">Privasi</a>
+        </div>
+      </div>
+    </div>
+    <div class="copyright"><span>© 2026 Turaya Perfumery</span><span>Instagram — @turayaperfumery</span></div>
+  </footer>
+</div>
+</body>
+</html>
+

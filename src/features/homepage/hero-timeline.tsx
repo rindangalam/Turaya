@@ -112,12 +112,12 @@ export function HeroTimeline({
             fill
             sizes="100vw"
             priority
-            className="object-cover"
+            className="object-cover brightness-[0.58] saturate-[0.85]"
           />
         </div>
       ) : null}
-      <div className="absolute inset-0 bg-gradient-to-t from-roast-700 via-roast-800/25 to-transparent" />
-      <div className="absolute inset-0 bg-gradient-to-r from-roast-800/70 via-transparent to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-t from-noir-950 via-noir-950/40 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-r from-noir-950/90 via-noir-950/35 to-noir-950/10" />
 
       {/* Ornamen dekoratif tanpa gambar: cincin aroma + teks skala besar */}
       <div aria-hidden className="pointer-events-none absolute -right-40 top-1/2 -translate-y-1/2">
@@ -131,7 +131,7 @@ export function HeroTimeline({
       </div>
       <span
         aria-hidden
-        className="pointer-events-none absolute -bottom-16 -right-6 select-none font-display text-[26rem] leading-none text-roast-800/60"
+          className="pointer-events-none absolute -bottom-16 -right-6 select-none font-display text-[26rem] leading-none text-champagne-500/10"
       >
         T
       </span>
@@ -161,7 +161,7 @@ export function HeroTimeline({
           ))}
         </h1>
         {body ? (
-          <p data-hero-body className="mt-6 max-w-prose text-body-lg text-clay-200">
+          <p data-hero-body className="mt-6 max-w-prose text-body-lg text-ivory-200">
             {body}
           </p>
         ) : null}
@@ -174,7 +174,7 @@ export function HeroTimeline({
             </Magnetic>
             <div aria-hidden className="hidden items-center gap-3 md:flex">
               <span className="h-px w-8 bg-honey-300/40" />
-              <span className="overline text-caption text-clay-200/70">Bahan lokal pilihan</span>
+              <span className="overline text-caption text-ivory-200/70">Bahan lokal pilihan</span>
             </div>
           </div>
         ) : null}
@@ -186,8 +186,8 @@ export function HeroTimeline({
         className="absolute bottom-8 left-0 right-0 hidden justify-center md:flex"
       >
         <div className="flex flex-col items-center gap-3 opacity-70">
-          <span className="overline text-caption text-clay-200">Gulir</span>
-          <span className="relative block h-10 w-px overflow-hidden bg-roast-600">
+          <span className="overline text-caption text-ivory-200">Gulir</span>
+          <span className="relative block h-10 w-px overflow-hidden bg-noir-600">
             <span className="absolute inset-x-0 top-0 h-1/2 animate-[scroll-cue_2.4s_var(--ease-standard)_infinite] bg-honey-300" />
           </span>
         </div>

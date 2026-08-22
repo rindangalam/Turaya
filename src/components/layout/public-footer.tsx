@@ -53,7 +53,7 @@ export function PublicFooter({ settings }: { settings: SiteSettings | null }) {
     : undefined;
 
   return (
-    <footer className="bg-roast-800 text-clay-200">
+    <footer className="bg-noir-950 text-ivory-200">
       <div className="container-turaya">
         <div className="grid gap-12 py-16 md:grid-cols-2 lg:grid-cols-[1.6fr_1fr_1fr_1.2fr]">
           <div>
@@ -130,7 +130,7 @@ export function PublicFooter({ settings }: { settings: SiteSettings | null }) {
               ) : null}
               {!settings?.instagram_url && !settings?.tiktok_url ? (
                 <li>
-                  <p className="text-body-sm text-clay-200">
+                  <p className="text-body-sm text-noir-300">
                     @turaya.id
                   </p>
                 </li>

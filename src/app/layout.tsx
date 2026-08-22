@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Fraunces, Inter } from "next/font/google";
+import { Fraunces, Hanken_Grotesk } from "next/font/google";
 
 import { MotionProvider } from "@/components/animations/motion-provider";
 import { JsonLd } from "@/components/seo/jsonld";
@@ -12,14 +12,14 @@ import "./globals.css";
 const fraunces = Fraunces({
   variable: "--font-fraunces",
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  weight: ["300", "400", "500", "600"],
   display: "swap",
 });
 
-const inter = Inter({
-  variable: "--font-inter",
+const hanken = Hanken_Grotesk({
+  variable: "--font-hanken",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["300", "400", "500", "600", "700"],
   display: "swap",
 });
 
@@ -56,7 +56,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html
       lang="id"
-      className={`dark ${fraunces.variable} ${inter.variable} h-full antialiased`}
+      className={`dark ${fraunces.variable} ${hanken.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col">
         <JsonLd data={organization} />
