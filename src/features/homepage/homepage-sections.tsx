@@ -8,6 +8,8 @@ import { Reveal } from "@/components/animations/reveal";
 import { ProductCard } from "@/components/products/product-card";
 import { HeroTimeline } from "@/features/homepage/hero-timeline";
 import { StoryScene } from "@/features/homepage/story-scene";
+import { IngredientMarquee } from "@/components/animations/marquee";
+import { ShimmerTitle } from "@/components/animations/shimmer-title";
 import { getVisibleSections } from "@/services/homepage";
 import { listPublishedProducts } from "@/services/products";
 import { listTestimonialPhotos } from "@/services/gallery";
@@ -98,7 +100,9 @@ async function FeaturedProductsSection() {
                 <span aria-hidden className="h-px w-10 bg-terra-500/80" />
                 <p className="overline text-terra-500">Koleksi terpilih</p>
               </div>
-              <h2 className="mt-6 font-display text-display-md">Produk unggulan</h2>
+              <ShimmerTitle className="mt-6 block font-display text-display-md">
+                Produk unggulan
+              </ShimmerTitle>
             </div>
             <Button variant="outline" render={<Link href="/products" />}>
               Lihat semua produk
@@ -132,7 +136,9 @@ async function TestimonialsSection() {
               <span aria-hidden className="h-px w-10 bg-terra-500/80" />
               <p className="overline text-terra-500">Testimoni</p>
             </div>
-            <h2 className="mt-6 font-display text-display-md">Kata mereka</h2>
+            <ShimmerTitle className="mt-6 block font-display text-display-md">
+              Kata mereka
+            </ShimmerTitle>
             <p className="mt-4 text-body-lg leading-relaxed text-muted-foreground">
               Cerita dan pesan dari pelanggan yang sudah menemani perjalanan Turaya.
             </p>
@@ -196,12 +202,18 @@ export async function HomepageSections() {
   };
 
   const rendered: ReactNode[] = [];
+  let insertAfterHero = -1;
 
   for (const section of sections) {
     const render = renderers[section.slug];
     if (!render) continue;
     const imageUrl = await resolveImageUrl(section.image_path);
+    if (section.slug === "hero") insertAfterHero = rendered.length;
     rendered.push(render(section, imageUrl));
+  }
+
+  if (insertAfterHero >= 0) {
+    rendered.splice(insertAfterHero + 1, 0, <IngredientMarquee key="marquee" />);
   }
 
   rendered.push(<FeaturedProductsSection key="featured-products" />);

@@ -4,6 +4,7 @@ import Image from "next/image";
 import { getStoragePublicUrl } from "@/lib/storage";
 import { formatPrice } from "@/lib/format";
 import { cn } from "@/lib/utils";
+import { TiltCard } from "@/components/animations/tilt-card";
 
 type ProductCardProduct = {
   name: string;
@@ -28,7 +29,7 @@ export function ProductCard({ product, className }: { product: ProductCardProduc
         className,
       )}
     >
-      <div className="relative aspect-[3/4] w-full overflow-hidden bg-input/20">
+      <TiltCard className="relative aspect-[3/4] w-full overflow-hidden bg-input/20">
         {imageUrl ? (
           <Image
             src={imageUrl}
@@ -53,7 +54,7 @@ export function ProductCard({ product, className }: { product: ProductCardProduc
             </div>
           </div>
         )}
-      </div>
+      </TiltCard>
 
       <div className="mt-5">
         {product.categoryName ? (

@@ -2,6 +2,8 @@ import { getSiteSettings } from "@/services/settings";
 import { getStoragePublicUrl } from "@/lib/storage";
 import { PublicNav } from "@/components/layout/public-nav";
 import { PublicFooter } from "@/components/layout/public-footer";
+import { PageCurtain } from "@/components/animations/page-curtain";
+import { ScentTrail } from "@/components/animations/scent-trail";
 
 export default async function PublicLayout({
   children,
@@ -15,6 +17,8 @@ export default async function PublicLayout({
 
   return (
     <>
+      <PageCurtain />
+      <ScentTrail />
       <header className="fixed inset-x-0 top-0 z-50">
         {settings?.announcement ? (
           <div className="border-b border-border/60 bg-noir-950 px-4 py-2.5 text-center">

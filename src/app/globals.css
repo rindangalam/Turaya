@@ -321,6 +321,36 @@
   text-transform: uppercase;
 }
 
+/* IngredientMarquee — seamless editorial ribbon */
+.marquee {
+  animation: marquee-scroll 42s linear infinite;
+}
+
+.marquee:hover {
+  animation-play-state: paused;
+}
+
+.marquee-word {
+  color: transparent;
+  -webkit-text-stroke: 1px var(--color-champagne-500);
+  transition:
+    color 500ms ease,
+    -webkit-text-stroke-color 500ms ease;
+}
+
+.marquee-word:hover {
+  color: var(--color-champagne-300);
+}
+
+@keyframes marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
 @keyframes scroll-cue {
   0% {
     transform: translateY(-100%);
@@ -339,5 +369,13 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+
+  .marquee {
+    animation: none !important;
+  }
+
+  .tilt-card {
+    transform: none !important;
   }
 }

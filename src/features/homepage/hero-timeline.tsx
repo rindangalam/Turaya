@@ -7,6 +7,7 @@ import { Fragment, useEffect, useRef } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Magnetic } from "@/components/animations/magnetic";
+import { ScentMist } from "@/components/animations/scent-mist";
 import { MOTION } from "@/lib/motion";
 
 type HeroTimelineProps = {
@@ -118,6 +119,7 @@ export function HeroTimeline({
       ) : null}
       <div className="absolute inset-0 bg-gradient-to-t from-noir-950 via-noir-950/40 to-transparent" />
       <div className="absolute inset-0 bg-gradient-to-r from-noir-950/90 via-noir-950/35 to-noir-950/10" />
+      <ScentMist />
 
       {/* Ornamen dekoratif tanpa gambar: cincin aroma + teks skala besar */}
       <div aria-hidden className="pointer-events-none absolute -right-40 top-1/2 -translate-y-1/2">
@@ -195,3 +197,4 @@ export function HeroTimeline({
     </section>
   );
 }
+

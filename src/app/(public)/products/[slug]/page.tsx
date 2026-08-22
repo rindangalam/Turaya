@@ -10,6 +10,7 @@ import { buildMetadata } from "@/lib/seo/metadata";
 import { getSiteUrl } from "@/lib/seo/site";
 import { getStoragePublicUrl } from "@/lib/storage";
 import { Button } from "@/components/ui/button";
+import { AromaPyramid } from "@/components/products/aroma-pyramid";
 import { getPublishedProductBySlug, listPublishedProducts } from "@/services/products";
 import { formatPrice } from "@/lib/format";
 
@@ -168,37 +169,7 @@ export default async function ProductDetailPage({
                   <span aria-hidden className="h-px w-8 bg-terra-500/70" />
                   <h2 className="overline text-caption text-muted-foreground">Piramida wangi</h2>
                 </div>
-                <dl className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-3">
-                  {(["top", "middle", "base"] as const).map((stage) => (
-                    <div key={stage} className="border-t border-border/60 pt-4">
-                      <dt className="flex items-center gap-2.5 text-caption uppercase tracking-wider text-muted-foreground">
-                        <span
-                          aria-hidden
-                          className="inline-block size-1.5 rotate-45 bg-terra-500/70"
-                        />
-                        {NOTE_STAGE_LABELS[stage]} notes
-                      </dt>
-                      <dd className="mt-3">
-                        {noteStages[stage].length > 0 ? (
-                          <ul className="flex flex-wrap gap-2">
-                            {noteStages[stage].map((note) => (
-                              <li
-                                key={note.name}
-                                className="rounded-sm border border-border/60 bg-input/20 px-3 py-1 text-body-sm text-muted-foreground"
-                              >
-                                {note.name}
-                              </li>
-                            ))}
-                          </ul>
-                        ) : (
-                          <span className="text-body-sm text-muted-foreground">
-                            —
-                          </span>
-                        )}
-                      </dd>
-                    </div>
-                  ))}
-                </dl>
+                <AromaPyramid noteStages={noteStages} />
               </section>
             ) : null}
 
@@ -259,3 +230,4 @@ export default async function ProductDetailPage({
     </div>
   );
 }
+
