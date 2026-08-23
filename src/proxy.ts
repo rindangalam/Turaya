@@ -9,6 +9,16 @@ export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const { client, response } = createProxyClient(request);
 
+  // On the public deployment the admin routes do not exist at all. Return a
+  // plain 404 instead of redirecting to /login (which is also not deployed),
+  // so the public site never reveals the auth/admin surface.
+  if (
+    process.env.NEXT_PUBLIC_APP_TARGET !== "admin" &&
+    (pathname.startsWith("/admin") || pathname === "/login")
+  ) {
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
+  }
+
   // Refresh the session (validates JWT; rotates when close to expiry).
   const {
     data: { user },

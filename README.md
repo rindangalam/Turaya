@@ -20,11 +20,16 @@ GSAP + Motion + Lenis · Supabase (Postgres, Auth, Storage, RLS) · npm
 ## Commands
 
 ```bash
-npm run dev        # development server
-npm run build      # production build
-npm run lint       # eslint
-npm run typecheck  # tsc --noEmit
+npm run dev          # development server (all routes)
+npm run build        # full production build (all routes)
+npm run build:target # isolated build per deployment target — docs/DEPLOYMENT.md §3
+npm run lint         # eslint
+npm run typecheck    # tsc --noEmit
 ```
+
+The public site and the admin CMS are deployed as **two separate Vercel
+projects** from this repo (`NEXT_PUBLIC_APP_TARGET=public|admin`); `/admin` on
+the public deployment does not exist and answers 404. See `docs/DEPLOYMENT.md`.
 
 ## Branching
 
