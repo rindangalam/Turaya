@@ -31,10 +31,7 @@ export function ContactForm() {
         role="status"
         className="flex h-full min-h-72 flex-col items-start justify-center border border-border/60 bg-input/20 p-8"
       >
-        <div className="flex items-center gap-4">
-          <span aria-hidden className="inline-block size-2 rotate-45 bg-terra-500" />
-          <p className="overline text-terra-500">Terkirim</p>
-        </div>
+        <p className="overline text-terra-500">Terkirim</p>
         <h2 className="mt-5 font-display text-display-md text-foreground">
           Terima kasih telah menghubungi kami
         </h2>

@@ -46,12 +46,7 @@ export function PublicNav({ siteName, logoUrl }: { siteName: string; logoUrl?: s
               height={36}
               className="size-8 rounded-full object-cover ring-1 ring-terra-500/40 md:size-9"
             />
-          ) : (
-            <span
-              aria-hidden
-              className="inline-block size-2 rotate-45 bg-terra-500 transition-transform duration-500 group-hover:rotate-[135deg]"
-            />
-          )}
+          ) : null}
           <span className="font-display text-heading-lg tracking-[0.02em] text-foreground">
             {siteName}
           </span>

@@ -174,8 +174,7 @@ export function HeroTimeline({
                 {buttonLabel}
               </Button>
             </Magnetic>
-            <div aria-hidden className="hidden items-center gap-3 md:flex">
-              <span className="h-px w-8 bg-honey-300/40" />
+            <div aria-hidden className="hidden items-center md:flex">
               <span className="overline text-caption text-ivory-200/70">Bahan lokal pilihan</span>
             </div>
           </div>

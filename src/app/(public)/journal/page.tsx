@@ -72,10 +72,7 @@ export default async function JournalPage() {
                   </div>
                   <div className="mt-5 flex flex-wrap items-center gap-x-3 gap-y-1 text-caption uppercase tracking-wider text-muted-foreground">
                     {post.categoryName ? (
-                      <span className="flex items-center gap-3 text-terra-500">
-                        {post.categoryName}
-                        <span aria-hidden className="inline-block size-1 rotate-45 bg-terra-500/60" />
-                      </span>
+                      <span className="text-terra-500">{post.categoryName}</span>
                     ) : null}
                     {post.publishedAt ? (
                       <time dateTime={post.publishedAt}>{formatRelativeTime(post.publishedAt)}</time>

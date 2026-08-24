@@ -45,10 +45,7 @@ export default async function AboutPage() {
 
       <section className="container-turaya grid gap-12 py-16 md:py-24 lg:grid-cols-[1fr_1.4fr] lg:gap-20">
         <div>
-          <div className="flex items-center gap-4">
-            <span aria-hidden className="h-px w-10 bg-terra-500/80" />
-            <p className="overline text-terra-500">01</p>
-          </div>
+          <p className="overline text-terra-500">01</p>
           <h2 className="mt-6 max-w-[14ch] font-display text-display-md text-foreground">
             Dari mana kami berasal
           </h2>
@@ -73,10 +70,7 @@ export default async function AboutPage() {
 
       <section className="border-t border-border/50">
         <div className="container-turaya py-16 md:py-24">
-          <div className="flex items-center gap-4">
-            <span aria-hidden className="h-px w-10 bg-terra-500/80" />
-            <p className="overline text-terra-500">02</p>
-          </div>
+          <p className="overline text-terra-500">02</p>
           <h2 className="mt-6 font-display text-display-md text-foreground">Yang kami pegang teguh</h2>
           <div className="mt-12 grid gap-10 md:grid-cols-3">
             {VALUES.map((value, index) => (

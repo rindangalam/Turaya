@@ -29,10 +29,7 @@ function AboutSection({ section, imageUrl }: { section: VisibleHomepageSection; 
         <div className="flex flex-col justify-center">
           {section.subheadline ? (
             <Reveal>
-              <div className="flex items-center gap-4">
-                <span aria-hidden className="h-px w-10 bg-terra-500/80" />
-                <p className="overline text-terra-500">{section.subheadline}</p>
-              </div>
+              <p className="overline text-terra-500">{section.subheadline}</p>
             </Reveal>
           ) : null}
           <Reveal delay={0.08}>
@@ -74,7 +71,6 @@ function AboutSection({ section, imageUrl }: { section: VisibleHomepageSection; 
                 <span className="overline text-caption text-muted-foreground">
                   {section.name}
                 </span>
-                <span aria-hidden className="h-px w-8 bg-terra-500/60" />
               </figcaption>
             </figure>
           </Reveal>
@@ -96,10 +92,7 @@ async function FeaturedProductsSection() {
         <Reveal>
           <div className="flex flex-wrap items-end justify-between gap-6">
             <div>
-              <div className="flex items-center gap-4">
-                <span aria-hidden className="h-px w-10 bg-terra-500/80" />
-                <p className="overline text-terra-500">Koleksi terpilih</p>
-              </div>
+              <p className="overline text-terra-500">Koleksi terpilih</p>
               <ShimmerTitle className="mt-6 block font-display text-display-md">
                 Produk unggulan
               </ShimmerTitle>
@@ -132,10 +125,7 @@ async function TestimonialsSection() {
       <div className="container-turaya py-24">
         <Reveal>
           <div className="max-w-2xl">
-            <div className="flex items-center gap-4">
-              <span aria-hidden className="h-px w-10 bg-terra-500/80" />
-              <p className="overline text-terra-500">Testimoni</p>
-            </div>
+            <p className="overline text-terra-500">Testimoni</p>
             <ShimmerTitle className="mt-6 block font-display text-display-md">
               Kata mereka
             </ShimmerTitle>

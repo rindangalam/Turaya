@@ -50,7 +50,6 @@ export function ProductCard({ product, className }: { product: ProductCardProduc
             </div>
             <div className="absolute inset-x-0 bottom-0 flex items-center justify-between p-5">
               <span className="overline text-caption text-muted-foreground">{product.slug}</span>
-              <span aria-hidden className="h-px w-8 bg-terra-500/50" />
             </div>
           </div>
         )}

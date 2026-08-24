@@ -89,22 +89,15 @@ export default async function JournalPostPage({
         <nav aria-label="Breadcrumb" className="mb-10">
           <Link
             href="/journal"
-            className="group inline-flex items-center gap-2 text-caption uppercase tracking-wider text-muted-foreground transition-colors hover:text-terra-500"
+            className="inline-flex items-center gap-2 text-caption uppercase tracking-wider text-muted-foreground transition-colors hover:text-terra-500"
           >
-            <span
-              aria-hidden
-              className="inline-block size-1.5 rotate-45 bg-terra-500/70 transition-transform duration-300 group-hover:-translate-x-0.5"
-            />
             Jurnal
           </Link>
         </nav>
 
         <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-caption uppercase tracking-wider text-muted-foreground">
           {post.categoryName ? (
-            <span className="flex items-center gap-3 text-terra-500">
-              {post.categoryName}
-              <span aria-hidden className="inline-block size-1 rotate-45 bg-terra-500/60" />
-            </span>
+            <span className="text-terra-500">{post.categoryName}</span>
           ) : null}
           {post.publishedAt ? (
             <time dateTime={post.publishedAt}>{formatRelativeTime(post.publishedAt)}</time>

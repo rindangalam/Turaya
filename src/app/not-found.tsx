@@ -13,10 +13,7 @@ export default function RootNotFound() {
           404
         </span>
         <div className="relative">
-          <div className="flex items-center gap-4">
-            <span aria-hidden className="h-px w-10 bg-terra-500/80" />
-            <p className="overline text-terra-500">404 — Tidak ditemukan</p>
-          </div>
+          <p className="overline text-terra-500">404 — Tidak ditemukan</p>
           <h1 className="mt-6 max-w-[18ch] font-display text-display-lg text-foreground">
             Halaman yang Anda cari tidak ada
           </h1>

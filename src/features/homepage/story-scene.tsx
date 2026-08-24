@@ -21,10 +21,7 @@ export function StoryScene({ name, headline, subheadline, body }: StorySceneProp
       <div className="container-turaya">
         {subheadline ? (
           <Reveal>
-            <div className="flex items-center gap-4">
-              <span aria-hidden className="h-px w-10 bg-terra-500/80" />
-              <p className="overline text-terra-500">{subheadline}</p>
-            </div>
+            <p className="overline text-terra-500">{subheadline}</p>
           </Reveal>
         ) : null}
         {headline ? (

@@ -105,26 +105,21 @@ export default async function ProductDetailPage({
                 Beranda
               </Link>
             </li>
-            <li aria-hidden="true" className="text-terra-500/60">◆</li>
             <li>
               <Link href="/products" className="transition-colors hover:text-terra-500">
                 Produk
               </Link>
             </li>
             {product.categorySlug ? (
-              <>
-                <li aria-hidden="true" className="text-terra-500/60">◆</li>
-                <li>
-                  <Link
-                    href={`/products?kategori=${product.categorySlug}`}
-                    className="transition-colors hover:text-terra-500"
-                  >
-                    {product.categoryName}
-                  </Link>
-                </li>
-              </>
+              <li>
+                <Link
+                  href={`/products?kategori=${product.categorySlug}`}
+                  className="transition-colors hover:text-terra-500"
+                >
+                  {product.categoryName}
+                </Link>
+              </li>
             ) : null}
-            <li aria-hidden="true" className="text-terra-500/60">◆</li>
             <li aria-current="page" className="text-foreground">
               {product.name}
             </li>
@@ -135,12 +130,9 @@ export default async function ProductDetailPage({
           <ProductGallery images={product.images} alt={product.name} />
 
           <div className="flex flex-col">
-            <div className="flex items-center gap-4">
-              <span aria-hidden className="h-px w-8 bg-terra-500/70" />
-              <p className="overline text-terra-500">
-                {product.categoryName ?? "Turaya"}
-              </p>
-            </div>
+            <p className="overline text-terra-500">
+              {product.categoryName ?? "Turaya"}
+            </p>
             <h1 className="mt-5 font-display text-display-md text-foreground">{product.name}</h1>
             {product.tagline ? (
               <p className="mt-4 text-body-lg text-muted-foreground">{product.tagline}</p>
@@ -165,10 +157,7 @@ export default async function ProductDetailPage({
 
             {product.notes.length > 0 ? (
               <section aria-label="Piramida wangi" className="mt-10">
-                <div className="flex items-center gap-4">
-                  <span aria-hidden className="h-px w-8 bg-terra-500/70" />
-                  <h2 className="overline text-caption text-muted-foreground">Piramida wangi</h2>
-                </div>
+                <h2 className="overline text-caption text-muted-foreground">Piramida wangi</h2>
                 <AromaPyramid noteStages={noteStages} />
               </section>
             ) : null}
@@ -206,12 +195,9 @@ export default async function ProductDetailPage({
         <section className="border-t border-border/50">
           <div className="container-turaya py-16 md:py-20">
             <div className="flex items-baseline justify-between gap-6">
-              <div className="flex items-center gap-4">
-                <span aria-hidden className="h-px w-8 bg-terra-500/70" />
-                <h2 className="font-display text-display-md text-foreground">
-                  Anda mungkin juga suka
-                </h2>
-              </div>
+              <h2 className="font-display text-display-md text-foreground">
+                Anda mungkin juga suka
+              </h2>
               <Link
                 href="/products"
                 className="hidden text-caption uppercase tracking-wider text-muted-foreground transition-colors hover:text-terra-500 sm:block"
