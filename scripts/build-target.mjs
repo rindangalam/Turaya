@@ -12,8 +12,8 @@
  * When adding new route folders, extend the lists below.
  */
 import { spawnSync } from "node:child_process";
-import { existsSync, mkdirSync, mkdtempSync, renameSync, rmSync } from "node:fs";
-import { tmpdir } from "node:os";
+import { randomUUID } from "node:crypto";
+import { existsSync, mkdirSync, renameSync, rmSync } from "node:fs";
 import { join, relative } from "node:path";
 import process from "node:process";
 
@@ -79,7 +79,11 @@ async function main() {
     );
   }
 
-  const staging = mkdtempSync(join(tmpdir(), "turaya-isolate-"));
+  // Staging lives inside node_modules: always on the same filesystem as src/
+  // (fs.rename fails across devices — EXDEV on CI like Vercel where /tmp is a
+  // separate mount) and already git-ignored.
+  const staging = join(process.cwd(), "node_modules", `.turaya-isolate-${randomUUID()}`);
+  mkdirSync(staging, { recursive: true });
 
   try {
     for (const source of target.move) {
