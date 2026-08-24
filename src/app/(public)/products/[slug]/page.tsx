@@ -138,7 +138,7 @@ export default async function ProductDetailPage({
               <p className="mt-4 text-body-lg text-muted-foreground">{product.tagline}</p>
             ) : null}
 
-            <div className="mt-8 flex items-baseline gap-5 border-y border-border/50 py-6">
+            <div className="mt-8 flex items-baseline gap-5 py-6">
               <span className="font-display text-heading-lg tabular-nums text-terra-500">
                 {formatPrice(product.price)}
               </span>
@@ -192,7 +192,7 @@ export default async function ProductDetailPage({
       </div>
 
       {related.length > 0 ? (
-        <section className="border-t border-border/50">
+        <section>
           <div className="container-turaya py-16 md:py-20">
             <div className="flex items-baseline justify-between gap-6">
               <h2 className="font-display text-display-md text-foreground">

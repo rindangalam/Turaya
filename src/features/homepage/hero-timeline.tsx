@@ -88,13 +88,6 @@ export function HeroTimeline({
           "-=0.15",
         );
       }
-
-      tl.fromTo(
-        q("[data-hero-cue]"),
-        { opacity: 0 },
-        { opacity: 1, duration: MOTION.duration.experience },
-        "+=0.3",
-      );
     });
 
     return () => mm.revert();
@@ -179,19 +172,6 @@ export function HeroTimeline({
             </div>
           </div>
         ) : null}
-      </div>
-
-      <div
-        data-hero-cue
-        aria-hidden
-        className="absolute bottom-8 left-0 right-0 hidden justify-center md:flex"
-      >
-        <div className="flex flex-col items-center gap-3 opacity-70">
-          <span className="overline text-caption text-ivory-200">Gulir</span>
-          <span className="relative block h-10 w-px overflow-hidden bg-noir-600">
-            <span className="absolute inset-x-0 top-0 h-1/2 animate-[scroll-cue_2.4s_var(--ease-standard)_infinite] bg-honey-300" />
-          </span>
-        </div>
       </div>
     </section>
   );

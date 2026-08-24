@@ -68,13 +68,13 @@ export default async function AboutPage() {
         </div>
       </section>
 
-      <section className="border-t border-border/50">
+      <section>
         <div className="container-turaya py-16 md:py-24">
           <p className="overline text-terra-500">02</p>
           <h2 className="mt-6 font-display text-display-md text-foreground">Yang kami pegang teguh</h2>
           <div className="mt-12 grid gap-10 md:grid-cols-3">
             {VALUES.map((value, index) => (
-              <div key={value.title} className="border-t border-terra-500/30 pt-6">
+              <div key={value.title} className="pt-6">
                 <p className="overline text-caption tabular-nums text-muted-foreground">
                   {String(index + 1).padStart(2, "0")}
                 </p>

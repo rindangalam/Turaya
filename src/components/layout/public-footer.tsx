@@ -153,7 +153,7 @@ export function PublicFooter({ settings }: { settings: SiteSettings | null }) {
           </div>
         </div>
 
-        <div className="flex flex-col items-center justify-between gap-3 border-t border-border/40 py-6 sm:flex-row">
+        <div className="flex flex-col items-center justify-between gap-3 py-6 sm:flex-row">
           <p className="text-caption text-roast-300">
             © {year} {settings?.site_name ?? "Turaya"}. Seluruh hak cipta.
           </p>

@@ -328,6 +328,9 @@
 }
 
 @utility overline {
+  /* Override Tailwind's built-in `overline` decoration utility, which shares
+     this class name and otherwise draws a line above every label. */
+  text-decoration-line: none !important;
   font-size: var(--text-overline);
   line-height: 1.2;
   letter-spacing: 0.16em;
@@ -361,15 +364,6 @@
   }
   to {
     transform: translateX(-50%);
-  }
-}
-
-@keyframes scroll-cue {
-  0% {
-    transform: translateY(-100%);
-  }
-  100% {
-    transform: translateY(320%);
   }
 }
 

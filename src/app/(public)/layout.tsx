@@ -21,7 +21,7 @@ export default async function PublicLayout({
       <ScentTrail />
       <header className="fixed inset-x-0 top-0 z-50">
         {settings?.announcement ? (
-          <div className="border-b border-border/60 bg-noir-950 px-4 py-2.5 text-center">
+          <div className="bg-noir-950 px-4 py-2.5 text-center">
             <p className="overline text-caption text-noir-300">
               <span aria-hidden className="mr-2 inline-block size-1.5 rounded-full bg-champagne-400" />
               {settings.announcement}

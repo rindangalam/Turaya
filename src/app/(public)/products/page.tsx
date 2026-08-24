@@ -53,7 +53,7 @@ export default async function ProductsPage({
       />
 
       {categories.length > 0 ? (
-        <div className="border-b border-border/50">
+        <div>
           <div className="container-turaya flex flex-wrap gap-2 py-6">
             <CategoryChip
               href={categoryHref(undefined)}
@@ -73,7 +73,7 @@ export default async function ProductsPage({
       ) : null}
 
       <section className="container-turaya py-16 md:py-24">
-        <div className="mb-10 flex items-baseline justify-between gap-6 border-b border-border/50 pb-5">
+        <div className="mb-10 flex items-baseline justify-between gap-6">
           <h2 className="overline text-caption text-terra-500">
             {validCategory
               ? categories.find((c) => c.slug === validCategory)?.name

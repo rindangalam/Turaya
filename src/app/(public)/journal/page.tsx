@@ -68,7 +68,6 @@ export default async function JournalPage() {
                         </div>
                       </div>
                     )}
-                    <span className="absolute inset-x-0 top-0 h-px bg-terra-500/60 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
                   </div>
                   <div className="mt-5 flex flex-wrap items-center gap-x-3 gap-y-1 text-caption uppercase tracking-wider text-muted-foreground">
                     {post.categoryName ? (

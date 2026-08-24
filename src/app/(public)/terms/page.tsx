@@ -43,7 +43,7 @@ export default async function TermsPage() {
               body: "Turaya tidak bertanggung jawab atas kerugian yang timbul dari penggunaan informasi di situs ini. Untuk keputusan penting, silakan hubungi kami langsung.",
             },
           ].map((section, index) => (
-            <div key={section.title} className="border-t border-border/50 py-8 first:border-t-0 first:pt-0 last:pb-0">
+            <div key={section.title} className="py-8 last:pb-0">
               <div className="flex items-baseline gap-5">
                 <span className="overline text-caption tabular-nums text-terra-500">
                   {String(index + 1).padStart(2, "0")}

@@ -27,7 +27,7 @@ export function PhotoBreak({
   const y = useTransform(scrollYProgress, [0, 1], ["-9%", "9%"]);
 
   return (
-    <section aria-label={caption} className="relative overflow-hidden border-y border-border/60">
+    <section aria-label={caption} className="relative overflow-hidden">
       <div ref={ref} className="relative h-[52vh] overflow-hidden md:h-[64vh]">
         <motion.div
           aria-hidden

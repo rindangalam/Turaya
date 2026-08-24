@@ -25,7 +25,7 @@ async function resolveImageUrl(path: string | null | undefined): Promise<string 
 
 function AboutSection({ section, imageUrl }: { section: VisibleHomepageSection; imageUrl: string | null }) {
   return (
-    <section className="border-t border-border/50">
+    <section>
       <div className="container-turaya grid gap-12 py-24 lg:grid-cols-2 lg:gap-20">
         <div className="flex flex-col justify-center">
           {section.subheadline ? (
@@ -68,7 +68,7 @@ function AboutSection({ section, imageUrl }: { section: VisibleHomepageSection; 
                   className="object-cover"
                 />
               </div>
-              <figcaption className="flex items-center justify-between border-t border-border/60 px-5 py-3">
+              <figcaption className="flex items-center justify-between px-5 py-3">
                 <span className="overline text-caption text-muted-foreground">
                   {section.name}
                 </span>
@@ -88,7 +88,7 @@ async function FeaturedProductsSection() {
   if (featured.length === 0) return null;
 
   return (
-    <section className="border-t border-border/50">
+    <section>
       <div className="container-turaya py-24">
         <Reveal>
           <div className="flex flex-wrap items-end justify-between gap-6">
@@ -122,7 +122,7 @@ async function TestimonialsSection() {
   if (photos.length === 0) return null;
 
   return (
-    <section className="border-t border-border/50 bg-noir-950">
+    <section className="bg-noir-950">
       <div className="container-turaya py-24">
         <Reveal>
           <div className="max-w-2xl">

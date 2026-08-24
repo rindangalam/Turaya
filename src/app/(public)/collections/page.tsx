@@ -81,7 +81,6 @@ export default async function CollectionsPage() {
                         Koleksi utama
                       </span>
                     ) : null}
-                    <span className="absolute inset-x-0 top-0 h-px bg-terra-500/60 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
                   </div>
                   <div className="mt-6 flex items-baseline justify-between gap-6">
                     <h2 className="font-display text-display-md text-foreground transition-colors group-hover:text-terra-500">

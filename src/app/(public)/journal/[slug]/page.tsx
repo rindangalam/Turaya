@@ -130,7 +130,7 @@ export default async function JournalPostPage({
         </div>
 
         {post.tagNames.length > 0 ? (
-          <footer className="mt-14 border-t border-border/50 pt-8">
+          <footer className="mt-14">
             <h2 className="overline text-caption text-muted-foreground">Tag</h2>
             <ul className="mt-4 flex flex-wrap gap-2">
               {post.tagNames.map((tag) => (
@@ -147,9 +147,9 @@ export default async function JournalPostPage({
       </article>
 
       {previousPost || nextPost ? (
-        <section className="border-t border-border/50">
+        <section>
           <div className="container-turaya grid gap-10 py-14 sm:grid-cols-2 sm:gap-8">
-            <div className={nextPost ? "sm:border-r sm:border-border/50 sm:pr-8" : ""}>
+            <div className={nextPost ? "sm:pr-8" : ""}>
               {previousPost ? (
                 <Link
                   href={`/journal/${previousPost.slug}`}

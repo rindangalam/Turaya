@@ -107,7 +107,7 @@ export default async function CollectionDetailPage({
         </div>
       </section>
 
-      <section className="border-t border-border/50">
+      <section>
         <div className="container-turaya py-16 md:py-24">
           <h2 className="font-display text-display-md text-foreground">Isi koleksi</h2>
           {products.length === 0 ? (

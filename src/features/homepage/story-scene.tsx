@@ -17,7 +17,7 @@ export function StoryScene({ name, headline, subheadline, body }: StorySceneProp
   if (scenes.length === 0) return null;
 
   return (
-    <section className="border-y border-border/60 bg-noir-950 py-24">
+    <section className="bg-noir-950 py-24">
       <div className="container-turaya">
         {subheadline ? (
           <Reveal>
@@ -33,7 +33,7 @@ export function StoryScene({ name, headline, subheadline, body }: StorySceneProp
         <div className="mt-16 grid gap-12 md:grid-cols-3 md:gap-8">
           {scenes.map((paragraph, index) => (
             <Reveal key={index} delay={0.1 + index * 0.1}>
-              <div className="flex flex-col gap-4 border-t-2 border-border pt-6">
+              <div className="flex flex-col gap-4 pt-6">
                 <span
                   aria-hidden
                   className="font-display text-caption tracking-[0.2em] text-terra-500"

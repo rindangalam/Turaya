@@ -46,7 +46,7 @@ export default async function FaqPage() {
             {items.map((item, index) => (
               <details
                 key={item.id}
-                className="group border-b border-border/50 first:border-t"
+                className="group"
               >
                 <summary
                   className={cn(

@@ -85,7 +85,7 @@ export default async function IngredientsPage() {
                       <p className="mt-3 text-body text-muted-foreground">{ingredient.description}</p>
                     ) : null}
                     {ingredient.story ? (
-                      <p className="mt-4 border-t border-border/40 pt-4 text-body-sm leading-relaxed text-muted-foreground">
+                      <p className="mt-4 text-body-sm leading-relaxed text-muted-foreground">
                         {ingredient.story}
                       </p>
                     ) : null}

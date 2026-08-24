@@ -75,7 +75,7 @@ export default async function StoresPage() {
                       {hours.map((line) => {
                         const [day, ...rest] = line.split(":");
                         return (
-                          <div key={day} className="flex justify-between gap-6 border-b border-border/20 pb-1.5 text-body-sm">
+                          <div key={day} className="flex justify-between gap-6 pb-1.5 text-body-sm">
                             <dt className="text-muted-foreground">{day}</dt>
                             <dd className="tabular-nums text-muted-foreground">{rest.join(":").trim()}</dd>
                           </div>
@@ -83,7 +83,7 @@ export default async function StoresPage() {
                       })}
                     </dl>
                   ) : null}
-                  <div className="mt-auto flex flex-wrap gap-x-8 gap-y-2 border-t border-border/40 pt-6">
+                  <div className="mt-auto flex flex-wrap gap-x-8 gap-y-2 pt-6">
                     {store.phone ? (
                       <a
                         href={`tel:${store.phone}`}

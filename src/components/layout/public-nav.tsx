@@ -30,7 +30,7 @@ export function PublicNav({ siteName, logoUrl }: { siteName: string; logoUrl?: s
     href === "/" ? pathname === "/" : pathname === href || pathname.startsWith(`${href}/`);
 
   return (
-    <div className="border-b border-border/60 bg-noir-900/85 backdrop-blur">
+    <div className="bg-noir-900/85 backdrop-blur">
       <div className="container-turaya flex h-16 items-center justify-between md:h-20">
         <Link
           href="/"
@@ -107,7 +107,7 @@ export function PublicNav({ siteName, logoUrl }: { siteName: string; logoUrl?: s
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="border-t border-border/60 bg-noir-900/95 backdrop-blur lg:hidden"
+            className="bg-noir-900/95 backdrop-blur lg:hidden"
           >
             <ul className="container-turaya flex flex-col py-4">
               {PUBLIC_NAV_ITEMS.map((item, index) => (
@@ -121,7 +121,7 @@ export function PublicNav({ siteName, logoUrl }: { siteName: string; logoUrl?: s
                     href={item.href}
                     onClick={() => setMenuOpen(false)}
                     className={cn(
-                      "flex items-center justify-between border-b border-border/40 py-4 text-heading-lg text-foreground",
+                      "flex items-center justify-between py-4 text-heading-lg text-foreground",
                       isActive(item.href) && "text-terra-500",
                     )}
                   >

@@ -47,7 +47,7 @@ export default async function ContactPage() {
           ].map(
             (entry) =>
               entry ? (
-                <div key={entry.label} className="border-t border-terra-500/30 pt-5">
+                <div key={entry.label} className="pt-5">
                   <p className="flex items-center gap-4">
                     <span className="overline text-caption tabular-nums text-terra-500">
                       {entry.index}
@@ -65,7 +65,7 @@ export default async function ContactPage() {
           )}
 
           {settings?.address ? (
-            <div className="border-t border-terra-500/30 pt-5">
+            <div className="pt-5">
               <p className="flex items-center gap-4">
                 <span className="overline text-caption tabular-nums text-terra-500">03</span>
                 <span className="overline text-caption text-muted-foreground">Alamat</span>
@@ -77,7 +77,7 @@ export default async function ContactPage() {
           ) : null}
 
           {settings?.instagram_url ? (
-            <div className="border-t border-terra-500/30 pt-5">
+            <div className="pt-5">
               <p className="flex items-center gap-4">
                 <span className="overline text-caption tabular-nums text-terra-500">04</span>
                 <span className="overline text-caption text-muted-foreground">Media sosial</span>
