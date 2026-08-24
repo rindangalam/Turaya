@@ -10,6 +10,7 @@ import { HeroTimeline } from "@/features/homepage/hero-timeline";
 import { StoryScene } from "@/features/homepage/story-scene";
 import { IngredientMarquee } from "@/components/animations/marquee";
 import { ShimmerTitle } from "@/components/animations/shimmer-title";
+import { PhotoBreak } from "@/components/layout/photo-break";
 import { getVisibleSections } from "@/services/homepage";
 import { listPublishedProducts } from "@/services/products";
 import { listTestimonialPhotos } from "@/services/gallery";
@@ -121,7 +122,7 @@ async function TestimonialsSection() {
   if (photos.length === 0) return null;
 
   return (
-    <section className="border-t border-border/50">
+    <section className="border-t border-border/50 bg-noir-950">
       <div className="container-turaya py-24">
         <Reveal>
           <div className="max-w-2xl">
@@ -207,6 +208,14 @@ export async function HomepageSections() {
   }
 
   rendered.push(<FeaturedProductsSection key="featured-products" />);
+  rendered.push(
+    <PhotoBreak
+      key="photo-break"
+      src={getStoragePublicUrl("gallery", "products-row.jpg")}
+      alt="Ruang pamer Turaya — rak botol parfum dan reed diffuser"
+      caption="Butik & studio — Bandung"
+    />,
+  );
   rendered.push(<TestimonialsSection key="testimonials" />);
 
   return <>{rendered}</>;

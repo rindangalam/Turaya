@@ -269,6 +269,19 @@
     @apply bg-background text-foreground font-sans antialiased;
   }
 
+  /* Film-grain overlay — kills the flat digital void, adds materiality.
+     Pure SVG noise, no runtime cost. Sits above content, below the curtain. */
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 80;
+    pointer-events: none;
+    opacity: 0.026;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 180px 180px;
+  }
+
   h1,
   h2,
   h3,

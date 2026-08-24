@@ -17,7 +17,7 @@ export function StoryScene({ name, headline, subheadline, body }: StorySceneProp
   if (scenes.length === 0) return null;
 
   return (
-    <section className="border-y border-border/60 bg-background py-24">
+    <section className="border-y border-border/60 bg-noir-950 py-24">
       <div className="container-turaya">
         {subheadline ? (
           <Reveal>
