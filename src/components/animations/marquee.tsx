@@ -20,7 +20,7 @@ export function IngredientMarquee({ className }: { className?: string }) {
     <div aria-hidden={hidden || undefined} className="marquee-track flex shrink-0 items-center">
       {INGREDIENTS.map((name) => (
         <span key={`${name}-${hidden}`} className="flex items-center">
-          <span className="marquee-word px-8 font-display text-4xl italic md:text-6xl">{name}</span>
+          <span className="marquee-word px-8 font-sans text-2xl font-light uppercase tracking-[0.28em] md:text-4xl">{name}</span>
           <span aria-hidden className="text-champagne-500/70">
             ✦
           </span>
