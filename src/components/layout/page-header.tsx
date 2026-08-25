@@ -11,7 +11,7 @@ export function PageHeader({
 }) {
   return (
     <section className="bg-clay-100/40">
-      <div className="container-turaya py-20 md:py-28">
+      <div className="container-turaya py-12 md:py-28">
         <Reveal>
           <p className="overline text-terra-500">{overline}</p>
         </Reveal>

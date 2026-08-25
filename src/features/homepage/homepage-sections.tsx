@@ -26,7 +26,7 @@ async function resolveImageUrl(path: string | null | undefined): Promise<string 
 function AboutSection({ section, imageUrl }: { section: VisibleHomepageSection; imageUrl: string | null }) {
   return (
     <section>
-      <div className="container-turaya grid gap-12 py-24 lg:grid-cols-2 lg:gap-20">
+      <div className="container-turaya grid gap-12 py-16 lg:grid-cols-2 lg:gap-20 md:py-24">
         <div className="flex flex-col justify-center">
           {section.subheadline ? (
             <Reveal>
@@ -89,7 +89,7 @@ async function FeaturedProductsSection() {
 
   return (
     <section>
-      <div className="container-turaya py-24">
+      <div className="container-turaya py-16 md:py-24">
         <Reveal>
           <div className="flex flex-wrap items-end justify-between gap-6">
             <div>
@@ -123,7 +123,7 @@ async function TestimonialsSection() {
 
   return (
     <section className="bg-noir-950">
-      <div className="container-turaya py-24">
+      <div className="container-turaya py-16 md:py-24">
         <Reveal>
           <div className="max-w-2xl">
             <p className="overline text-terra-500">Testimoni</p>

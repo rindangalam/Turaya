@@ -31,7 +31,7 @@ export function IngredientMarquee({ className }: { className?: string }) {
 
   return (
     <div
-      className={cn("relative overflow-hidden py-7", className)}
+      className={cn("relative overflow-hidden py-5 md:py-7", className)}
       role="presentation"
     >
       <div className="marquee flex w-max">

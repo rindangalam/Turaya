@@ -73,7 +73,7 @@ export function PublicNav({ siteName, logoUrl }: { siteName: string; logoUrl?: s
           aria-expanded={menuOpen}
           aria-controls="public-nav-menu"
           aria-label={menuOpen ? "Tutup menu" : "Buka menu"}
-          className="inline-flex size-10 items-center justify-center text-foreground lg:hidden"
+          className="inline-flex size-11 items-center justify-center text-foreground lg:hidden"
         >
           <span className="relative block h-3.5 w-6">
             <span

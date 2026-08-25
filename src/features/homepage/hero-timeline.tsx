@@ -133,7 +133,7 @@ export function HeroTimeline({
 
       <div className="container-turaya relative flex flex-col items-start justify-center">
         {subheadline ? (
-          <p data-hero-overline className="overline mb-6 text-honey-300">
+          <p data-hero-overline className="overline mb-4 text-honey-300 md:mb-6">
             {subheadline}
           </p>
         ) : null}
@@ -156,12 +156,12 @@ export function HeroTimeline({
           ))}
         </h1>
         {body ? (
-          <p data-hero-body className="mt-6 max-w-prose text-body-lg text-ivory-200">
+          <p data-hero-body className="mt-4 max-w-prose text-body-lg text-ivory-200 md:mt-6">
             {body}
           </p>
         ) : null}
         {buttonLabel && buttonUrl ? (
-          <div data-hero-cta className="mt-10 flex items-center gap-6">
+          <div data-hero-cta className="mt-8 flex items-center gap-6 md:mt-10">
             <Magnetic>
               <Button size="lg" render={<Link href={buttonUrl} />}>
                 {buttonLabel}
