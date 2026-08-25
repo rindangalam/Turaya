@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Proton CMS - Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-primary-fixed": "#000000",
+                      "inverse-on-surface": "#eff1f3",
+                      "on-primary": "#ffffff",
+                      "on-secondary-container": "#5c647a",
+                      "primary": "#000000",
+                      "surface-dim": "#d8dadc",
+                      "on-surface-variant": "#434655",
+                      "surface-container-lowest": "#ffffff",
+                      "surface-container-high": "#e6e8ea",
+                      "inverse-primary": "#d1d5db",
+                      "on-secondary-fixed-variant": "#3f465c",
+                      "surface-bright": "#f7f9fb",
+                      "surface-container-highest": "#e0e3e5",
+                      "tertiary-container": "#5e6e85",
+                      "tertiary": "#46566c",
+                      "tertiary-fixed-dim": "#b7c8e1",
+                      "on-primary-fixed-variant": "#000000",
+                      "error-container": "#ffdad6",
+                      "surface": "#f7f9fb",
+                      "error": "#ba1a1a",
+                      "on-surface": "#191c1e",
+                      "on-primary-container": "#e5e7eb",
+                      "on-tertiary": "#ffffff",
+                      "primary-fixed": "#e5e7eb",
+                      "secondary-container": "#dae2fd",
+                      "primary-container": "#000000",
+                      "surface-container": "#eceef0",
+                      "on-tertiary-fixed": "#0b1c30",
+                      "primary-fixed-dim": "#d1d5db",
+                      "surface-container-low": "#f2f4f6",
+                      "on-error": "#ffffff",
+                      "secondary-fixed-dim": "#bec6e0",
+                      "on-secondary-fixed": "#131b2e",
+                      "secondary-fixed": "#dae2fd",
+                      "surface-tint": "#000000",
+                      "background": "#f7f9fb",
+                      "inverse-surface": "#2d3133",
+                      "on-tertiary-container": "#e9f0ff",
+                      "on-tertiary-fixed-variant": "#38485d",
+                      "tertiary-fixed": "#d3e4fe",
+                      "on-secondary": "#ffffff",
+                      "on-background": "#191c1e",
+                      "outline": "#737686",
+                      "outline-variant": "#c3c6d7",
+                      "on-error-container": "#93000a",
+                      "surface-variant": "#e0e3e5",
+                      "secondary": "#565e74"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "container-max": "1440px",
+                      "space-lg": "24px",
+                      "space-md": "16px",
+                      "margin-mobile": "16px",
+                      "space-xs": "4px",
+                      "space-xl": "32px",
+                      "sidebar-width": "280px",
+                      "gutter": "24px",
+                      "space-sm": "8px"
+              },
+              "fontFamily": {
+                      "label-sm": [
+                              "Inter", "sans-serif"
+                      ],
+                      "body-md": [
+                              "Inter", "sans-serif"
+                      ],
+                      "label-md": [
+                              "Inter", "sans-serif"
+                      ],
+                      "headline-lg-mobile": [
+                              "Inter", "sans-serif"
+                      ],
+                      "headline-md": [
+                              "Inter", "sans-serif"
+                      ],
+                      "headline-lg": [
+                              "Inter", "sans-serif"
+                      ],
+                      "body-lg": [
+                              "Inter", "sans-serif"
+                      ],
+                      "display-lg": [
+                              "Inter", "sans-serif"
+                      ]
+              },
+              "fontSize": {
+                      "label-sm": [
+                              "11px",
+                              {
+                                      "lineHeight": "14px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "body-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-md": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "20px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-md": [
+                              "20px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-lg": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-lg": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "display-lg": [
+                              "36px",
+                              {
+                                      "lineHeight": "44px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+    </script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+          font-variation-settings:
+          'FILL' 0,
+          'wght' 400,
+          'GRAD' 0,
+          'opsz' 24;
+        }
+        body {
+            background-color: #f7f9fb; /* background */
+        }
+        /* Custom scrollbar for a cleaner look */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #c3c6d7; /* outline-variant */
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #737686; /* outline */
+        }
+    </style>
+<!-- Chart.js for the line chart -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="text-on-background font-body-md antialiased min-h-screen">
+<!-- TopNavBar -->
+<nav class="bg-surface dark:bg-background text-primary dark:text-inverse-primary font-body-md text-body-md fixed top-0 right-0 w-[calc(100%-280px)] h-16 border-b border-outline-variant dark:border-outline flat no shadows flex justify-between items-center px-space-lg z-40">
+<div class="flex items-center gap-space-lg w-1/3">
+<div class="relative w-full max-w-md">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-lowest border border-outline-variant rounded-full text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors text-body-md" placeholder="Search..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-space-md">
+<button class="text-on-surface-variant hover:text-primary transition-all cursor-pointer active:opacity-80 p-2 rounded-full hover:bg-surface-container-high">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-all cursor-pointer active:opacity-80 p-2 rounded-full hover:bg-surface-container-high">
+<span class="material-symbols-outlined" data-icon="apps">apps</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-all cursor-pointer active:opacity-80 font-label-md text-label-md ml-2">
+                Support
+            </button>
+<div class="h-8 w-8 rounded-full bg-surface-container-high overflow-hidden ml-4 border border-outline-variant">
+<img alt="User Profile Avatar" class="w-full h-full object-cover" data-alt="A professional headshot of a corporate user, modern lighting, clear background, high quality, suitable for a profile avatar in an enterprise software dashboard." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBnvgKEog76X0w6dYG3B3EuP5PTvwsi9ePINsD5OGBFNroDkZhwawOIVG7GRWAKcE19KiV5igPvlqzpCHK1wHU8riT3G_u-8KnO3A7e4P9ByXvmloy0_baW6vXQVLdH01ctqKu7rp1slu83A3dJbzWxM7Eet135jhMz9TSzgvpLfzrOZcVgVxd7_pPmX4Qwkd7QX4YGU2XBCteyvCu2AZ5mFcbqhk2vr1Yr6bD6YplT3Fkhe_hcHJ_R"/>
+</div>
+</div>
+</nav>
+<!-- SideNavBar -->
+<aside class="bg-surface-container-lowest dark:bg-inverse-surface text-primary dark:text-inverse-primary font-label-md text-label-md fixed h-screen w-sidebar-width left-0 top-0 border-r border-outline-variant dark:border-outline shadow-sm flex flex-col h-full py-space-lg z-50">
+<div class="px-space-lg mb-space-xl flex items-center gap-3">
+<div class="w-10 h-10 rounded bg-primary-container flex items-center justify-center text-on-primary-container">
+<span class="material-symbols-outlined font-bold">token</span>
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-inverse-primary m-0 p-0 leading-none">Proton CMS</h1>
+<span class="text-on-surface-variant font-label-sm text-label-sm">Enterprise Admin</span>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto px-space-md flex flex-col gap-1">
+<a class="hover:bg-surface-container-high dark:hover:bg-surface-variant transition-colors duration-200 ease-in-out flex items-center gap-3 px-4 py-3 text-primary border-primary rounded-lg ml-1 border-l-4" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                Dashboard
+            </a>
+<a class="text-on-secondary-fixed-variant hover:bg-surface-container-high transition-colors duration-200 ease-in-out flex items-center gap-3 px-4 py-3 rounded-lg ml-1 border-l-4 border-transparent" href="#">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+                Content
+            </a>
+<a class="text-on-secondary-fixed-variant hover:bg-surface-container-high transition-colors duration-200 ease-in-out flex items-center gap-3 px-4 py-3 rounded-lg ml-1 border-l-4 border-transparent" href="#">
+<span class="material-symbols-outlined" data-icon="image">image</span>
+                Media
+            </a>
+<a class="text-on-secondary-fixed-variant hover:bg-surface-container-high transition-colors duration-200 ease-in-out flex items-center gap-3 px-4 py-3 rounded-lg ml-1 border-l-4 border-transparent" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+                Analytics
+            </a>
+<a class="text-on-secondary-fixed-variant hover:bg-surface-container-high transition-colors duration-200 ease-in-out flex items-center gap-3 px-4 py-3 rounded-lg ml-1 border-l-4 border-transparent" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+                Users
+            </a>
+<a class="text-on-secondary-fixed-variant hover:bg-surface-container-high transition-colors duration-200 ease-in-out flex items-center gap-3 px-4 py-3 rounded-lg ml-1 border-l-4 border-transparent" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+                Settings
+            </a>
+</div>
+<div class="px-space-md mt-auto pt-space-md border-t border-outline-variant flex flex-col gap-1">
+<a class="text-on-secondary-fixed-variant hover:bg-surface-container-high transition-colors duration-200 ease-in-out flex items-center gap-3 px-4 py-3 rounded-lg ml-1 border-l-4 border-transparent" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+                Help
+            </a>
+<a class="text-on-secondary-fixed-variant hover:bg-surface-container-high transition-colors duration-200 ease-in-out flex items-center gap-3 px-4 py-3 rounded-lg ml-1 border-l-4 border-transparent" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+                Sign Out
+            </a>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="ml-sidebar-width pt-16 min-h-screen p-space-lg flex flex-col gap-space-lg max-w-[container-max] mx-auto">
+<!-- Welcome Header -->
+<header class="mb-space-sm">
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-1">Welcome back, Sarah Jenkins</h2>
+<p class="text-on-surface-variant font-body-md text-body-md">Here's an overview of your platform's performance today.</p>
+</header>
+<!-- Stat Cards Grid -->
+<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-space-lg">
+<!-- Card 1 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-space-lg shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
+<div class="absolute top-0 left-0 w-1 h-full bg-primary opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="flex justify-between items-start mb-4">
+<div>
+<p class="font-label-md text-label-md text-tertiary uppercase tracking-wider mb-1">Monthly Recurring Revenue</p>
+<h3 class="font-display-lg text-display-lg text-on-surface">$145.2K</h3>
+</div>
+<div class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">payments</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-green-600 text-sm">trending_up</span>
+<span class="font-label-sm text-label-sm font-bold text-green-700 bg-green-100 px-2 py-0.5 rounded-full">+12.5%</span>
+<span class="text-on-surface-variant font-label-sm text-label-sm">vs last month</span>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-space-lg shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
+<div class="absolute top-0 left-0 w-1 h-full bg-primary opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="flex justify-between items-start mb-4">
+<div>
+<p class="font-label-md text-label-md text-tertiary uppercase tracking-wider mb-1">Active Subscribers</p>
+<h3 class="font-display-lg text-display-lg text-on-surface">12,450</h3>
+</div>
+<div class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">group</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-green-600 text-sm">trending_up</span>
+<span class="font-label-sm text-label-sm font-bold text-green-700 bg-green-100 px-2 py-0.5 rounded-full">+3.2%</span>
+<span class="text-on-surface-variant font-label-sm text-label-sm">vs last month</span>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-space-lg shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
+<div class="absolute top-0 left-0 w-1 h-full bg-primary opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="flex justify-between items-start mb-4">
+<div>
+<p class="font-label-md text-label-md text-tertiary uppercase tracking-wider mb-1">Churn Rate</p>
+<h3 class="font-display-lg text-display-lg text-on-surface">2.4%</h3>
+</div>
+<div class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">group_remove</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-green-600 text-sm">trending_down</span>
+<span class="font-label-sm text-label-sm font-bold text-green-700 bg-green-100 px-2 py-0.5 rounded-full">-0.5%</span>
+<span class="text-on-surface-variant font-label-sm text-label-sm">vs last month</span>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-space-lg shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
+<div class="absolute top-0 left-0 w-1 h-full bg-primary opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="flex justify-between items-start mb-4">
+<div>
+<p class="font-label-md text-label-md text-tertiary uppercase tracking-wider mb-1">Net New Trials</p>
+<h3 class="font-display-lg text-display-lg text-on-surface">842</h3>
+</div>
+<div class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">person_add</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-green-600 text-sm">trending_up</span>
+<span class="font-label-sm text-label-sm font-bold text-green-700 bg-green-100 px-2 py-0.5 rounded-full">+24.1%</span>
+<span class="text-on-surface-variant font-label-sm text-label-sm">vs last month</span>
+</div>
+</div>
+</section>
+<!-- Main Content Area: Chart and Table -->
+<section class="grid grid-cols-1 xl:grid-cols-3 gap-space-lg mt-space-md">
+<!-- Chart Container -->
+<div class="xl:col-span-2 bg-surface-container-lowest border border-outline-variant rounded-xl shadow-sm flex flex-col">
+<div class="p-space-lg border-b border-outline-variant flex justify-between items-center">
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface">Traffic Overview</h3>
+<p class="text-on-surface-variant font-label-sm text-label-sm mt-1">Unique visitors over the last 7 days</p>
+</div>
+<button class="flex items-center gap-2 px-3 py-1.5 border border-outline-variant rounded-md text-on-surface-variant hover:bg-surface-container-high transition-colors font-label-md text-label-md">
+                        Last 7 Days
+                        <span class="material-symbols-outlined text-sm">expand_more</span>
+</button>
+</div>
+<div class="p-space-lg flex-1 min-h-[300px] relative">
+<canvas height="348" id="trafficChart" style="display: block; box-sizing: border-box; height: 348px; width: 576.7px;" width="576"></canvas>
+</div>
+</div>
+<!-- Recent Activity Table -->
+<div class="xl:col-span-1 bg-surface-container-lowest border border-outline-variant rounded-xl shadow-sm flex flex-col">
+<div class="p-space-lg border-b border-outline-variant flex justify-between items-center">
+<h3 class="font-headline-md text-headline-md text-on-surface">Recent Activity</h3>
+<button class="text-primary hover:text-on-primary-fixed-variant font-label-md text-label-md">View All</button>
+</div>
+<div class="overflow-x-auto flex-1">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low border-b border-outline-variant">
+<th class="font-label-md text-label-md text-tertiary px-space-md py-3 uppercase tracking-wider font-semibold">User</th>
+<th class="font-label-md text-label-md text-tertiary px-space-md py-3 uppercase tracking-wider font-semibold">Action</th>
+<th class="font-label-md text-label-md text-tertiary px-space-md py-3 uppercase tracking-wider font-semibold text-right">Date</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-space-md py-3">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-container-high overflow-hidden border border-outline-variant">
+<img class="w-full h-full object-cover" data-alt="A small avatar image of a female professional with glasses, neutral background, suitable for a data table list." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC79pCcuGgXAlacn1n99oWoRLZei-S2ke6JS6Ft3K7ZYg3JTgWaNKepvjh8G4vnifLQ3VfEhn55xby2oqWYjOpVrNzQbMGSCSK12tlXkdgdTdKLgiyh_zdghvZr9k2QOO4uuR6opPoADdKhAyY9klNH6W6GNh7in-W4gNIk82lQFmh0zddT5S1pPBQnf6Gjibostxt8_cuLLksYghk6_a1rH9QjSwxTYJoIF_Z9JJi9FrB6eBMYR2Ra"/>
+</div>
+<span class="font-body-md text-body-md text-on-surface font-medium">Sarah Jenkins</span>
+</div>
+</td>
+<td class="px-space-md py-3">
+<span class="inline-flex items-center px-2 py-1 rounded-md bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-semibold">
+                                        Updated API docs
+                                    </span>
+</td>
+<td class="px-space-md py-3 text-right text-on-surface-variant font-label-sm text-label-sm">
+                                    2 mins ago
+                                </td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-space-md py-3">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-container-high overflow-hidden border border-outline-variant">
+<div class="w-full h-full bg-tertiary-container flex items-center justify-center text-on-tertiary-container font-label-md text-label-md">
+                                                MK
+                                            </div>
+</div>
+<span class="font-body-md text-body-md text-on-surface font-medium">Mike Kim</span>
+</div>
+</td>
+<td class="px-space-md py-3">
+<span class="inline-flex items-center px-2 py-1 rounded-md bg-surface-variant text-on-surface-variant font-label-sm text-label-sm font-semibold border border-outline-variant">
+                                        Modified auth settings
+                                    </span>
+</td>
+<td class="px-space-md py-3 text-right text-on-surface-variant font-label-sm text-label-sm">
+                                    45 mins ago
+                                </td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-space-md py-3">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-container-high overflow-hidden border border-outline-variant">
+<img class="w-full h-full object-cover" data-alt="A small avatar image of a male professional, casual attire, clean background, suitable for a data table list." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBubrI4tVfCkJyxlhZ1xUis3oZ2MTHdbRfq6Qbh4abjNrVSfUxF8uYM-C8w4fFvq5yhvE2uHfY6Fa4zL4eiP3Lmpw1JNyJbhM7_0ruLBC9Eh7DakTrH7wuLIpRzs2fYbM4FXVmfyQcIj5lCxGJM87dX4A7Mtb2rB24D8Qf-CMs9TECcPmkR1RLACWEzZ_lCm6kBiJ3M8x2L0s9cRIxXP1t7-YRaJcjf2ydYhTE1u-L44iNaj2K9C4Uf"/>
+</div>
+<span class="font-body-md text-body-md text-on-surface font-medium">Alex Davis</span>
+</div>
+</td>
+<td class="px-space-md py-3">
+<span class="inline-flex items-center px-2 py-1 rounded-md bg-error-container text-on-error-container font-label-sm text-label-sm font-semibold">
+                                        Published Q4 Roadmap
+                                    </span>
+</td>
+<td class="px-space-md py-3 text-right text-on-surface-variant font-label-sm text-label-sm">
+                                    2 hours ago
+                                </td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-space-md py-3">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-container-high overflow-hidden border border-outline-variant">
+<div class="w-full h-full bg-primary flex items-center justify-center text-on-primary font-label-md text-label-md">
+                                                EM
+                                            </div>
+</div>
+<span class="font-body-md text-body-md text-on-surface font-medium">Emily Martinez</span>
+</div>
+</td>
+<td class="px-space-md py-3">
+<span class="inline-flex items-center px-2 py-1 rounded-md bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-semibold">
+                                        Drafted 2024 Budget
+                                    </span>
+</td>
+<td class="px-space-md py-3 text-right text-on-surface-variant font-label-sm text-label-sm">
+                                    5 hours ago
+                                </td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors group border-b-0">
+<td class="px-space-md py-3">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-container-high overflow-hidden border border-outline-variant">
+<img class="w-full h-full object-cover" data-alt="A small avatar image of a mature female professional, modern office background, suitable for a data table list." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA9TDgWqn9vhmAwKHi7NwgCSG-EyfZlyNGBbOaC5hjCGqTL0B7Til3KEqJaG0K3i12FlUiXQ2hjeB_RbwzCQXUTuCKB8F_AMqA0_OrqdhuLzAexA1fdxpzVKYkHFcKSg4DxTx_1h8vEZSNTVjlVJDNIGBmNM2SnWVVjuv8J1-iE0Vv0veczUjIKt8UR37dyCeE-njqgnA9zZHvOBpFzSfxNVKGmkpBCf0KmxJ7_mwuH_xFJCsCiT6x2"/>
+</div>
+<span class="font-body-md text-body-md text-on-surface font-medium">Linda Wu</span>
+</div>
+</td>
+<td class="px-space-md py-3">
+<span class="inline-flex items-center px-2 py-1 rounded-md bg-primary text-on-primary font-label-sm text-label-sm font-semibold">
+                                        Approved SLA changes
+                                    </span>
+</td>
+<td class="px-space-md py-3 text-right text-on-surface-variant font-label-sm text-label-sm">
+                                    1 day ago
+                                </td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-low dark:bg-surface-container-highest text-tertiary dark:text-tertiary-fixed-dim font-label-sm text-label-sm w-full py-space-md border-t border-outline-variant flat flex justify-between items-center px-space-lg ml-sidebar-width mt-space-xl">
+<div class="">
+            © 2024 Proton CMS Admin. All rights reserved.
+        </div>
+<div class="flex gap-4">
+<a class="text-on-secondary-container hover:underline hover:text-on-surface transition-colors" href="#">Version 2.4.1</a>
+<a class="text-on-secondary-container hover:underline hover:text-on-surface transition-colors" href="#">Privacy Policy</a>
+<a class="text-on-secondary-container hover:underline hover:text-on-surface transition-colors" href="#">Terms of Service</a>
+</div>
+</footer>
+<script>
+        // Chart.js Initialization
+        document.addEventListener('DOMContentLoaded', function() {
+            const ctx = document.getElementById('trafficChart').getContext('2d');
+            
+            // Define colors from the theme for the chart
+            const primaryColor = '#000000'; // black
+            const primaryLight = 'rgba(0, 0, 0, 0.1)';
+            const gridColor = '#e6e8ea'; // surface-container-high
+            const textColor = '#434655'; // on-surface-variant
+
+            const data = {
+                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                datasets: [{
+                    label: 'Page Views',
+                    data: [12000, 19000, 15000, 22000, 18000, 28000, 24000],
+                    borderColor: primaryColor,
+                    backgroundColor: primaryLight,
+                    borderWidth: 2,
+                    pointBackgroundColor: '#ffffff',
+                    pointBorderColor: primaryColor,
+                    pointBorderWidth: 2,
+                    pointRadius: 4,
+                    pointHoverRadius: 6,
+                    fill: true,
+                    tension: 0.4 // Smooth curves
+                }]
+            };
+
+            const config = {
+                type: 'line',
+                data: data,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false // Hide default legend
+                        },
+                        tooltip: {
+                            backgroundColor: '#191c1e', // on-surface
+                            titleColor: '#ffffff',
+                            bodyColor: '#ffffff',
+                            padding: 12,
+                            cornerRadius: 8,
+                            displayColors: false
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: {
+                                display: false,
+                                drawBorder: false
+                            },
+                            ticks: {
+                                color: textColor,
+                                font: {
+                                    family: "'Inter', sans-serif",
+                                    size: 12
+                                }
+                            }
+                        },
+                        y: {
+                            grid: {
+                                color: gridColor,
+                                drawBorder: false,
+                                borderDash: [5, 5]
+                            },
+                            ticks: {
+                                color: textColor,
+                                font: {
+                                    family: "'Inter', sans-serif",
+                                    size: 12
+                                },
+                                callback: function(value) {
+                                    if (value >= 1000) {
+                                        return value / 1000 + 'k';
+                                    }
+                                    return value;
+                                }
+                            },
+                            beginAtZero: true
+                        }
+                    },
+                    interaction: {
+                        intersect: false,
+                        mode: 'index',
+                    },
+                }
+            };
+
+            new Chart(ctx, config);
+        });
+    </script>
+</body></html>

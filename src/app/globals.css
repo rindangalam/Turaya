@@ -216,38 +216,66 @@
 
 .admin {
   /* Admin shell (Sprint 5): force light neutral regardless of .dark on <html>.
-     Applied to the /admin layout wrapper. */
-  --background: var(--color-neutral-50);
-  --foreground: var(--color-neutral-900);
-  --card: var(--color-neutral-50);
-  --card-foreground: var(--color-neutral-900);
-  --popover: var(--color-neutral-50);
-  --popover-foreground: var(--color-neutral-900);
-  --primary: var(--color-neutral-900);
-  --primary-foreground: var(--color-neutral-50);
-  --secondary: var(--color-neutral-100);
-  --secondary-foreground: var(--color-neutral-900);
-  --muted: var(--color-neutral-100);
-  --muted-foreground: var(--color-neutral-600);
-  --accent: var(--color-neutral-200);
-  --accent-foreground: var(--color-neutral-900);
+     Applied to the /admin layout wrapper.
+     Restyled to the Stitch "Refined" CMS direction: white surfaces on a
+     near-white page, near-black ink, light gray hairlines, black primary. */
+  --background: #ffffff;
+  --foreground: #191c1e;
+  --card: #ffffff;
+  --card-foreground: #191c1e;
+  --popover: #ffffff;
+  --popover-foreground: #191c1e;
+  --primary: #000000;
+  --primary-foreground: #ffffff;
+  --secondary: #eff1f3;
+  --secondary-foreground: #191c1e;
+  --muted: #eff1f3;
+  --muted-foreground: #737686;
+  --accent: #eff1f3;
+  --accent-foreground: #191c1e;
   --destructive: #b4232c;
-  --border: var(--color-neutral-200);
-  --input: var(--color-neutral-200);
-  --ring: var(--color-neutral-500);
-  --chart-1: var(--color-neutral-700);
-  --chart-2: var(--color-neutral-500);
-  --chart-3: var(--color-neutral-400);
-  --chart-4: var(--color-neutral-300);
-  --chart-5: var(--color-neutral-600);
-  --sidebar: var(--color-neutral-50);
-  --sidebar-foreground: var(--color-neutral-900);
-  --sidebar-primary: var(--color-neutral-900);
-  --sidebar-primary-foreground: var(--color-neutral-50);
-  --sidebar-accent: var(--color-neutral-100);
-  --sidebar-accent-foreground: var(--color-neutral-900);
-  --sidebar-border: var(--color-neutral-200);
-  --sidebar-ring: var(--color-neutral-500);
+  --border: #e5e7eb;
+  --input: #e5e7eb;
+  --ring: #191c1e;
+  --chart-1: #191c1e;
+  --chart-2: #737686;
+  --chart-3: #a1a1ab;
+  --chart-4: #c9c9d0;
+  --chart-5: #4a4a52;
+  --sidebar: #ffffff;
+  --sidebar-foreground: #191c1e;
+  --sidebar-primary: #000000;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #eff1f3;
+  --sidebar-accent-foreground: #191c1e;
+  --sidebar-border: #e5e7eb;
+  --sidebar-ring: #191c1e;
+}
+
+/* Stitch admin refinements — pill buttons, softer cards, tinted inputs.
+   Scoped to .admin so the public site keeps its own shapes. */
+.admin [data-slot="button"] {
+  border-radius: 9999px;
+}
+
+.admin [data-slot="badge"] {
+  border-radius: 9999px;
+}
+
+.admin [data-slot="card"] {
+  border-radius: 0.75rem;
+  box-shadow: none;
+}
+
+.admin [data-slot="input"],
+.admin [data-slot="textarea"] {
+  background-color: #f7f9fb;
+  border-color: #e5e7eb;
+}
+
+.admin [data-slot="input"]:focus,
+.admin [data-slot="textarea"]:focus {
+  background-color: #ffffff;
 }
 
 @layer base {

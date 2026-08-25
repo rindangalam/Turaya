@@ -1,22 +1,35 @@
 import Link from "next/link";
+import {
+  BookOpenIcon,
+  BoxIcon,
+  ImagesIcon,
+  LayoutTemplateIcon,
+  LayersIcon,
+  LeafIcon,
+  MapPinIcon,
+  QuoteIcon,
+  TagIcon,
+} from "lucide-react";
+import type { ComponentType } from "react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { ContentStat } from "@/services/dashboard";
 
-const SECTION_HREF: Record<string, string> = {
-  homepage_sections: "/admin/homepage",
-  products: "/admin/products",
-  collections: "/admin/collections",
-  categories: "/admin/categories",
-  ingredients: "/admin/ingredients",
-  gallery_items: "/admin/gallery",
-  journal_posts: "/admin/journal",
-  testimonials: "/admin/testimonials",
-  store_locations: "/admin/stores",
+const SECTION_META: Record<string, { href: string; icon: ComponentType<{ className?: string }> }> = {
+  homepage_sections: { href: "/admin/homepage", icon: LayoutTemplateIcon },
+  products: { href: "/admin/products", icon: BoxIcon },
+  collections: { href: "/admin/collections", icon: LayersIcon },
+  categories: { href: "/admin/categories", icon: TagIcon },
+  ingredients: { href: "/admin/ingredients", icon: LeafIcon },
+  gallery_items: { href: "/admin/gallery", icon: ImagesIcon },
+  journal_posts: { href: "/admin/journal", icon: BookOpenIcon },
+  testimonials: { href: "/admin/testimonials", icon: QuoteIcon },
+  store_locations: { href: "/admin/stores", icon: MapPinIcon },
 };
 
 export function StatCard({ stat }: { stat: ContentStat }) {
-  const href = SECTION_HREF[stat.key];
+  const meta = SECTION_META[stat.key];
+  const Icon = meta?.icon;
 
   const summary = stat.countVisible
     ? `${stat.visible} visible · ${stat.total - stat.visible} hidden`
@@ -24,21 +37,28 @@ export function StatCard({ stat }: { stat: ContentStat }) {
 
   const card = (
     <Card className="h-full transition-colors hover:bg-muted/30">
-      <CardHeader>
-        <CardTitle>{stat.label}</CardTitle>
+      <CardHeader className="flex-row items-center justify-between space-y-0">
+        <CardTitle className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+          {stat.label}
+        </CardTitle>
+        {Icon ? (
+          <span aria-hidden className="flex size-8 items-center justify-center rounded-full bg-muted">
+            <Icon className="size-4 text-muted-foreground" />
+          </span>
+        ) : null}
       </CardHeader>
       <CardContent>
-        <p className="text-2xl font-semibold tabular-nums">{stat.total}</p>
-        <p className="mt-1 text-xs text-muted-foreground">{summary}</p>
+        <p className="text-3xl font-semibold tabular-nums tracking-tight">{stat.total}</p>
+        <p className="mt-1.5 text-xs text-muted-foreground">{summary}</p>
       </CardContent>
     </Card>
   );
 
-  if (!href) return card;
+  if (!meta?.href) return card;
 
   return (
     <Link
-      href={href}
+      href={meta.href}
       className="focus-visible:rounded-xl focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
     >
       {card}

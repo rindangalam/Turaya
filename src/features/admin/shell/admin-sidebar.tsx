@@ -136,25 +136,31 @@ export function AdminSidebar({
         {isAdmin ? <NavGroup label="Administration" items={ADMIN_NAV} collapsed={collapsed} /> : null}
       </nav>
 
-      <div className={cn("flex shrink-0 items-center border-t border-border p-3", collapsed && "justify-center")}>
+      <div className={cn("flex shrink-0 flex-col gap-1 border-t border-border p-3", collapsed && "items-center")}>
         {collapsed ? null : (
-          <p className="mr-2 min-w-0 flex-1 truncate text-xs text-muted-foreground">
+          <p className="mb-1 truncate px-2 text-xs text-muted-foreground">
             {user.displayName ?? user.email}
           </p>
         )}
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={onToggle}
-          aria-label={collapsed ? "Expand navigation" : "Collapse navigation"}
-          className="hidden lg:inline-flex"
-        >
-          {collapsed ? (
-            <PanelLeftOpenIcon className="size-4" aria-hidden="true" />
-          ) : (
-            <PanelLeftCloseIcon className="size-4" aria-hidden="true" />
-          )}
-        </Button>
+        <div className={cn("flex w-full items-center gap-1", collapsed && "flex-col")}>
+          <Button
+            variant="ghost"
+            size="sm"
+            className={cn("text-muted-foreground", collapsed ? "justify-center" : "flex-1 justify-start", "hidden lg:inline-flex")}
+            onClick={onToggle}
+            aria-label={collapsed ? "Expand navigation" : "Collapse navigation"}
+            title={collapsed ? "Expand navigation" : undefined}
+          >
+            {collapsed ? (
+              <PanelLeftOpenIcon className="size-4" aria-hidden="true" />
+            ) : (
+              <>
+                <PanelLeftCloseIcon className="size-4" aria-hidden="true" />
+                Collapse
+              </>
+            )}
+          </Button>
+        </div>
       </div>
     </>
   );

@@ -1,0 +1,37 @@
+[
+  {
+    "slug": "dashboard",
+    "title": "Dashboard Overview - Refined (Black)",
+    "id": "7985e17c4b194372bf4b76f37baf7b22",
+    "screenshot": "48797B",
+    "htmlCode": "31319B"
+  },
+  {
+    "slug": "settings",
+    "title": "Settings - Refined (Black)",
+    "id": "93ca3465d6a54a97ba1b1a630333e9fd",
+    "screenshot": "43076B",
+    "htmlCode": "17582B"
+  },
+  {
+    "slug": "media",
+    "title": "Media Library - Refined (Black)",
+    "id": "328b688c6a2148a8aba65bc94068945e",
+    "screenshot": "87462B",
+    "htmlCode": "24665B"
+  },
+  {
+    "slug": "content",
+    "title": "Content Management - Refined (Black)",
+    "id": "ff6d94e28c8d4abcb7d4da2b4e170f60",
+    "screenshot": "34132B",
+    "htmlCode": "20644B"
+  },
+  {
+    "slug": "settings-v2",
+    "title": "Settings (Black)",
+    "id": "60a94afee91f442893c1c7ea9aefcd08",
+    "screenshot": "27725B",
+    "htmlCode": "16124B"
+  }
+]

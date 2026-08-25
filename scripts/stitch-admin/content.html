@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Proton CMS - Content</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-fixed": "#000000",
+                        "inverse-on-surface": "#eff1f3",
+                        "on-primary": "#ffffff",
+                        "on-secondary-container": "#5c647a",
+                        "primary": "#000000",
+                        "surface-dim": "#d8dadc",
+                        "on-surface-variant": "#434655",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-high": "#e6e8ea",
+                        "inverse-primary": "#cccccc",
+                        "on-secondary-fixed-variant": "#3f465c",
+                        "surface-bright": "#f7f9fb",
+                        "surface-container-highest": "#e0e3e5",
+                        "tertiary-container": "#5e6e85",
+                        "tertiary": "#46566c",
+                        "tertiary-fixed-dim": "#b7c8e1",
+                        "on-primary-fixed-variant": "#333333",
+                        "error-container": "#ffdad6",
+                        "surface": "#f7f9fb",
+                        "error": "#ba1a1a",
+                        "on-surface": "#191c1e",
+                        "on-primary-container": "#eeefff",
+                        "on-tertiary": "#ffffff",
+                        "primary-fixed": "#e5e5e5",
+                        "secondary-container": "#e5e5e5",
+                        "primary-container": "#333333",
+                        "surface-container": "#eceef0",
+                        "on-tertiary-fixed": "#0b1c30",
+                        "primary-fixed-dim": "#999999",
+                        "surface-container-low": "#f2f4f6",
+                        "on-error": "#ffffff",
+                        "secondary-fixed-dim": "#bec6e0",
+                        "on-secondary-fixed": "#131b2e",
+                        "secondary-fixed": "#dae2fd",
+                        "surface-tint": "#000000",
+                        "background": "#f7f9fb",
+                        "inverse-surface": "#2d3133",
+                        "on-tertiary-container": "#e9f0ff",
+                        "on-tertiary-fixed-variant": "#38485d",
+                        "tertiary-fixed": "#d3e4fe",
+                        "on-secondary": "#ffffff",
+                        "on-background": "#191c1e",
+                        "outline": "#737686",
+                        "outline-variant": "#c3c6d7",
+                        "on-error-container": "#93000a",
+                        "surface-variant": "#e0e3e5",
+                        "secondary": "#565e74"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-max": "1440px",
+                        "space-lg": "24px",
+                        "space-md": "16px",
+                        "margin-mobile": "16px",
+                        "space-xs": "4px",
+                        "space-xl": "32px",
+                        "sidebar-width": "280px",
+                        "gutter": "24px",
+                        "space-sm": "8px"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "display-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-sm": ["11px", { "lineHeight": "14px", "fontWeight": "500" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "display-lg": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        [data-weight="fill"] {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen font-body-md text-body-md overflow-x-hidden">
+<!-- TopNavBar -->
+<header class="fixed top-0 right-0 w-[calc(100%-280px)] h-16 bg-surface dark:bg-background border-b border-outline-variant dark:border-outline flex justify-between items-center px-space-lg z-40">
+<div class="flex items-center gap-space-md w-full max-w-md">
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-lg">search</span>
+<input class="w-full bg-surface-container-low border border-outline-variant rounded-full py-2 pl-10 pr-4 font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors" placeholder="Search Content..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-space-lg">
+<button class="text-on-surface-variant hover:text-primary transition-all cursor-pointer active:opacity-80">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-all cursor-pointer active:opacity-80">
+<span class="material-symbols-outlined">apps</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-all cursor-pointer active:opacity-80 font-label-md text-label-md">
+                Support
+            </button>
+<img alt="User Profile Avatar" class="w-8 h-8 rounded-full border border-outline-variant object-cover" data-alt="A small, professional headshot of a user. The lighting is bright and clear, conveying a modern corporate environment. The image is circular, focusing closely on a smiling face against a neutral light grey background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBtXG00Pyb2BFO6ph8Kk6HQWoQ9KYpnsjT-RI6YjX34TcxbZ3hucvFm-KHufpxRUY9v0Ky06ceciK5BFenZb1mKY-RXtDnhwC9jCamCPCYLIP__Fyb5I1cu68O8DgX9AN-0xWuBg-G4-WHoNQfGStEUXwOQ81594Nvw4zcV9dvkDrH-TCIhzKwjBHZeUhPytCgSlZ-Y8KBJgVyT7BO7MpLzp4HbENWK7_CksG23pVcRfOjWGnKqZH6d"/>
+</div>
+</header>
+<!-- SideNavBar -->
+<nav class="fixed h-screen w-sidebar-width left-0 top-0 bg-surface-container-lowest dark:bg-inverse-surface border-r border-outline-variant dark:border-outline shadow-sm flex flex-col py-space-lg z-50">
+<div class="px-space-lg mb-space-xl flex items-center gap-space-md">
+<img alt="Proton Admin Logo" class="w-10 h-10 object-contain" data-alt="A stylized logo icon for Proton CMS. It features a modern, geometric shape combining a sphere and intersecting rings in a vibrant blue color. The aesthetic is clean, flat, and corporate." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC8Px0HOcreUuX_HZbZvkVpWdm23LPC3-aM_8OWOkEDXlN4QBlxSBB8gsM2CVqoNfBIYt2VVmZhrQ3xBa_nUYfJGE2Hr4zCnhtKuFb-YX4s2KTfpsE1Curkq1OR88sQ0mV5vn06ls39Dr6F-i1-gAJJGUpV5G7MKe5T0WPvP00F_tHDeuMs9RaJNLU2bdY6MCYPPrb9034fs3WA6zHqtJZvv9a84J0_IiMPnAFd3RHGLQmkMnn5GmGl"/>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-inverse-primary">Proton CMS</h1>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Enterprise Admin</p>
+</div>
+</div>
+<ul class="flex-1 flex flex-col gap-1 px-space-md">
+<!-- Dashboard -->
+<li class="">
+<a class="flex items-center gap-space-md px-space-md py-3 rounded-lg font-label-md text-label-md text-on-secondary-fixed-variant hover:bg-surface-container-high transition-colors duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined text-lg">dashboard</span>
+                    Dashboard
+                </a>
+</li>
+<!-- Content (Active) -->
+<li class="">
+<a class="flex items-center gap-space-md px-space-md py-3 rounded-lg font-label-md text-label-md text-on-secondary-fixed-variant hover:bg-surface-container-high transition-colors duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined text-lg">description</span>
+                    Content
+                </a>
+</li>
+<!-- Media -->
+<li class="">
+<a class="flex items-center gap-space-md px-space-md py-3 rounded-lg font-label-md text-label-md text-on-secondary-fixed-variant hover:bg-surface-container-high transition-colors duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined text-lg">image</span>
+                    Media
+                </a>
+</li>
+<!-- Analytics -->
+<li class="">
+<a class="flex items-center gap-space-md px-space-md py-3 rounded-lg font-label-md text-label-md text-on-secondary-fixed-variant hover:bg-surface-container-high transition-colors duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined text-lg">analytics</span>
+                    Analytics
+                </a>
+</li>
+<!-- Users -->
+<li class="">
+<a class="flex items-center gap-space-md px-space-md py-3 rounded-lg font-label-md text-label-md text-on-secondary-fixed-variant hover:bg-surface-container-high transition-colors duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined text-lg">group</span>
+                    Users
+                </a>
+</li>
+<!-- Settings -->
+<li class="">
+<a class="flex items-center gap-space-md px-space-md py-3 rounded-lg font-label-md text-label-md text-on-secondary-fixed-variant hover:bg-surface-container-high transition-colors duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined text-lg">settings</span>
+                    Settings
+                </a>
+</li>
+</ul>
+<div class="px-space-md mt-auto pt-space-md border-t border-outline-variant">
+<ul class="flex flex-col gap-1">
+<li class="">
+<a class="flex items-center gap-space-md px-space-md py-2 rounded-lg font-label-md text-label-md text-on-secondary-fixed-variant hover:bg-surface-container-high transition-colors duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined text-lg">help</span>
+                        Help
+                    </a>
+</li>
+<li class="">
+<a class="flex items-center gap-space-md px-space-md py-2 rounded-lg font-label-md text-label-md text-on-secondary-fixed-variant hover:bg-surface-container-high transition-colors duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined text-lg">logout</span>
+                        Sign Out
+                    </a>
+</li>
+</ul>
+</div>
+</nav>
+<!-- Main Canvas -->
+<main class="ml-sidebar-width pt-16 min-h-screen bg-background pb-20">
+<div class="max-w-container-max mx-auto px-gutter py-space-lg">
+<!-- Page Header -->
+<div class="flex justify-between items-center mb-space-lg">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-1">Content Management</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Manage and publish your articles and pages.</p>
+</div>
+<button class="bg-primary hover:bg-on-primary-fixed-variant text-on-primary font-label-md text-label-md py-2 px-6 rounded-lg transition-colors flex items-center gap-2 shadow-sm hover:shadow-md">
+<span class="material-symbols-outlined text-sm">add</span>
+                    Create New Post
+                </button>
+</div>
+<!-- Filters & Actions -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant shadow-sm mb-space-lg p-space-sm flex justify-between items-center">
+<div class="flex gap-2">
+<button class="px-4 py-1.5 rounded-lg font-label-md text-label-md bg-surface-container-high text-on-surface transition-colors">All</button>
+<button class="px-4 py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container transition-colors">Published</button>
+<button class="px-4 py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container transition-colors">Drafts</button>
+</div>
+<div class="flex gap-space-md items-center pr-space-md">
+<button class="text-on-surface-variant hover:text-primary flex items-center gap-1 font-label-md text-label-md">
+<span class="material-symbols-outlined text-sm">filter_list</span>
+                        Filter
+                     </button>
+</div>
+</div>
+<!-- Data Table -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant shadow-sm overflow-hidden">
+<table class="w-full text-left border-collapse">
+<thead class="bg-surface-container border-b border-outline-variant">
+<tr>
+<th class="py-3 px-space-md font-label-md text-label-md text-tertiary">Title</th>
+<th class="py-3 px-space-md font-label-md text-label-md text-tertiary">Author</th>
+<th class="py-3 px-space-md font-label-md text-label-md text-tertiary">Status</th>
+<th class="py-3 px-space-md font-label-md text-label-md text-tertiary">Category</th>
+<th class="py-3 px-space-md font-label-md text-label-md text-tertiary">Last Updated</th>
+<th class="py-3 px-space-md font-label-md text-label-md text-tertiary text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<!-- Row 1 -->
+<tr class="hover:bg-surface transition-colors group">
+<td class="py-4 px-space-md">
+<div class="flex items-center gap-space-md">
+<img alt="Scaling Next.js Applications for Enterprise Thumbnail" class="w-12 h-12 rounded-lg object-cover border border-outline-variant" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDS261w9JlxCRY-34LIwghSAPh2YHKU35XeNuNyU22G6oO8K-_MicGDVIlH8TI_RksZUQl-r4yu2NOL-HYeK5axAAs4_xVL-MfyQPoghAmRGBX93zjhCHSzVqce5ZhXiggJcHjTcYoVeVpwUxGZ6ZB5RsH-itmmpbHgzTWXbc2Uge54etZ75hu-wA6fYxLKJmIZesnpD5ZX6raPElNKtZzmaX7myrSE_u_KZg-Jot2d7szCGURjrkIb"/>
+<div>
+<a class="font-body-md text-body-md font-semibold text-on-surface hover:text-primary transition-colors" href="#">Scaling Next.js Applications for Enterprise</a>
+</div>
+</div>
+</td>
+<td class="py-4 px-space-md font-body-md text-body-md text-on-surface-variant">Sarah Jenkins</td>
+<td class="py-4 px-space-md">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full font-label-sm text-label-sm bg-secondary-container text-on-secondary-fixed">Published</span>
+</td>
+<td class="py-4 px-space-md font-body-md text-body-md text-on-surface-variant">Engineering</td>
+<td class="py-4 px-space-md font-body-md text-body-md text-on-surface-variant">Oct 24, 2024</td>
+<td class="py-4 px-space-md text-right">
+<button class="text-on-surface-variant hover:text-primary transition-colors p-1">
+<span class="material-symbols-outlined text-sm">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface transition-colors group">
+<td class="py-4 px-space-md">
+<div class="flex items-center gap-space-md">
+<img alt="User Experience Patterns for Headless CMS Thumbnail" class="w-12 h-12 rounded-lg object-cover border border-outline-variant" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDdflMVAuoDN7GGnnw4GFz1UF2tE-s-cUPEKBgkxVIHCp7krdecE19csLPEYHdyEjf6nxkh-kom-fcAkPgc2H5Omvody-xj-FlsLTb-jqVpkozBzre84CxkiS7glHzdpaPkc4vdvyrBib97YKeBeU9uLTdiS-2Dcd0bHMvP6948yciOKEAVsfx1PTrlPsbL5689PglDato7KlfIf-Nmxfp4enJ2kn7rLhKrz8IFM_pvhA4nXqY51Bvu"/>
+<div>
+<a class="font-body-md text-body-md font-semibold text-on-surface hover:text-primary transition-colors" href="#">User Experience Patterns for Headless CMS</a>
+</div>
+</div>
+</td>
+<td class="py-4 px-space-md font-body-md text-body-md text-on-surface-variant">David Chen</td>
+<td class="py-4 px-space-md">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full font-label-sm text-label-sm bg-surface-variant text-on-surface-variant">Draft</span>
+</td>
+<td class="py-4 px-space-md font-body-md text-body-md text-on-surface-variant">Design</td>
+<td class="py-4 px-space-md font-body-md text-body-md text-on-surface-variant">Oct 22, 2024</td>
+<td class="py-4 px-space-md text-right">
+<button class="text-on-surface-variant hover:text-primary transition-colors p-1">
+<span class="material-symbols-outlined text-sm">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface transition-colors group">
+<td class="py-4 px-space-md">
+<div class="flex items-center gap-space-md">
+<img alt="Security Best Practices for Cloud Storage Thumbnail" class="w-12 h-12 rounded-lg object-cover border border-outline-variant" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDkEw9l7kyYJadazB7R5jkAc9ZWTCcEeo9vPeMZVK2f5Y6Qp5Hm5wP0hA-o3fg8TWe-cKg02QJcAl118XGaA5bprHJItUnBUOwbmdHI83Ael7tdbO_Fqj8y8bVfV59SS317C7N6EVHiB1TVUScaajvTeNrblBPogkFr_5FERYWAfJ033Q-qQH630vbuegmjipzoJ-orbNabCxgXiCTl5L5Xc0OEfl9w9dgpZEKZzVJkKYfdHvC6ZGU2"/>
+<div>
+<a class="font-body-md text-body-md font-semibold text-on-surface hover:text-primary transition-colors" href="#">Security Best Practices for Cloud Storage</a>
+</div>
+</div>
+</td>
+<td class="py-4 px-space-md font-body-md text-body-md text-on-surface-variant">Marcus Thorne</td>
+<td class="py-4 px-space-md">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full font-label-sm text-label-sm bg-primary-fixed text-on-primary-fixed">Scheduled</span>
+</td>
+<td class="py-4 px-space-md font-body-md text-body-md text-on-surface-variant">Security</td>
+<td class="py-4 px-space-md font-body-md text-body-md text-on-surface-variant">Oct 20, 2024</td>
+<td class="py-4 px-space-md text-right">
+<button class="text-on-surface-variant hover:text-primary transition-colors p-1">
+<span class="material-symbols-outlined text-sm">more_vert</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+<!-- Pagination -->
+<div class="px-space-md py-4 border-t border-outline-variant flex items-center justify-between bg-surface-container-lowest">
+<span class="font-label-md text-label-md text-on-surface-variant">Showing 1 to 3 of 42 entries</span>
+<div class="flex gap-1">
+<button class="p-1 rounded hover:bg-surface-container text-on-surface-variant disabled:opacity-50"><span class="material-symbols-outlined text-sm">chevron_left</span></button>
+<button class="w-8 h-8 rounded bg-primary text-on-primary font-label-md text-label-md flex items-center justify-center">1</button>
+<button class="w-8 h-8 rounded hover:bg-surface-container text-on-surface font-label-md text-label-md flex items-center justify-center">2</button>
+<button class="w-8 h-8 rounded hover:bg-surface-container text-on-surface font-label-md text-label-md flex items-center justify-center">3</button>
+<button class="p-1 rounded hover:bg-surface-container text-on-surface-variant"><span class="material-symbols-outlined text-sm">chevron_right</span></button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="ml-sidebar-width bg-surface-container-low dark:bg-surface-container-highest border-t border-outline-variant w-full py-space-md flex justify-between items-center px-space-lg">
+<span class="font-label-sm text-label-sm text-tertiary dark:text-tertiary-fixed-dim">© 2024 Proton CMS Admin. All rights reserved.</span>
+<div class="flex gap-space-md">
+<a class="font-label-sm text-label-sm text-on-secondary-container hover:underline" href="#">Version 2.4.1</a>
+<a class="font-label-sm text-label-sm text-on-secondary-container hover:underline" href="#">Privacy Policy</a>
+<a class="font-label-sm text-label-sm text-on-secondary-container hover:underline" href="#">Terms of Service</a>
+</div>
+</footer>
+</body></html>
