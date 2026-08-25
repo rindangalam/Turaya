@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 
 import { requireAuth } from "@/lib/auth/guards";
 import { PageHeader } from "@/components/admin/page-header";
-import { getContentStats } from "@/services/dashboard";
+import { getContentStats, getWeeklyActivity } from "@/services/dashboard";
 import { StatCard } from "@/features/admin/dashboard/stat-card";
+import { ActivityChart } from "@/features/admin/dashboard/activity-chart";
 import { DraftsPanel } from "@/features/admin/dashboard/drafts-panel";
 import { ActivityPanel } from "@/features/admin/dashboard/activity-panel";
 import { RecentMessagesPanel } from "@/features/admin/dashboard/recent-messages-panel";
@@ -12,7 +13,10 @@ export const metadata: Metadata = { title: "Dashboard" };
 
 export default async function DashboardPage() {
   const user = await requireAuth();
-  const stats = await getContentStats();
+  const [stats, weeklyActivity] = await Promise.all([
+    getContentStats(),
+    getWeeklyActivity(),
+  ]);
 
   const isAdmin = user.role === "admin" || user.role === "super_admin";
 
@@ -29,10 +33,12 @@ export default async function DashboardPage() {
         ))}
       </div>
 
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-        <DraftsPanel stats={stats} />
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
+        <ActivityChart data={weeklyActivity} />
         {isAdmin ? <ActivityPanel /> : <RecentMessagesPanel />}
       </div>
+
+      <DraftsPanel stats={stats} />
     </div>
   );
 }

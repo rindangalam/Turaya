@@ -98,6 +98,46 @@ export type ActivityItem = {
   actorName: string | null;
 };
 
+export type DailyActivity = { date: string; label: string; count: number };
+
+const DAY_LABELS = ["Min", "Sen", "Sel", "Rab", "Kam", "Jum", "Sab"];
+
+/** Audit-log events per day over the last 7 days (real data, no sampling). */
+export async function getWeeklyActivity(): Promise<DailyActivity[]> {
+  const supabase = await createClient();
+
+  const since = new Date();
+  since.setHours(0, 0, 0, 0);
+  since.setDate(since.getDate() - 6);
+
+  const { data, error } = await supabase
+    .from("audit_logs")
+    .select("created_at")
+    .gte("created_at", since.toISOString());
+
+  if (error) {
+    console.error(`dashboard: failed to read weekly audit_logs: ${error.message}`);
+  }
+
+  const indexByDate = new Map<string, number>();
+  const days: DailyActivity[] = [];
+  for (let i = 6; i >= 0; i--) {
+    const day = new Date();
+    day.setHours(0, 0, 0, 0);
+    day.setDate(day.getDate() - i);
+    const key = day.toISOString().slice(0, 10);
+    indexByDate.set(key, days.length);
+    days.push({ date: key, label: DAY_LABELS[day.getDay()], count: 0 });
+  }
+
+  for (const row of data ?? []) {
+    const index = indexByDate.get(String(row.created_at).slice(0, 10));
+    if (index !== undefined) days[index].count += 1;
+  }
+
+  return days;
+}
+
 export async function getRecentActivity(limit = 10): Promise<ActivityItem[]> {
   const supabase = await createClient();
 

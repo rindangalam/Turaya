@@ -31,9 +31,9 @@ export function StatCard({ stat }: { stat: ContentStat }) {
   const meta = SECTION_META[stat.key];
   const Icon = meta?.icon;
 
-  const summary = stat.countVisible
-    ? `${stat.visible} visible · ${stat.total - stat.visible} hidden`
-    : `${stat.published} published · ${stat.draft} draft · ${stat.archived} archived`;
+  const badge = stat.countVisible
+    ? `${stat.visible} live`
+    : `${stat.published} published`;
 
   const card = (
     <Card className="h-full transition-colors hover:bg-muted/30">
@@ -49,7 +49,12 @@ export function StatCard({ stat }: { stat: ContentStat }) {
       </CardHeader>
       <CardContent>
         <p className="text-3xl font-semibold tabular-nums tracking-tight">{stat.total}</p>
-        <p className="mt-1.5 text-xs text-muted-foreground">{summary}</p>
+        <p className="mt-2">
+          <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 text-xs font-medium text-emerald-700">
+            <span aria-hidden>↗</span>
+            {badge}
+          </span>
+        </p>
       </CardContent>
     </Card>
   );
