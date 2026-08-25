@@ -6,12 +6,14 @@ import type { ComponentType } from "react";
 import {
   BookOpenIcon,
   BoxIcon,
+  CircleHelpIcon,
   ImagesIcon,
   InboxIcon,
   LayoutTemplateIcon,
   LayersIcon,
   LayoutDashboardIcon,
   LeafIcon,
+  LogOutIcon,
   MapPinIcon,
   PanelLeftCloseIcon,
   PanelLeftOpenIcon,
@@ -24,6 +26,7 @@ import {
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { logout } from "@/features/auth/actions";
 import { cn } from "@/lib/utils";
 import type { AdminShellUser } from "@/features/admin/shell/types";
 
@@ -136,31 +139,52 @@ export function AdminSidebar({
         {isAdmin ? <NavGroup label="Administration" items={ADMIN_NAV} collapsed={collapsed} /> : null}
       </nav>
 
-      <div className={cn("flex shrink-0 flex-col gap-1 border-t border-border p-3", collapsed && "items-center")}>
-        {collapsed ? null : (
-          <p className="mb-1 truncate px-2 text-xs text-muted-foreground">
-            {user.displayName ?? user.email}
-          </p>
-        )}
-        <div className={cn("flex w-full items-center gap-1", collapsed && "flex-col")}>
+      <div className={cn("flex shrink-0 flex-col gap-0.5 border-t border-border p-3", collapsed && "items-center")}>
+        <Link
+          href="/faq"
+          title={collapsed ? "Help" : undefined}
+          className={cn(
+            "flex h-8 items-center gap-2.5 rounded-md px-2 text-sm text-muted-foreground transition-colors duration-150",
+            "hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+            collapsed && "justify-center px-0",
+          )}
+        >
+          <CircleHelpIcon className="size-4 shrink-0" aria-hidden="true" />
+          {!collapsed ? <span>Help</span> : null}
+        </Link>
+        <form action={logout} className={cn("flex w-full", collapsed && "flex justify-center")}>
           <Button
             variant="ghost"
             size="sm"
-            className={cn("text-muted-foreground", collapsed ? "justify-center" : "flex-1 justify-start", "hidden lg:inline-flex")}
-            onClick={onToggle}
-            aria-label={collapsed ? "Expand navigation" : "Collapse navigation"}
-            title={collapsed ? "Expand navigation" : undefined}
-          >
-            {collapsed ? (
-              <PanelLeftOpenIcon className="size-4" aria-hidden="true" />
-            ) : (
-              <>
-                <PanelLeftCloseIcon className="size-4" aria-hidden="true" />
-                Collapse
-              </>
+            className={cn(
+              "h-8 justify-start gap-2.5 px-2 text-sm font-normal text-muted-foreground hover:text-foreground",
+              collapsed && "w-auto justify-center px-0",
             )}
+          >
+            <LogOutIcon className="size-4 shrink-0" aria-hidden="true" />
+            {!collapsed ? <span>Sign out</span> : null}
           </Button>
-        </div>
+        </form>
+        <Button
+          variant="ghost"
+          size="sm"
+          className={cn(
+            "hidden h-8 justify-start gap-2.5 px-2 text-sm font-normal text-muted-foreground hover:text-foreground lg:inline-flex",
+            collapsed && "w-auto justify-center px-0",
+          )}
+          onClick={onToggle}
+          aria-label={collapsed ? "Expand navigation" : "Collapse navigation"}
+          title={collapsed ? "Expand navigation" : undefined}
+        >
+          {collapsed ? (
+            <PanelLeftOpenIcon className="size-4" aria-hidden="true" />
+          ) : (
+            <>
+              <PanelLeftCloseIcon className="size-4" aria-hidden="true" />
+              Collapse
+            </>
+          )}
+        </Button>
       </div>
     </>
   );
@@ -204,10 +228,16 @@ export function AdminSidebar({
               <NavGroup label="Content" items={[...CONTENT_NAV, ...STAFF_NAV]} collapsed={false} />
               {isAdmin ? <NavGroup label="Administration" items={ADMIN_NAV} collapsed={false} /> : null}
             </nav>
-            <div className="flex shrink-0 items-center border-t border-border p-3">
+            <div className="flex shrink-0 items-center justify-between border-t border-border p-3">
               <p className="min-w-0 flex-1 truncate text-xs text-muted-foreground">
                 {user.displayName ?? user.email}
               </p>
+              <form action={logout}>
+                <Button variant="ghost" size="sm" className="text-muted-foreground">
+                  <LogOutIcon className="size-4" aria-hidden="true" />
+                  Sign out
+                </Button>
+              </form>
             </div>
           </aside>
         </div>

@@ -7,7 +7,6 @@ import { PageHeader } from "@/components/admin/page-header";
 import { EmptyState } from "@/components/admin/empty-state";
 import { Button } from "@/components/ui/button";
 import { GalleryList } from "@/features/admin/gallery/gallery-list";
-import { GalleryToolbar } from "@/features/admin/gallery/gallery-toolbar";
 import { listGalleryItems, listGalleryCategories } from "@/services/gallery";
 import { CONTENT_STATUSES } from "@/lib/validation/collections";
 import { cn } from "@/lib/utils";
@@ -45,44 +44,70 @@ export default async function GalleryPage({
         </Button>
       </PageHeader>
 
-      <div className="flex flex-col gap-4">
-        <GalleryToolbar status={status ?? ""} category={categoryFilter ?? ""} categories={categories} />
-        <nav aria-label="Gallery status filter" className="flex flex-wrap gap-1">
-          <FilterTab
-            href={categoryHref(undefined, categoryFilter)}
-            label="All"
-            active={status === undefined}
-          />
-          {CONTENT_STATUSES.map((candidate) => (
+      <div className="flex flex-col gap-6 lg:flex-row lg:items-start">
+        <aside
+          aria-label="Gallery filters"
+          className="w-full shrink-0 rounded-xl border border-border bg-card p-4 lg:sticky lg:top-20 lg:w-60"
+        >
+          <p className="overline text-xs uppercase tracking-wider text-muted-foreground">Status</p>
+          <nav aria-label="Gallery status filter" className="mt-2 flex flex-wrap gap-1 lg:flex-col">
             <FilterTab
-              key={candidate}
-              href={categoryHref(candidate, categoryFilter)}
-              label={candidate}
-              active={status === candidate}
+              href={categoryHref(undefined, categoryFilter)}
+              label="All"
+              active={status === undefined}
             />
-          ))}
-        </nav>
-      </div>
+            {CONTENT_STATUSES.map((candidate) => (
+              <FilterTab
+                key={candidate}
+                href={categoryHref(candidate, categoryFilter)}
+                label={candidate.charAt(0).toUpperCase() + candidate.slice(1)}
+                active={status === candidate}
+              />
+            ))}
+          </nav>
 
-      {items.length === 0 ? (
-        <EmptyState
-          icon={<ImagesIcon className="size-6" aria-hidden="true" />}
-          title="No gallery items"
-          description={
-            categoryFilter
-              ? "Nothing in this category yet. Upload the first image or clear the filter."
-              : "Upload the first editorial image to start building the gallery."
-          }
-          action={
-            <Button size="sm" render={<Link href="/admin/gallery/new" />}>
-              <PlusIcon aria-hidden="true" />
-              Upload image
-            </Button>
-          }
-        />
-      ) : (
-        <GalleryList items={items} />
-      )}
+          <p className="overline mt-5 text-xs uppercase tracking-wider text-muted-foreground">
+            Category
+          </p>
+          <nav aria-label="Gallery category filter" className="mt-2 flex flex-wrap gap-1 lg:flex-col">
+            <FilterTab
+              href={categoryHref(status ?? undefined, undefined)}
+              label="All categories"
+              active={!categoryFilter}
+            />
+            {categories.map((candidate) => (
+              <FilterTab
+                key={candidate}
+                href={categoryHref(status ?? undefined, candidate)}
+                label={candidate}
+                active={categoryFilter === candidate}
+              />
+            ))}
+          </nav>
+        </aside>
+
+        <div className="min-w-0 flex-1">
+          {items.length === 0 ? (
+            <EmptyState
+              icon={<ImagesIcon className="size-6" aria-hidden="true" />}
+              title="No gallery items"
+              description={
+                categoryFilter
+                  ? "Nothing in this category yet. Upload the first image or clear the filter."
+                  : "Upload the first editorial image to start building the gallery."
+              }
+              action={
+                <Button size="sm" render={<Link href="/admin/gallery/new" />}>
+                  <PlusIcon aria-hidden="true" />
+                  Upload image
+                </Button>
+              }
+            />
+          ) : (
+            <GalleryList items={items} />
+          )}
+        </div>
+      </div>
     </div>
   );
 }
