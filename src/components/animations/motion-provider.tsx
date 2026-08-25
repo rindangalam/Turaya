@@ -13,9 +13,14 @@ export function MotionProvider({ children }: { children: ReactNode }) {
   const reduce = usePrefersReducedMotion();
   const pathname = usePathname();
   const lenisRef = useRef<Lenis | null>(null);
+  // Lenis must not run on /admin at all: lenis.stop() freezes scrolling
+  // (wheel preventDefault + `.lenis-stopped { overflow: hidden }`), which
+  // made admin pages unscrollable. Destroy it there instead; native
+  // scrolling applies, and Lenis is recreated on return to the public site.
+  const isAdmin = pathname.startsWith("/admin");
 
   useEffect(() => {
-    if (reduce) return;
+    if (reduce || isAdmin) return;
 
     const lenis = new Lenis({ autoRaf: false });
     lenisRef.current = lenis;
@@ -37,18 +42,14 @@ export function MotionProvider({ children }: { children: ReactNode }) {
       lenis.destroy();
       lenisRef.current = null;
     };
-  }, [reduce]);
+  }, [reduce, isAdmin]);
 
   useEffect(() => {
-    if (reduce) return;
-    if (pathname.startsWith("/admin")) {
-      lenisRef.current?.stop();
-      return;
-    }
+    if (reduce || isAdmin) return;
     lenisRef.current?.start();
     const id = requestAnimationFrame(() => ScrollTrigger.refresh());
     return () => cancelAnimationFrame(id);
-  }, [pathname, reduce]);
+  }, [pathname, reduce, isAdmin]);
 
   return <>{children}</>;
 }
