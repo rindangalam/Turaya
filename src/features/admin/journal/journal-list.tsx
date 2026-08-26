@@ -17,11 +17,11 @@ export function JournalList({ posts }: { posts: JournalPostListItem[] }) {
     return (
       <EmptyState
         icon={<FileTextIcon className="size-6" aria-hidden="true" />}
-        title="No posts found"
-        description="Adjust your search or write your first journal entry."
+        title="Belum ada artikel"
+        description="Sesuaikan pencarian atau filter Anda, atau tulis artikel pertama untuk jurnal."
         action={
           <Button size="sm" render={<Link href="/admin/journal/new" />}>
-            New post
+            Artikel baru
           </Button>
         }
       />
@@ -34,22 +34,22 @@ export function JournalList({ posts }: { posts: JournalPostListItem[] }) {
         <thead className="bg-muted/50 text-left text-xs tracking-wide text-muted-foreground uppercase">
           <tr>
             <th scope="col" className="px-4 py-2 font-medium">
-              Post
+              Artikel
             </th>
             <th scope="col" className="hidden px-4 py-2 font-medium md:table-cell">
-              Category
+              Kategori
             </th>
             <th scope="col" className="hidden px-4 py-2 font-medium lg:table-cell">
-              Tags
+              Tag
             </th>
             <th scope="col" className="px-4 py-2 font-medium">
               Status
             </th>
             <th scope="col" className="hidden px-4 py-2 font-medium lg:table-cell">
-              Updated
+              Diperbarui
             </th>
             <th scope="col" className="px-4 py-2">
-              <span className="sr-only">Actions</span>
+              <span className="sr-only">Tindakan</span>
             </th>
           </tr>
         </thead>
@@ -118,7 +118,7 @@ export function JournalList({ posts }: { posts: JournalPostListItem[] }) {
                     id={post.id}
                     name={post.title}
                     action={deleteJournalPost}
-                    successMessage="Post archived"
+                    successMessage="Artikel diarsipkan"
                   />
                 </div>
               </td>

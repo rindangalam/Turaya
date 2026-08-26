@@ -1,4 +1,5 @@
 import { Badge } from "@/components/ui/badge";
+import { contentStatusLabel } from "@/lib/labels";
 
 const STATUS_VARIANT: Record<string, "default" | "secondary" | "outline"> = {
   published: "default",
@@ -8,5 +9,5 @@ const STATUS_VARIANT: Record<string, "default" | "secondary" | "outline"> = {
 
 export function ContentStatusBadge({ status }: { status: string }) {
   const variant = STATUS_VARIANT[status] ?? "secondary";
-  return <Badge variant={variant}>{status}</Badge>;
+  return <Badge variant={variant}>{contentStatusLabel(status)}</Badge>;
 }

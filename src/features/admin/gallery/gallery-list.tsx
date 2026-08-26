@@ -70,7 +70,7 @@ function GalleryTile({
                 variant="ghost"
                 size="icon-sm"
                 disabled={isFirst}
-                aria-label={`Move ${item.alt} up`}
+                aria-label={`Pindahkan ${item.alt} ke atas`}
               >
                 <ArrowUpIcon className="size-3.5" aria-hidden="true" />
               </Button>
@@ -83,7 +83,7 @@ function GalleryTile({
                 variant="ghost"
                 size="icon-sm"
                 disabled={isLast}
-                aria-label={`Move ${item.alt} down`}
+                aria-label={`Pindahkan ${item.alt} ke bawah`}
               >
                 <ArrowDownIcon className="size-3.5" aria-hidden="true" />
               </Button>
@@ -102,7 +102,7 @@ function GalleryTile({
               id={item.id}
               name={item.alt}
               action={deleteGalleryItem}
-              successMessage="Gallery item deleted"
+              successMessage="Gambar dihapus"
             />
           </div>
         </div>

@@ -1,4 +1,5 @@
 import { Badge } from "@/components/ui/badge";
+import { messageStatusLabel } from "@/lib/labels";
 import type { MessageStatus } from "@/services/messages";
 
 const STATUS_VARIANT: Record<MessageStatus, "default" | "secondary" | "outline"> = {
@@ -9,5 +10,5 @@ const STATUS_VARIANT: Record<MessageStatus, "default" | "secondary" | "outline">
 };
 
 export function MessageStatusBadge({ status }: { status: MessageStatus }) {
-  return <Badge variant={STATUS_VARIANT[status]}>{status}</Badge>;
+  return <Badge variant={STATUS_VARIANT[status]}>{messageStatusLabel(status)}</Badge>;
 }

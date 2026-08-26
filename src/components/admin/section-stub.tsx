@@ -8,12 +8,12 @@ export function SectionStub({ title, description }: { title: string; description
     <div className="flex flex-col gap-6">
       <PageHeader
         title={title}
-        description={description ?? "This section is under construction."}
+        description={description ?? "Bagian ini sedang dalam pengembangan."}
       />
       <EmptyState
         icon={<WrenchIcon className="size-6" />}
-        title="Coming in an upcoming sprint"
-        description="The admin tooling for this section ships with its dedicated CMS sprint."
+        title="Segera hadir"
+        description="Tooling admin untuk bagian ini akan hadir pada sprint CMS khusus."
       />
     </div>
   );

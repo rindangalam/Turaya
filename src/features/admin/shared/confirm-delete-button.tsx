@@ -39,7 +39,7 @@ export function ConfirmDeleteButton({
         variant="ghost"
         size="icon-sm"
         onClick={() => setConfirming(true)}
-        aria-label={`Delete ${name}`}
+        aria-label={`Hapus ${name}`}
       >
         <Trash2Icon className="size-3.5" aria-hidden="true" />
       </Button>
@@ -50,10 +50,10 @@ export function ConfirmDeleteButton({
     <form action={formAction} className="flex items-center gap-1">
       <input type="hidden" name="id" value={id} />
       <Button type="button" variant="outline" size="xs" onClick={() => setConfirming(false)} disabled={pending}>
-        Cancel
+        Batal
       </Button>
       <Button type="submit" variant="destructive" size="xs" disabled={pending}>
-        {pending ? "Deleting…" : "Confirm"}
+        {pending ? "Menghapus…" : "Konfirmasi"}
       </Button>
     </form>
   );

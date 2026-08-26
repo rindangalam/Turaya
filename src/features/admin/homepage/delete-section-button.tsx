@@ -13,7 +13,7 @@ export function DeleteSectionButton({ id }: { id: string }) {
 
   useEffect(() => {
     if (state?.ok) {
-      toast.success("Section deleted");
+      toast.success("Bagian dihapus");
     } else if (state?.formError) {
       toast.error(state.formError);
     }
@@ -29,7 +29,7 @@ export function DeleteSectionButton({ id }: { id: string }) {
         variant="ghost"
         size="icon-sm"
         onClick={() => setConfirming(true)}
-        aria-label="Delete section"
+        aria-label="Hapus bagian"
       >
         <Trash2Icon className="size-3.5" aria-hidden="true" />
       </Button>
@@ -40,10 +40,10 @@ export function DeleteSectionButton({ id }: { id: string }) {
     <form action={formAction} className="flex items-center gap-1">
       <input type="hidden" name="id" value={id} />
       <Button type="button" variant="outline" size="xs" onClick={() => setConfirming(false)} disabled={pending}>
-        Cancel
+        Batal
       </Button>
       <Button type="submit" variant="destructive" size="xs" disabled={pending}>
-        {pending ? "Deleting…" : "Confirm delete"}
+        {pending ? "Menghapus…" : "Konfirmasi"}
       </Button>
     </form>
   );

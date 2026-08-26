@@ -9,18 +9,18 @@ import { Label } from "@/components/ui/label";
 const STAGES = [
   {
     value: "top",
-    label: "Top",
-    description: "First impression — evaporates quickly.",
+    label: "Atas",
+    description: "Kesan pertama — menguap dengan cepat.",
   },
   {
     value: "heart",
-    label: "Heart",
-    description: "The core character of the fragrance.",
+    label: "Tengah",
+    description: "Karakter inti dari wewangian.",
   },
   {
     value: "base",
-    label: "Base",
-    description: "The foundation that lingers longest.",
+    label: "Dasar",
+    description: "Fondasi yang bertahan paling lama.",
   },
 ] as const;
 
@@ -101,7 +101,7 @@ export function NotesEditor({
 
             {ids.length === 0 ? (
               <p className="rounded-lg border border-dashed border-border px-3 py-4 text-center text-xs text-muted-foreground">
-                No ingredients
+                Belum ada bahan
               </p>
             ) : (
               <ol className="flex flex-col gap-2">
@@ -111,7 +111,7 @@ export function NotesEditor({
                     className="flex items-center gap-1 rounded-lg border border-border px-2.5 py-2"
                   >
                     <span className="min-w-0 flex-1 truncate text-sm">
-                      {names.get(ingredientId) ?? "Unknown"}
+                      {names.get(ingredientId) ?? "Tidak dikenal"}
                     </span>
                     <Button
                       type="button"
@@ -119,7 +119,7 @@ export function NotesEditor({
                       size="icon-sm"
                       disabled={index === 0}
                       onClick={() => move(stage.value, index, -1)}
-                      aria-label={`Move ${names.get(ingredientId) ?? "ingredient"} up`}
+                      aria-label={`Naikkan ${names.get(ingredientId) ?? "bahan"}`}
                     >
                       <ArrowUpIcon className="size-3.5" aria-hidden="true" />
                     </Button>
@@ -129,7 +129,7 @@ export function NotesEditor({
                       size="icon-sm"
                       disabled={index === ids.length - 1}
                       onClick={() => move(stage.value, index, 1)}
-                      aria-label={`Move ${names.get(ingredientId) ?? "ingredient"} down`}
+                      aria-label={`Turunkan ${names.get(ingredientId) ?? "bahan"}`}
                     >
                       <ArrowDownIcon className="size-3.5" aria-hidden="true" />
                     </Button>
@@ -138,7 +138,7 @@ export function NotesEditor({
                       variant="ghost"
                       size="icon-sm"
                       onClick={() => remove(stage.value, index)}
-                      aria-label={`Remove ${names.get(ingredientId) ?? "ingredient"}`}
+                      aria-label={`Hapus ${names.get(ingredientId) ?? "bahan"}`}
                     >
                       <XIcon className="size-3.5" aria-hidden="true" />
                     </Button>
@@ -149,7 +149,7 @@ export function NotesEditor({
 
             <AddIngredientSelect
               id={`notes-${stage.value}-add`}
-              label={`Add to ${stage.label.toLowerCase()}`}
+              label={`Tambah ke nada ${stage.label.toLowerCase()}`}
               options={assignable}
               onSelect={(id) => add(stage.value, id)}
             />
@@ -185,7 +185,7 @@ function AddIngredientSelect({
         }}
         className="h-8 w-full rounded-lg border border-input bg-transparent px-2.5 text-sm outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:opacity-50"
       >
-        <option value="">Select…</option>
+        <option value="">Pilih…</option>
         {options.map((option) => (
           <option key={option.id} value={option.id}>
             {option.name}
