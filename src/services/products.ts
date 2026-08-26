@@ -23,6 +23,8 @@ export type ProductListOptions = {
   q?: string;
   status?: string;
   sort?: import("@/lib/validation/product").ProductSort;
+  page?: number;
+  pageSize?: number;
 };
 
 export async function listProducts(options: ProductListOptions = {}): Promise<ProductListItem[]> {
@@ -42,6 +44,11 @@ export async function listProducts(options: ProductListOptions = {}): Promise<Pr
   if (options.q) {
     const like = `%${options.q}%`;
     query = query.or(`name.ilike.${like},slug.ilike.${like},tagline.ilike.${like}`);
+  }
+
+  if (options.page != null && options.pageSize != null) {
+    const from = (options.page - 1) * options.pageSize;
+    query = query.range(from, from + options.pageSize - 1);
   }
 
   const sort = options.sort ?? "updated_desc";
@@ -83,6 +90,33 @@ export async function listProducts(options: ProductListOptions = {}): Promise<Pr
     collectionName: row.collections?.name ?? null,
     imagePath: row.product_images?.[0]?.path ?? null,
   }));
+}
+
+export async function countProducts(
+  options: Pick<ProductListOptions, "q" | "status"> = {},
+): Promise<number> {
+  const supabase = await createClient();
+
+  let query = supabase
+    .from("products")
+    .select("id", { count: "exact", head: true })
+    .is("deleted_at", null);
+
+  if (options.status) {
+    query = query.eq("status", options.status);
+  }
+
+  if (options.q) {
+    const like = `%${options.q}%`;
+    query = query.or(`name.ilike.${like},slug.ilike.${like},tagline.ilike.${like}`);
+  }
+
+  const { count, error } = await query;
+  if (error) {
+    console.error(`products: failed to count: ${error.message}`);
+    return 0;
+  }
+  return count ?? 0;
 }
 
 export type ProductDetail = Product & { images: ProductImage[] };
@@ -263,4 +297,17 @@ export async function getPublishedProductBySlug(slug: string): Promise<PublicPro
       noteStage: note.note_stage,
     })),
   };
+}
+
+export async function getProductStatusCounts(): Promise<Record<string, number>> {
+  const supabase = await createClient();
+  const { data, error } = await supabase.from("products").select("status");
+  if (error) {
+    console.error(`products: failed to count statuses: ${error.message}`);
+    return {};
+  }
+  return (data ?? []).reduce<Record<string, number>>((acc, row) => {
+    acc[row.status] = (acc[row.status] ?? 0) + 1;
+    return acc;
+  }, {});
 }

@@ -24,6 +24,8 @@ export type JournalListOptions = {
   q?: string;
   status?: string;
   categoryId?: string;
+  page?: number;
+  pageSize?: number;
 };
 
 export async function listJournalPosts(
@@ -49,6 +51,11 @@ export async function listJournalPosts(
   if (options.q) {
     const like = `%${options.q}%`;
     query = query.or(`title.ilike.${like},slug.ilike.${like},excerpt.ilike.${like}`);
+  }
+
+  if (options.page != null && options.pageSize != null) {
+    const from = (options.page - 1) * options.pageSize;
+    query = query.range(from, from + options.pageSize - 1);
   }
 
   const { data, error } = await query.order("updated_at", { ascending: false });
@@ -220,4 +227,51 @@ export async function getPublishedPostBySlug(
       .map((entry) => entry.journal_tags?.name)
       .filter((name): name is string => name != null),
   };
+}
+
+export async function getJournalStatusCounts(): Promise<Record<string, number>> {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("journal_posts")
+    .select("status")
+    .is("deleted_at", null);
+  if (error) {
+    console.error(`journal: failed to count statuses: ${error.message}`);
+    return {};
+  }
+  return (data ?? []).reduce<Record<string, number>>((acc, row) => {
+    acc[row.status] = (acc[row.status] ?? 0) + 1;
+    return acc;
+  }, {});
+}
+
+export async function countJournalPosts(
+  options: Pick<JournalListOptions, "q" | "status" | "categoryId"> = {},
+): Promise<number> {
+  const supabase = await createClient();
+
+  let query = supabase
+    .from("journal_posts")
+    .select("id", { count: "exact", head: true })
+    .is("deleted_at", null);
+
+  if (options.status) {
+    query = query.eq("status", options.status);
+  }
+
+  if (options.categoryId) {
+    query = query.eq("category_id", options.categoryId);
+  }
+
+  if (options.q) {
+    const like = `%${options.q}%`;
+    query = query.or(`title.ilike.${like},slug.ilike.${like},excerpt.ilike.${like}`);
+  }
+
+  const { count, error } = await query;
+  if (error) {
+    console.error(`journal: failed to count: ${error.message}`);
+    return 0;
+  }
+  return count ?? 0;
 }

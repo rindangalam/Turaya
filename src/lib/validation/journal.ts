@@ -22,17 +22,17 @@ export function extensionFor(type: string): string {
 }
 
 export const journalPostSchema = z.object({
-  title: z.string().trim().min(1, "Title is required.").max(200),
+  title: z.string().trim().min(1, "Judul wajib diisi.").max(200),
   slug: z
     .string()
     .trim()
     .toLowerCase()
     .refine((value) => slugPattern.test(value), {
-      message: "Use lowercase letters, numbers and hyphens (e.g. selamat-datang).",
+      message: "Gunakan huruf kecil, angka, dan tanda hubung (contoh: selamat-datang).",
     }),
   excerpt: z.string().trim().max(500).nullable().optional(),
-  body: z.string().trim().min(1, "Body is required."),
-  category_id: pgUuid("Choose a category.").nullable().optional(),
+  body: z.string().trim().min(1, "Isi artikel wajib diisi."),
+  category_id: pgUuid("Pilih kategori.").nullable().optional(),
   status: z.enum(CONTENT_STATUSES),
   seo_title: z.string().trim().max(160).nullable().optional(),
   seo_description: z.string().trim().max(320).nullable().optional(),
@@ -41,23 +41,23 @@ export const journalPostSchema = z.object({
 export type JournalPostInput = z.infer<typeof journalPostSchema>;
 
 export const journalCategorySchema = z.object({
-  name: z.string().trim().min(1, "Name is required.").max(80),
+  name: z.string().trim().min(1, "Nama wajib diisi.").max(80),
   slug: z
     .string()
     .trim()
     .toLowerCase()
     .refine((value) => slugPattern.test(value), {
-      message: "Use lowercase letters, numbers and hyphens (e.g. cerita).",
+      message: "Gunakan huruf kecil, angka, dan tanda hubung (contoh: cerita).",
     }),
 });
 
 export const journalTagSchema = z.object({
-  name: z.string().trim().min(1, "Name is required.").max(50),
+  name: z.string().trim().min(1, "Nama wajib diisi.").max(50),
   slug: z
     .string()
     .trim()
     .toLowerCase()
     .refine((value) => slugPattern.test(value), {
-      message: "Use lowercase letters, numbers and hyphens (e.g. bahan-lokal).",
+      message: "Gunakan huruf kecil, angka, dan tanda hubung (contoh: bahan-lokal).",
     }),
 });

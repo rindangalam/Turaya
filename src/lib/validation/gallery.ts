@@ -19,7 +19,7 @@ export function extensionFor(type: string): string {
 }
 
 export const galleryItemSchema = z.object({
-  alt: z.string().trim().min(1, "Alt text is required.").max(500),
+  alt: z.string().trim().min(1, "Teks alt wajib diisi.").max(500),
   caption: z.string().trim().max(1000).nullable().optional(),
   category: z.string().trim().max(80).nullable().optional(),
   status: z.enum(CONTENT_STATUSES),

@@ -23,19 +23,19 @@ export function isProductSort(value: string): value is ProductSort {
 }
 
 export const productSchema = z.object({
-  name: z.string().trim().min(1, "Name is required.").max(120),
+  name: z.string().trim().min(1, "Nama wajib diisi.").max(120),
   slug: z
     .string()
     .trim()
     .toLowerCase()
     .refine((value) => slugPattern.test(value), {
-      message: "Use lowercase letters, numbers and hyphens (e.g. turaya-no-1).",
+      message: "Gunakan huruf kecil, angka, dan tanda hubung (contoh: turaya-no-1).",
     }),
   tagline: z.string().trim().max(200).nullable().optional(),
   description: z.string().trim().max(2000).nullable().optional(),
   story: z.string().trim().max(10000).nullable().optional(),
-  category_id: pgUuid("Choose a category.").nullable().optional(),
-  collection_id: pgUuid("Choose a collection.").nullable().optional(),
+  category_id: pgUuid("Pilih kategori.").nullable().optional(),
+  collection_id: pgUuid("Pilih koleksi.").nullable().optional(),
   size: z.string().trim().max(40).nullable().optional(),
   price: z
     .string()
@@ -43,7 +43,7 @@ export const productSchema = z.object({
     .nullable()
     .optional()
     .refine((value) => value == null || value === "" || /^\d+(\.\d{1,2})?$/.test(value), {
-      message: "Enter a number with up to 2 decimals (e.g. 450000 or 450000.00).",
+      message: "Masukkan angka dengan maksimal 2 desimal (contoh: 450000 atau 450000.00).",
     })
     .transform((value) => (value == null || value === "" ? null : Number(value))),
   featured: z.boolean(),

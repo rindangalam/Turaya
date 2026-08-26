@@ -1,16 +1,16 @@
 import { z } from "zod";
 
 export const settingsSchema = z.object({
-  site_name: z.string().trim().min(1, "Brand name is required.").max(80),
+  site_name: z.string().trim().min(1, "Nama merek wajib diisi.").max(80),
   tagline: z.string().trim().max(160).nullable().optional(),
-  contact_email: z.string().trim().email("Enter a valid email address.").max(160).nullable().optional(),
+  contact_email: z.string().trim().email("Masukkan alamat email yang valid.").max(160).nullable().optional(),
   contact_phone: z.string().trim().max(40).nullable().optional(),
   address: z.string().trim().max(500).nullable().optional(),
   instagram_url: z
     .string()
     .trim()
     .refine((value) => value === "" || /^https?:\/\/.+/i.test(value), {
-      message: "Enter a full URL starting with http(s)://",
+      message: "Masukkan URL lengkap yang dimulai dengan http(s)://",
     })
     .nullable()
     .optional(),
@@ -18,7 +18,7 @@ export const settingsSchema = z.object({
     .string()
     .trim()
     .refine((value) => value === "" || /^https?:\/\/.+/i.test(value), {
-      message: "Enter a full URL starting with http(s)://",
+      message: "Masukkan URL lengkap yang dimulai dengan http(s)://",
     })
     .nullable()
     .optional(),
@@ -35,7 +35,7 @@ export const seoMetadataSchema = z.object({
     .string()
     .trim()
     .refine((value) => value === "" || /^https?:\/\/.+/i.test(value), {
-      message: "Enter a full URL starting with http(s)://",
+      message: "Masukkan URL lengkap yang dimulai dengan http(s)://",
     })
     .nullable()
     .optional(),

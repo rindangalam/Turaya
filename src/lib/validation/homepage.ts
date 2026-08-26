@@ -3,13 +3,13 @@ import { z } from "zod";
 const slugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
 export const homepageSectionSchema = z.object({
-  name: z.string().trim().min(1, "Name is required.").max(80),
+  name: z.string().trim().min(1, "Nama wajib diisi.").max(80),
   slug: z
     .string()
     .trim()
     .toLowerCase()
     .refine((value) => slugPattern.test(value), {
-      message: "Use lowercase letters, numbers and hyphens (e.g. featured-collection).",
+      message: "Gunakan huruf kecil, angka, dan tanda hubung (contoh: featured-collection).",
     }),
   headline: z.string().trim().max(200).nullable().optional(),
   subheadline: z.string().trim().max(300).nullable().optional(),
@@ -20,7 +20,7 @@ export const homepageSectionSchema = z.object({
     .string()
     .trim()
     .refine((value) => value === "" || /^(\/|https?:\/\/)/i.test(value), {
-      message: "Enter an internal path (e.g. /collections) or a full URL.",
+      message: "Masukkan path internal (contoh: /collections) atau URL lengkap.",
     })
     .nullable()
     .optional(),
