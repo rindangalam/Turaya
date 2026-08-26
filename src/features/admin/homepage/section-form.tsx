@@ -3,11 +3,13 @@
 import { useActionState, useEffect } from "react";
 import { toast } from "sonner";
 
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { AutoSlugInput } from "@/components/admin/auto-slug-input";
+import { DirtyGuard } from "@/components/admin/dirty-guard";
+import { FormActions } from "@/components/admin/form-actions";
 import type { ActionResult } from "@/lib/validation/action-result";
 import type { HomepageSection } from "@/services/homepage";
 
@@ -78,7 +80,7 @@ export function SectionForm({
 
   useEffect(() => {
     if (state?.ok) {
-      toast.success(section ? "Section saved" : "Section created");
+      toast.success(section ? "Bagian tersimpan" : "Bagian dibuat");
     } else if (state?.formError) {
       toast.error(state.formError);
     }
@@ -88,28 +90,30 @@ export function SectionForm({
 
   return (
     <form action={formAction} className="flex flex-col gap-4">
+      <DirtyGuard />
       {section ? <input type="hidden" name="id" value={section.id} /> : null}
       <Card>
         <CardHeader>
-          <CardTitle>Content</CardTitle>
-          <CardDescription>The layout and copy rendered on the public homepage.</CardDescription>
+          <CardTitle>Konten</CardTitle>
+          <CardDescription>Tata letak dan teks yang dirender di halaman utama publik.</CardDescription>
         </CardHeader>
         <CardContent className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <SectionField
             errors={errors}
             name="name"
-            label="Name"
+            label="Nama"
             defaultValue={section?.name}
             required
-            description="Internal label, e.g. Hero, About, Featured collection."
+            description="Label internal, mis. Hero, Tentang, Koleksi unggulan."
           />
-          <SectionField
-            errors={errors}
+          <AutoSlugInput
+            sourceId="section-name"
+            id="section-slug"
             name="slug"
             label="Slug"
             defaultValue={section?.slug}
-            required
-            description="Identifies the rendering type. The site renders known slugs and skips the rest."
+            description="Mengidentifikasi jenis render. Situs merender slug yang dikenal dan melewati sisanya."
+            error={errors.slug?.[0]}
           />
           <div className="md:col-span-2">
             <SectionField
@@ -123,7 +127,7 @@ export function SectionForm({
             <SectionField
               errors={errors}
               name="subheadline"
-              label="Subheadline"
+              label="Subjudul"
               defaultValue={section?.subheadline}
             />
           </div>
@@ -131,7 +135,7 @@ export function SectionForm({
             <SectionField
               errors={errors}
               name="body"
-              label="Body"
+              label="Isi"
               defaultValue={section?.body}
               multiline
             />
@@ -140,31 +144,31 @@ export function SectionForm({
             <SectionField
               errors={errors}
               name="image_path"
-              label="Image path"
+              label="Path gambar"
               defaultValue={section?.image_path}
-              description="Storage path inside the branding bucket, if this section shows an image."
+              description="Path penyimpanan di dalam bucket branding, jika bagian ini menampilkan gambar."
             />
           </div>
           <SectionField
             errors={errors}
             name="button_label"
-            label="Button label"
+            label="Label tombol"
             defaultValue={section?.button_label}
           />
           <SectionField
             errors={errors}
             name="button_url"
-            label="Button URL"
+            label="URL tombol"
             defaultValue={section?.button_url}
-            description="Internal path (e.g. /collections) or full URL."
+            description="Path internal (mis. /collections) atau URL lengkap."
           />
         </CardContent>
       </Card>
 
       <Card>
         <CardHeader>
-          <CardTitle>Visibility</CardTitle>
-          <CardDescription>Hidden sections stay in the admin list but never render publicly.</CardDescription>
+          <CardTitle>Visibilitas</CardTitle>
+          <CardDescription>Bagian tersembunyi tetap ada di daftar admin tetapi tidak pernah dirender secara publik.</CardDescription>
         </CardHeader>
         <CardContent>
           <label className="flex items-center gap-2 text-sm">
@@ -174,24 +178,12 @@ export function SectionForm({
               defaultChecked={section?.visible ?? true}
               className="size-4 accent-foreground"
             />
-            Visible on the homepage
+            Tampil di halaman utama
           </label>
         </CardContent>
       </Card>
 
-      <div className="flex justify-end gap-2">
-        <Button
-          type="button"
-          variant="outline"
-          onClick={() => window.history.back()}
-          disabled={pending}
-        >
-          Cancel
-        </Button>
-        <Button type="submit" disabled={pending}>
-          {pending ? "Saving…" : submitLabel}
-        </Button>
-      </div>
+      <FormActions pending={pending} submitLabel={submitLabel} />
     </form>
   );
 }

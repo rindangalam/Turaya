@@ -8,6 +8,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { CharCounter } from "@/components/admin/char-counter";
 import type { SeoMetadata } from "@/services/seo";
 import { updateSeoMetadata } from "@/features/admin/seo/actions";
 
@@ -15,6 +16,7 @@ type FieldErrors = Record<string, string[] | undefined>;
 
 function SeoField({
   errors,
+  idPrefix,
   name,
   label,
   defaultValue,
@@ -22,13 +24,14 @@ function SeoField({
   multiline = false,
 }: {
   errors: FieldErrors;
+  idPrefix: string;
   name: string;
   label: string;
   defaultValue?: string | null;
   description?: string;
   multiline?: boolean;
 }) {
-  const id = `seo-${name}`;
+  const id = `${idPrefix}-${name}`;
   const error = errors[name]?.[0];
   return (
     <div className="grid gap-1.5">
@@ -66,65 +69,75 @@ export function SeoRowForm({ row }: { row: SeoMetadata }) {
 
   useEffect(() => {
     if (state?.ok) {
-      toast.success(`Saved ${row.page} SEO`);
+      toast.success(`SEO ${row.page} tersimpan`);
     } else if (state?.formError) {
       toast.error(state.formError);
     }
   }, [state, row.page]);
 
   const errors: FieldErrors = state?.ok ? {} : (state?.fieldErrors ?? {});
+  const idPrefix = `seo-${row.id}`;
 
   return (
     <Card>
       <CardHeader>
         <CardTitle className="font-mono text-sm">{row.page}</CardTitle>
-        <CardDescription>Meta settings for this page.</CardDescription>
+        <CardDescription>Pengaturan meta untuk halaman ini.</CardDescription>
       </CardHeader>
       <form action={formAction} className="contents">
         <input type="hidden" name="id" value={row.id} />
         <input type="hidden" name="page" value={row.page} />
         <CardContent className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          <SeoField
-            errors={errors}
-            name="title"
-            label="Title"
-            defaultValue={row.title}
-            description="~60 characters recommended."
-          />
-          <SeoField
-            errors={errors}
-            name="robots"
-            label="Robots"
-            defaultValue={row.robots}
-            description="e.g. index, follow"
-          />
-          <div className="md:col-span-2">
+          <div className="grid gap-1.5">
             <SeoField
               errors={errors}
-              name="description"
-              label="Description"
-              defaultValue={row.description}
-              description="~155 characters recommended."
-              multiline
+              idPrefix={idPrefix}
+              name="title"
+              label="Judul meta"
+              defaultValue={row.title}
+              description="~60 karakter direkomendasikan."
             />
+            <CharCounter targetId={`${idPrefix}-title`} max={60} />
           </div>
           <SeoField
             errors={errors}
+            idPrefix={idPrefix}
+            name="robots"
+            label="Robots"
+            defaultValue={row.robots}
+            description="misalnya index, follow"
+          />
+          <div className="md:col-span-2 grid gap-1.5">
+            <SeoField
+              errors={errors}
+              idPrefix={idPrefix}
+              name="description"
+              label="Deskripsi meta"
+              defaultValue={row.description}
+              description="~155 karakter direkomendasikan."
+              multiline
+            />
+            <CharCounter targetId={`${idPrefix}-description`} max={160} />
+          </div>
+          <SeoField
+            errors={errors}
+            idPrefix={idPrefix}
             name="canonical_url"
             label="Canonical URL"
             defaultValue={row.canonical_url}
           />
           <SeoField
             errors={errors}
+            idPrefix={idPrefix}
             name="og_image_path"
-            label="OG image path"
+            label="Path gambar OG"
             defaultValue={row.og_image_path}
-            description="Storage path relative to the public bucket."
+            description="Path penyimpanan relatif terhadap bucket publik."
           />
         </CardContent>
         <CardFooter>
           <Button type="submit" size="sm" disabled={pending}>
-            {pending ? "Saving…" : "Save"}
+            {pending ? "Menyimpan…" : "Simpan"}
           </Button>
         </CardFooter>
       </form>

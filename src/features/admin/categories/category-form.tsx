@@ -3,20 +3,23 @@
 import { useActionState, useEffect } from "react";
 import { toast } from "sonner";
 
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { AutoSlugInput } from "@/components/admin/auto-slug-input";
+import { DirtyGuard } from "@/components/admin/dirty-guard";
+import { FormActions } from "@/components/admin/form-actions";
 import {
   FormField,
   FormSelect,
   type FieldErrors,
 } from "@/features/admin/shared/form-field";
 import { CONTENT_STATUSES } from "@/lib/validation/collections";
+import { contentStatusLabel } from "@/lib/labels";
 import type { ActionResult } from "@/lib/validation/action-result";
 import type { Category } from "@/services/categories";
 
 const STATUS_OPTIONS = CONTENT_STATUSES.map((status) => ({
   value: status,
-  label: status[0].toUpperCase() + status.slice(1),
+  label: contentStatusLabel(status),
 }));
 
 export function CategoryForm({
@@ -32,7 +35,7 @@ export function CategoryForm({
 
   useEffect(() => {
     if (state?.ok) {
-      toast.success(category ? "Category saved" : "Category created");
+      toast.success(category ? "Kategori tersimpan" : "Kategori dibuat");
     } else if (state?.formError) {
       toast.error(state.formError);
     }
@@ -42,28 +45,30 @@ export function CategoryForm({
 
   return (
     <form action={formAction} className="flex flex-col gap-4">
+      <DirtyGuard />
       {category ? <input type="hidden" name="id" value={category.id} /> : null}
 
       <Card>
         <CardHeader>
-          <CardTitle>Details</CardTitle>
-          <CardDescription>Identity and publishing settings.</CardDescription>
+          <CardTitle>Detail</CardTitle>
+          <CardDescription>Identitas dan pengaturan publikasi.</CardDescription>
         </CardHeader>
         <CardContent className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <FormField
             errors={errors}
             name="name"
-            label="Name"
+            label="Nama"
             defaultValue={category?.name}
             required
           />
-          <FormField
-            errors={errors}
+          <AutoSlugInput
+            sourceId="field-name"
+            id="field-slug"
             name="slug"
             label="Slug"
             defaultValue={category?.slug}
-            required
-            description="Used in the category URL. Lowercase, hyphens."
+            description="Dipakai pada URL kategori. Huruf kecil, tanpa spasi."
+            error={errors.slug?.[0]}
           />
           <FormSelect
             id="category-status"
@@ -76,7 +81,7 @@ export function CategoryForm({
             <FormField
               errors={errors}
               name="description"
-              label="Description"
+              label="Deskripsi"
               defaultValue={category?.description}
               multiline
             />
@@ -84,19 +89,7 @@ export function CategoryForm({
         </CardContent>
       </Card>
 
-      <div className="flex justify-end gap-2">
-        <Button
-          type="button"
-          variant="outline"
-          onClick={() => window.history.back()}
-          disabled={pending}
-        >
-          Cancel
-        </Button>
-        <Button type="submit" disabled={pending}>
-          {pending ? "Saving…" : submitLabel}
-        </Button>
-      </div>
+      <FormActions pending={pending} submitLabel={submitLabel} />
     </form>
   );
 }

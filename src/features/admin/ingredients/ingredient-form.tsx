@@ -3,20 +3,23 @@
 import { useActionState, useEffect } from "react";
 import { toast } from "sonner";
 
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { AutoSlugInput } from "@/components/admin/auto-slug-input";
+import { DirtyGuard } from "@/components/admin/dirty-guard";
+import { FormActions } from "@/components/admin/form-actions";
 import {
   FormField,
   FormSelect,
   type FieldErrors,
 } from "@/features/admin/shared/form-field";
 import { CONTENT_STATUSES } from "@/lib/validation/collections";
+import { contentStatusLabel } from "@/lib/labels";
 import type { ActionResult } from "@/lib/validation/action-result";
 import type { Ingredient } from "@/services/ingredients";
 
 const STATUS_OPTIONS = CONTENT_STATUSES.map((status) => ({
   value: status,
-  label: status[0].toUpperCase() + status.slice(1),
+  label: contentStatusLabel(status),
 }));
 
 export function IngredientForm({
@@ -32,7 +35,7 @@ export function IngredientForm({
 
   useEffect(() => {
     if (state?.ok) {
-      toast.success(ingredient ? "Ingredient saved" : "Ingredient created");
+      toast.success(ingredient ? "Bahan tersimpan" : "Bahan dibuat");
     } else if (state?.formError) {
       toast.error(state.formError);
     }
@@ -42,35 +45,37 @@ export function IngredientForm({
 
   return (
     <form action={formAction} className="flex flex-col gap-4">
+      <DirtyGuard />
       {ingredient ? <input type="hidden" name="id" value={ingredient.id} /> : null}
 
       <Card>
         <CardHeader>
-          <CardTitle>Details</CardTitle>
-          <CardDescription>Identity and publishing settings.</CardDescription>
+          <CardTitle>Detail</CardTitle>
+          <CardDescription>Identitas dan pengaturan publikasi.</CardDescription>
         </CardHeader>
         <CardContent className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <FormField
             errors={errors}
             name="name"
-            label="Name"
+            label="Nama"
             defaultValue={ingredient?.name}
             required
           />
-          <FormField
-            errors={errors}
+          <AutoSlugInput
+            sourceId="field-name"
+            id="field-slug"
             name="slug"
             label="Slug"
             defaultValue={ingredient?.slug}
-            required
-            description="Used in the ingredient URL. Lowercase, hyphens."
+            description="Dipakai pada URL bahan. Huruf kecil, tanpa spasi."
+            error={errors.slug?.[0]}
           />
           <FormField
             errors={errors}
             name="origin"
-            label="Origin"
+            label="Asal"
             defaultValue={ingredient?.origin}
-            description="Provenance, e.g. Nusa Tenggara Timur."
+            description="Asal-usul, mis. Nusa Tenggara Timur."
           />
           <FormSelect
             id="ingredient-status"
@@ -83,9 +88,9 @@ export function IngredientForm({
             <FormField
               errors={errors}
               name="image_path"
-              label="Image path"
+              label="Path gambar"
               defaultValue={ingredient?.image_path}
-              description="Storage path inside the branding bucket."
+              description="Path penyimpanan di dalam bucket branding."
             />
           </div>
         </CardContent>
@@ -93,41 +98,29 @@ export function IngredientForm({
 
       <Card>
         <CardHeader>
-          <CardTitle>Copy</CardTitle>
-          <CardDescription>Editorial content for the ingredient page.</CardDescription>
+          <CardTitle>Konten</CardTitle>
+          <CardDescription>Konten editorial untuk halaman bahan.</CardDescription>
         </CardHeader>
         <CardContent className="grid grid-cols-1 gap-4">
           <FormField
             errors={errors}
             name="description"
-            label="Description"
+            label="Deskripsi"
             defaultValue={ingredient?.description}
             multiline
-            description="Sensory and factual description."
+            description="Deskripsi sensorik dan faktual."
           />
           <FormField
             errors={errors}
             name="story"
-            label="Story"
+            label="Cerita"
             defaultValue={ingredient?.story}
             multiline
           />
         </CardContent>
       </Card>
 
-      <div className="flex justify-end gap-2">
-        <Button
-          type="button"
-          variant="outline"
-          onClick={() => window.history.back()}
-          disabled={pending}
-        >
-          Cancel
-        </Button>
-        <Button type="submit" disabled={pending}>
-          {pending ? "Saving…" : submitLabel}
-        </Button>
-      </div>
+      <FormActions pending={pending} submitLabel={submitLabel} />
     </form>
   );
 }

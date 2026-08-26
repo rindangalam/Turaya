@@ -4,19 +4,21 @@ import { useActionState, useEffect } from "react";
 import { toast } from "sonner";
 import Image from "next/image";
 
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import { DirtyGuard } from "@/components/admin/dirty-guard";
+import { FormActions } from "@/components/admin/form-actions";
 import { FormField, FormSelect } from "@/features/admin/shared/form-field";
 import { CONTENT_STATUSES } from "@/lib/validation/collections";
+import { contentStatusLabel } from "@/lib/labels";
 import { getStoragePublicUrl } from "@/lib/storage";
 import type { ActionResult } from "@/lib/validation/action-result";
 import type { GalleryItem } from "@/services/gallery";
 
 const STATUS_OPTIONS = CONTENT_STATUSES.map((status) => ({
   value: status,
-  label: status[0].toUpperCase() + status.slice(1),
+  label: contentStatusLabel(status),
 }));
 
 export function GalleryForm({
@@ -34,7 +36,7 @@ export function GalleryForm({
 
   useEffect(() => {
     if (state?.ok) {
-      toast.success(item ? "Gallery item saved" : "Gallery item created");
+      toast.success(item ? "Item galeri tersimpan" : "Item galeri dibuat");
     } else if (state?.formError) {
       toast.error(state.formError);
     }
@@ -44,13 +46,14 @@ export function GalleryForm({
 
   return (
     <form action={formAction} className="flex flex-col gap-4">
+      <DirtyGuard />
       {item ? <input type="hidden" name="id" value={item.id} /> : null}
 
       <Card>
         <CardHeader>
-          <CardTitle>Image</CardTitle>
+          <CardTitle>Gambar</CardTitle>
           <CardDescription>
-            JPEG, PNG, WebP or AVIF, up to 8 MB.{item ? " Replace the image to swap it." : ""}
+            JPEG, PNG, WebP atau AVIF, hingga 8 MB.{item ? " Ganti gambar untuk menukarnya." : ""}
           </CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col gap-4">
@@ -64,7 +67,7 @@ export function GalleryForm({
             />
           ) : null}
           <div className="grid gap-1.5">
-            <Label htmlFor="gallery-image">{item ? "Replace image" : "Upload image"}</Label>
+            <Label htmlFor="gallery-image">{item ? "Ganti gambar" : "Unggah gambar"}</Label>
             <input
               id="gallery-image"
               type="file"
@@ -78,31 +81,31 @@ export function GalleryForm({
 
       <Card>
         <CardHeader>
-          <CardTitle>Details</CardTitle>
-          <CardDescription>How this image is described on the public gallery.</CardDescription>
+          <CardTitle>Detail</CardTitle>
+          <CardDescription>Bagaimana gambar ini dideskripsikan di galeri publik.</CardDescription>
         </CardHeader>
         <CardContent className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <div className="md:col-span-2">
             <FormField
               errors={errors}
               name="alt"
-              label="Alt text"
+              label="Teks alternatif"
               defaultValue={item?.alt}
               required
-              description="Describes the image for screen readers and search engines."
+              description="Menjelaskan gambar untuk pembaca layar dan mesin pencari."
             />
           </div>
           <div className="md:col-span-2">
             <FormField
               errors={errors}
               name="caption"
-              label="Caption"
+              label="Keterangan"
               defaultValue={item?.caption}
-              description="Optional editorial caption shown with the image."
+              description="Keterangan editorial opsional yang tampil bersama gambar."
             />
           </div>
           <div className="grid gap-1.5">
-            <Label htmlFor="gallery-category">Category</Label>
+            <Label htmlFor="gallery-category">Kategori</Label>
             <Input
               id="gallery-category"
               name="category"
@@ -110,7 +113,7 @@ export function GalleryForm({
               list="gallery-category-options"
               aria-invalid={!!errors.category?.[0]}
               aria-describedby={errors.category?.[0] ? "gallery-category-error" : undefined}
-              placeholder="e.g. atelier, materials, campaign"
+              placeholder="mis. atelier, bahan, kampanye"
             />
             <datalist id="gallery-category-options">
               {categories.map((category) => (
@@ -123,7 +126,7 @@ export function GalleryForm({
               </p>
             ) : (
               <p className="text-sm text-muted-foreground">
-                Existing categories are suggested; you can type a new one.
+                Kategori yang sudah ada disarankan; Anda bisa mengetik yang baru.
               </p>
             )}
           </div>
@@ -137,19 +140,7 @@ export function GalleryForm({
         </CardContent>
       </Card>
 
-      <div className="flex justify-end gap-2">
-        <Button
-          type="button"
-          variant="outline"
-          onClick={() => window.history.back()}
-          disabled={pending}
-        >
-          Cancel
-        </Button>
-        <Button type="submit" disabled={pending}>
-          {pending ? "Saving…" : submitLabel}
-        </Button>
-      </div>
+      <FormActions pending={pending} submitLabel={submitLabel} />
     </form>
   );
 }

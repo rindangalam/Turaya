@@ -4,20 +4,24 @@ import { useActionState, useEffect } from "react";
 import { toast } from "sonner";
 import Image from "next/image";
 
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import { AutoSlugInput } from "@/components/admin/auto-slug-input";
+import { CharCounter } from "@/components/admin/char-counter";
+import { DirtyGuard } from "@/components/admin/dirty-guard";
+import { FormActions } from "@/components/admin/form-actions";
 import { FormField, FormSelect, type FieldErrors } from "@/features/admin/shared/form-field";
 import { TagsEditor } from "@/features/admin/journal/tags-editor";
 import { CONTENT_STATUSES } from "@/lib/validation/collections";
+import { contentStatusLabel } from "@/lib/labels";
 import { getStoragePublicUrl } from "@/lib/storage";
 import type { ActionResult } from "@/lib/validation/action-result";
 import type { JournalPost } from "@/services/journal";
 
 const STATUS_OPTIONS = CONTENT_STATUSES.map((status) => ({
   value: status,
-  label: status[0].toUpperCase() + status.slice(1),
+  label: contentStatusLabel(status),
 }));
 
 export function JournalForm({
@@ -39,7 +43,7 @@ export function JournalForm({
 
   useEffect(() => {
     if (state?.ok) {
-      toast.success(post ? "Post saved" : "Post created");
+      toast.success(post ? "Artikel tersimpan" : "Artikel dibuat");
     } else if (state?.formError) {
       toast.error(state.formError);
     }
@@ -49,13 +53,14 @@ export function JournalForm({
 
   return (
     <form action={formAction} className="flex flex-col gap-4">
+      <DirtyGuard />
       {post ? <input type="hidden" name="id" value={post.id} /> : null}
 
       <Card>
         <CardHeader>
-          <CardTitle>Cover image</CardTitle>
+          <CardTitle>Gambar sampul</CardTitle>
           <CardDescription>
-            JPEG, PNG, WebP or AVIF, up to 8 MB. Optional — leave empty for no cover.
+            JPEG, PNG, WebP atau AVIF, hingga 8 MB. Opsional — biarkan kosong jika tanpa sampul.
           </CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col gap-4">
@@ -69,7 +74,7 @@ export function JournalForm({
             />
           ) : null}
           <div className="grid gap-1.5">
-            <Label htmlFor="journal-cover">{post?.cover_image_path ? "Replace cover" : "Upload cover"}</Label>
+            <Label htmlFor="journal-cover">{post?.cover_image_path ? "Ganti sampul" : "Unggah sampul"}</Label>
             <input
               id="journal-cover"
               type="file"
@@ -83,34 +88,35 @@ export function JournalForm({
 
       <Card>
         <CardHeader>
-          <CardTitle>Details</CardTitle>
-          <CardDescription>Identity, category and publishing settings.</CardDescription>
+          <CardTitle>Detail</CardTitle>
+          <CardDescription>Identitas, kategori, dan pengaturan publikasi.</CardDescription>
         </CardHeader>
         <CardContent className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <FormField
             errors={errors}
             name="title"
-            label="Title"
+            label="Judul"
             defaultValue={post?.title}
             required
           />
-          <FormField
-            errors={errors}
+          <AutoSlugInput
+            sourceId="field-title"
+            id="field-slug"
             name="slug"
             label="Slug"
             defaultValue={post?.slug}
-            required
-            description="Used in the post URL. Lowercase, hyphens."
+            description="Dipakai pada URL artikel. Huruf kecil, tanpa spasi."
+            error={errors.slug?.[0]}
           />
           <div className="grid gap-1.5">
-            <Label htmlFor="journal-category">Category</Label>
+            <Label htmlFor="journal-category">Kategori</Label>
             <select
               id="journal-category"
               name="category_id"
               defaultValue={post?.category_id ?? ""}
               className="h-8 w-full rounded-lg border border-input bg-transparent px-2.5 text-sm outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:opacity-50"
             >
-              <option value="">No category</option>
+              <option value="">Tanpa kategori</option>
               {categories.map((category) => (
                 <option key={category.id} value={category.id}>
                   {category.name}
@@ -118,15 +124,15 @@ export function JournalForm({
               ))}
             </select>
             <p className="text-sm text-muted-foreground">
-              Pick an existing category or type a new one below.
+              Pilih kategori yang ada atau ketik yang baru di bawah.
             </p>
           </div>
           <div className="grid gap-1.5 self-end">
-            <Label htmlFor="journal-new-category">New category</Label>
+            <Label htmlFor="journal-new-category">Kategori baru</Label>
             <Input
               id="journal-new-category"
               name="new_category"
-              placeholder="e.g. Cerita"
+              placeholder="mis. Cerita"
               className="h-8"
             />
           </div>
@@ -142,33 +148,33 @@ export function JournalForm({
 
       <Card>
         <CardHeader>
-          <CardTitle>Copy</CardTitle>
-          <CardDescription>Editorial content for the journal post.</CardDescription>
+          <CardTitle>Konten</CardTitle>
+          <CardDescription>Konten editorial untuk artikel jurnal.</CardDescription>
         </CardHeader>
         <CardContent className="grid grid-cols-1 gap-4">
           <FormField
             errors={errors}
             name="excerpt"
-            label="Excerpt"
+            label="Ringkasan"
             defaultValue={post?.excerpt}
-            description="Short summary shown in journal listings."
+            description="Ringkasan singkat yang tampil di daftar jurnal."
           />
           <FormField
             errors={errors}
             name="body"
-            label="Body"
+            label="Isi"
             defaultValue={post?.body}
             multiline
             required
-            description="The full article text."
+            description="Teks lengkap artikel."
           />
         </CardContent>
       </Card>
 
       <Card>
         <CardHeader>
-          <CardTitle>Tags</CardTitle>
-          <CardDescription>Topics that describe this post.</CardDescription>
+          <CardTitle>Tag</CardTitle>
+          <CardDescription>Topik yang mendeskripsikan artikel ini.</CardDescription>
         </CardHeader>
         <CardContent>
           <TagsEditor tags={tags} initial={initialTags} />
@@ -178,38 +184,32 @@ export function JournalForm({
       <Card>
         <CardHeader>
           <CardTitle>SEO</CardTitle>
-          <CardDescription>Search metadata specific to this post.</CardDescription>
+          <CardDescription>Metadata pencarian khusus artikel ini.</CardDescription>
         </CardHeader>
         <CardContent className="grid grid-cols-1 gap-4">
-          <FormField
-            errors={errors}
-            name="seo_title"
-            label="SEO title"
-            defaultValue={post?.seo_title}
-          />
-          <FormField
-            errors={errors}
-            name="seo_description"
-            label="SEO description"
-            defaultValue={post?.seo_description}
-            multiline
-          />
+          <div className="grid gap-1.5">
+            <FormField
+              errors={errors}
+              name="seo_title"
+              label="Judul SEO"
+              defaultValue={post?.seo_title}
+            />
+            <CharCounter targetId="field-seo_title" max={60} />
+          </div>
+          <div className="grid gap-1.5">
+            <FormField
+              errors={errors}
+              name="seo_description"
+              label="Deskripsi SEO"
+              defaultValue={post?.seo_description}
+              multiline
+            />
+            <CharCounter targetId="field-seo_description" max={160} />
+          </div>
         </CardContent>
       </Card>
 
-      <div className="flex justify-end gap-2">
-        <Button
-          type="button"
-          variant="outline"
-          onClick={() => window.history.back()}
-          disabled={pending}
-        >
-          Cancel
-        </Button>
-        <Button type="submit" disabled={pending}>
-          {pending ? "Saving…" : submitLabel}
-        </Button>
-      </div>
+      <FormActions pending={pending} submitLabel={submitLabel} />
     </form>
   );
 }

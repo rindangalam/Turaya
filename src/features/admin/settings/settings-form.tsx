@@ -3,12 +3,12 @@
 import { useActionState, useEffect } from "react";
 import { toast } from "sonner";
 
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { cn } from "@/lib/utils";
+import { DirtyGuard } from "@/components/admin/dirty-guard";
+import { FormActions } from "@/components/admin/form-actions";
 import type { SiteSettings } from "@/services/settings";
 import { updateSettings } from "@/features/admin/settings/actions";
 
@@ -83,7 +83,7 @@ export function SettingsForm({ settings }: { settings: SiteSettings | null }) {
 
   useEffect(() => {
     if (state?.ok) {
-      toast.success("Settings saved");
+      toast.success("Pengaturan tersimpan");
     } else if (state?.formError) {
       toast.error(state.formError);
     }
@@ -93,20 +93,21 @@ export function SettingsForm({ settings }: { settings: SiteSettings | null }) {
 
   return (
     <form action={formAction}>
+      <DirtyGuard />
       <input type="hidden" name="id" value={settings?.id ?? "00000000-0000-0000-0000-000000000001"} />
       <div className="flex flex-col gap-4">
         <Card>
           <CardHeader>
-            <CardTitle>Brand identity</CardTitle>
+            <CardTitle>Identitas merek</CardTitle>
             <CardDescription>
-              Name, tagline and announcement shown across the public site.
+              Nama, tagline, dan pengumuman yang tampil di seluruh situs publik.
             </CardDescription>
           </CardHeader>
           <CardContent className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <Field
               errors={errors}
               name="site_name"
-              label="Site name"
+              label="Nama situs"
               defaultValue={settings?.site_name}
               required
             />
@@ -120,9 +121,9 @@ export function SettingsForm({ settings }: { settings: SiteSettings | null }) {
               <Field
                 errors={errors}
                 name="announcement"
-                label="Announcement"
+                label="Pengumuman"
                 defaultValue={settings?.announcement}
-                description="Short banner text shown on the homepage."
+                description="Teks banner singkat yang tampil di halaman beranda."
                 multiline
               />
             </div>
@@ -131,21 +132,21 @@ export function SettingsForm({ settings }: { settings: SiteSettings | null }) {
 
         <Card>
           <CardHeader>
-            <CardTitle>Contact details</CardTitle>
-            <CardDescription>How visitors reach the studio.</CardDescription>
+            <CardTitle>Detail kontak</CardTitle>
+            <CardDescription>Cara pengunjung menghubungi studio.</CardDescription>
           </CardHeader>
           <CardContent className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <Field
               errors={errors}
               name="contact_email"
-              label="Contact email"
+              label="Email kontak"
               type="email"
               defaultValue={settings?.contact_email}
             />
             <Field
               errors={errors}
               name="contact_phone"
-              label="Contact phone"
+              label="Telepon kontak"
               type="tel"
               defaultValue={settings?.contact_phone}
             />
@@ -153,7 +154,7 @@ export function SettingsForm({ settings }: { settings: SiteSettings | null }) {
               <Field
                 errors={errors}
                 name="address"
-                label="Address"
+                label="Alamat"
                 defaultValue={settings?.address}
                 multiline
               />
@@ -163,39 +164,35 @@ export function SettingsForm({ settings }: { settings: SiteSettings | null }) {
 
         <Card>
           <CardHeader>
-            <CardTitle>Social links</CardTitle>
-            <CardDescription>Full URLs beginning with http(s)://</CardDescription>
+            <CardTitle>Tautan sosial</CardTitle>
+            <CardDescription>URL lengkap yang diawali dengan http(s)://</CardDescription>
           </CardHeader>
           <CardContent className="grid grid-cols-1 gap-4 md:grid-cols-3">
             <Field
               errors={errors}
               name="instagram_url"
-              label="Instagram URL"
+              label="URL Instagram"
               type="url"
               defaultValue={settings?.instagram_url}
             />
             <Field
               errors={errors}
               name="tiktok_url"
-              label="TikTok URL"
+              label="URL TikTok"
               type="url"
               defaultValue={settings?.tiktok_url}
             />
             <Field
               errors={errors}
               name="whatsapp_number"
-              label="WhatsApp number"
+              label="Nomor WhatsApp"
               type="tel"
               defaultValue={settings?.whatsapp_number}
             />
           </CardContent>
         </Card>
 
-        <div className="flex justify-end">
-          <Button type="submit" disabled={pending} className={cn(pending && "opacity-60")}>
-            {pending ? "Saving…" : "Save settings"}
-          </Button>
-        </div>
+        <FormActions pending={pending} submitLabel="Simpan pengaturan" />
       </div>
     </form>
   );
