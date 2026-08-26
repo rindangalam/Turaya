@@ -19,6 +19,13 @@ export async function proxy(request: NextRequest) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
 
+  // The admin deployment has no public pages, so its root would 404. Send
+  // visitors straight to the dashboard (which forwards to /login when
+  // unauthenticated).
+  if (process.env.NEXT_PUBLIC_APP_TARGET === "admin" && pathname === "/") {
+    return NextResponse.redirect(new URL("/admin", request.url));
+  }
+
   // Refresh the session (validates JWT; rotates when close to expiry).
   const {
     data: { user },
