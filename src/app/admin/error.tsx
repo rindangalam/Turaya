@@ -20,12 +20,12 @@ export default function AdminError({
       role="alert"
       className="flex flex-col items-center justify-center rounded-lg border border-dashed border-border px-6 py-16 text-center"
     >
-      <h2 className="text-heading-md font-semibold">Something went wrong</h2>
+      <h2 className="text-heading-md font-semibold">Terjadi kesalahan</h2>
       <p className="mt-1 max-w-sm text-sm text-muted-foreground">
-        An unexpected error occurred in this section. Try again, and if it persists contact support.
+        Terjadi kesalahan tak terduga di bagian ini. Coba lagi, dan jika masih berlanjut hubungi dukungan.
       </p>
       <Button variant="outline" size="sm" className="mt-4" onClick={() => retry()}>
-        Try again
+        Coba lagi
       </Button>
     </div>
   );

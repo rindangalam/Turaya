@@ -9,9 +9,11 @@ import type { AdminShellUser } from "@/features/admin/shell/types";
 
 export function AdminShell({
   user,
+  unreadCount,
   children,
 }: {
   user: AdminShellUser;
+  unreadCount: number;
   children: ReactNode;
 }) {
   const [collapsed, setCollapsed] = useState(false);
@@ -22,6 +24,7 @@ export function AdminShell({
       <div className="flex flex-1">
         <AdminSidebar
           user={user}
+          unreadCount={unreadCount}
           collapsed={collapsed}
           onToggle={() => setCollapsed((value) => !value)}
           mobileOpen={mobileOpen}
@@ -29,9 +32,9 @@ export function AdminShell({
         />
 
         <div className="flex min-w-0 flex-1 flex-col">
-          <AdminTopbar user={user} onOpenMenu={() => setMobileOpen(true)} />
+          <AdminTopbar user={user} unreadCount={unreadCount} onOpenMenu={() => setMobileOpen(true)} />
           <main id="main" className="flex-1 px-4 py-6 lg:px-8">
-            {children}
+            <div className="mx-auto w-full max-w-6xl">{children}</div>
           </main>
           <footer className="border-t border-border px-4 py-4 text-center text-xs text-muted-foreground lg:px-8">
             © 2026 Turaya Studio. All rights reserved.

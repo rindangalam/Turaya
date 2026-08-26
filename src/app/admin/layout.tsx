@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { requireAuth } from "@/lib/auth/guards";
+import { countUnreadMessages } from "@/services/messages";
 import { AdminShell } from "@/features/admin/shell/admin-shell";
 
 export const metadata: Metadata = {
@@ -20,6 +21,11 @@ export default async function AdminLayout({
   children: React.ReactNode;
 }) {
   const user = await requireAuth();
+  const unreadCount = await countUnreadMessages();
 
-  return <AdminShell user={user}>{children}</AdminShell>;
+  return (
+    <AdminShell user={user} unreadCount={unreadCount}>
+      {children}
+    </AdminShell>
+  );
 }

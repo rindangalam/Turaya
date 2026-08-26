@@ -34,28 +34,34 @@ type NavItem = {
   href: string;
   label: string;
   icon: ComponentType<{ className?: string }>;
+  badge?: number;
 };
 
 const OVERVIEW_NAV: NavItem[] = [{ href: "/admin", label: "Dashboard", icon: LayoutDashboardIcon }];
 
-const CONTENT_NAV: NavItem[] = [
-  { href: "/admin/homepage", label: "Homepage", icon: LayoutTemplateIcon },
-  { href: "/admin/products", label: "Products", icon: BoxIcon },
-  { href: "/admin/collections", label: "Collections", icon: LayersIcon },
-  { href: "/admin/categories", label: "Categories", icon: TagIcon },
-  { href: "/admin/ingredients", label: "Ingredients", icon: LeafIcon },
-  { href: "/admin/gallery", label: "Gallery", icon: ImagesIcon },
-  { href: "/admin/journal", label: "Journal", icon: BookOpenIcon },
-  { href: "/admin/testimonials", label: "Testimonials", icon: QuoteIcon },
-  { href: "/admin/stores", label: "Stores", icon: MapPinIcon },
+const CATALOG_NAV: NavItem[] = [
+  { href: "/admin/products", label: "Produk", icon: BoxIcon },
+  { href: "/admin/collections", label: "Koleksi", icon: LayersIcon },
+  { href: "/admin/categories", label: "Kategori", icon: TagIcon },
+  { href: "/admin/ingredients", label: "Bahan", icon: LeafIcon },
 ];
 
-const STAFF_NAV: NavItem[] = [{ href: "/admin/messages", label: "Messages", icon: InboxIcon }];
+const CONTENT_NAV: NavItem[] = [
+  { href: "/admin/homepage", label: "Beranda", icon: LayoutTemplateIcon },
+  { href: "/admin/gallery", label: "Galeri", icon: ImagesIcon },
+  { href: "/admin/journal", label: "Jurnal", icon: BookOpenIcon },
+  { href: "/admin/testimonials", label: "Testimoni", icon: QuoteIcon },
+];
+
+const OPS_NAV: NavItem[] = [
+  { href: "/admin/stores", label: "Toko", icon: MapPinIcon },
+  { href: "/admin/messages", label: "Pesan", icon: InboxIcon },
+];
 
 const ADMIN_NAV: NavItem[] = [
   { href: "/admin/seo", label: "SEO", icon: SearchIcon },
-  { href: "/admin/settings", label: "Settings", icon: SettingsIcon },
-  { href: "/admin/users", label: "Users", icon: UsersIcon },
+  { href: "/admin/settings", label: "Pengaturan", icon: SettingsIcon },
+  { href: "/admin/users", label: "Pengguna", icon: UsersIcon },
 ];
 
 function NavLink({ item, collapsed }: { item: NavItem; collapsed: boolean }) {
@@ -68,14 +74,32 @@ function NavLink({ item, collapsed }: { item: NavItem; collapsed: boolean }) {
       aria-current={active ? "page" : undefined}
       title={collapsed ? item.label : undefined}
       className={cn(
-        "flex h-8 items-center gap-2.5 rounded-md px-2 text-sm text-muted-foreground transition-colors duration-150",
+        "relative flex h-8 items-center gap-2.5 rounded-md px-2 text-sm text-muted-foreground transition-colors duration-150",
         "hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
         active && "bg-muted font-medium text-foreground",
         collapsed && "justify-center px-0",
       )}
     >
       <item.icon className="size-4 shrink-0" aria-hidden="true" />
-      {!collapsed ? <span className="truncate">{item.label}</span> : null}
+      {!collapsed ? (
+        <span className="flex min-w-0 flex-1 items-center justify-between gap-2">
+          <span className="truncate">{item.label}</span>
+          {item.badge ? (
+            <span
+              aria-label={`${item.badge} belum dibaca`}
+              className="inline-flex h-4.5 min-w-4.5 shrink-0 items-center justify-center rounded-full bg-foreground px-1 text-[10px] font-semibold tabular-nums text-background"
+            >
+              {item.badge > 9 ? "9+" : item.badge}
+            </span>
+          ) : null}
+        </span>
+      ) : null}
+      {collapsed && item.badge ? (
+        <span
+          aria-label={`${item.badge} belum dibaca`}
+          className="absolute right-1.5 top-1.5 size-2 rounded-full bg-foreground"
+        />
+      ) : null}
     </Link>
   );
 }
@@ -103,18 +127,25 @@ function NavGroup({
 
 export function AdminSidebar({
   user,
+  unreadCount,
   collapsed,
   onToggle,
   mobileOpen,
   onClose,
 }: {
   user: AdminShellUser;
+  unreadCount: number;
   collapsed: boolean;
   onToggle: () => void;
   mobileOpen: boolean;
   onClose: () => void;
 }) {
   const isAdmin = user.role === "admin" || user.role === "super_admin";
+
+  const opsNav: NavItem[] =
+    unreadCount > 0
+      ? OPS_NAV.map((item) => (item.href === "/admin/messages" ? { ...item, badge: unreadCount } : item))
+      : OPS_NAV;
 
   const body = (
     <>
@@ -133,16 +164,18 @@ export function AdminSidebar({
         </Link>
       </div>
 
-      <nav aria-label="Admin navigation" className="flex flex-1 flex-col gap-6 overflow-y-auto px-3 py-4">
+      <nav aria-label="Navigasi admin" className="flex flex-1 flex-col gap-5 overflow-y-auto px-3 py-4">
         <NavGroup items={OVERVIEW_NAV} collapsed={collapsed} />
-        <NavGroup label="Content" items={[...CONTENT_NAV, ...STAFF_NAV]} collapsed={collapsed} />
-        {isAdmin ? <NavGroup label="Administration" items={ADMIN_NAV} collapsed={collapsed} /> : null}
+        <NavGroup label="Katalog" items={CATALOG_NAV} collapsed={collapsed} />
+        <NavGroup label="Konten" items={CONTENT_NAV} collapsed={collapsed} />
+        <NavGroup label="Operasional" items={opsNav} collapsed={collapsed} />
+        {isAdmin ? <NavGroup label="Administrasi" items={ADMIN_NAV} collapsed={collapsed} /> : null}
       </nav>
 
       <div className={cn("flex shrink-0 flex-col gap-0.5 border-t border-border p-3", collapsed && "items-center")}>
         <Link
           href="/faq"
-          title={collapsed ? "Help" : undefined}
+          title={collapsed ? "Bantuan" : undefined}
           className={cn(
             "flex h-8 items-center gap-2.5 rounded-md px-2 text-sm text-muted-foreground transition-colors duration-150",
             "hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
@@ -150,7 +183,7 @@ export function AdminSidebar({
           )}
         >
           <CircleHelpIcon className="size-4 shrink-0" aria-hidden="true" />
-          {!collapsed ? <span>Help</span> : null}
+          {!collapsed ? <span>Bantuan</span> : null}
         </Link>
         <form action={logout} className={cn("flex w-full", collapsed && "flex justify-center")}>
           <Button
@@ -162,7 +195,7 @@ export function AdminSidebar({
             )}
           >
             <LogOutIcon className="size-4 shrink-0" aria-hidden="true" />
-            {!collapsed ? <span>Sign out</span> : null}
+            {!collapsed ? <span>Keluar</span> : null}
           </Button>
         </form>
         <Button
@@ -173,15 +206,15 @@ export function AdminSidebar({
             collapsed && "w-auto justify-center px-0",
           )}
           onClick={onToggle}
-          aria-label={collapsed ? "Expand navigation" : "Collapse navigation"}
-          title={collapsed ? "Expand navigation" : undefined}
+          aria-label={collapsed ? "Luaskan navigasi" : "Ciutkan navigasi"}
+          title={collapsed ? "Luaskan navigasi" : undefined}
         >
           {collapsed ? (
             <PanelLeftOpenIcon className="size-4" aria-hidden="true" />
           ) : (
             <>
               <PanelLeftCloseIcon className="size-4" aria-hidden="true" />
-              Collapse
+              Ciutkan
             </>
           )}
         </Button>
@@ -219,14 +252,16 @@ export function AdminSidebar({
                   Turaya Studio
                 </Link>
               </div>
-              <Button variant="ghost" size="icon" onClick={onClose} aria-label="Close navigation menu">
+              <Button variant="ghost" size="icon" onClick={onClose} aria-label="Tutup menu navigasi">
                 <XIcon className="size-4" aria-hidden="true" />
               </Button>
             </div>
-            <nav aria-label="Admin navigation" className="flex flex-1 flex-col gap-6 overflow-y-auto px-3 py-4">
+            <nav aria-label="Navigasi admin" className="flex flex-1 flex-col gap-5 overflow-y-auto px-3 py-4">
               <NavGroup items={OVERVIEW_NAV} collapsed={false} />
-              <NavGroup label="Content" items={[...CONTENT_NAV, ...STAFF_NAV]} collapsed={false} />
-              {isAdmin ? <NavGroup label="Administration" items={ADMIN_NAV} collapsed={false} /> : null}
+              <NavGroup label="Katalog" items={CATALOG_NAV} collapsed={false} />
+              <NavGroup label="Konten" items={CONTENT_NAV} collapsed={false} />
+              <NavGroup label="Operasional" items={opsNav} collapsed={false} />
+              {isAdmin ? <NavGroup label="Administrasi" items={ADMIN_NAV} collapsed={false} /> : null}
             </nav>
             <div className="flex shrink-0 items-center justify-between border-t border-border p-3">
               <p className="min-w-0 flex-1 truncate text-xs text-muted-foreground">
@@ -235,7 +270,7 @@ export function AdminSidebar({
               <form action={logout}>
                 <Button variant="ghost" size="sm" className="text-muted-foreground">
                   <LogOutIcon className="size-4" aria-hidden="true" />
-                  Sign out
+                  Keluar
                 </Button>
               </form>
             </div>
