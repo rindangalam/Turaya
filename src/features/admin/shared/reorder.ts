@@ -51,3 +51,26 @@ export async function moveRow(
     console.error(`${table}: failed to reorder: ${errorB.message}`);
   }
 }
+
+/** Persists a full drag-and-drop order for a sortable table. */
+export async function reorderRows(
+  table: SortableTable,
+  ids: string[],
+): Promise<void> {
+  if (ids.length === 0) {
+    console.error(`${table}: reorder called without ids`);
+    return;
+  }
+
+  const supabase = await createClient();
+  for (let position = 0; position < ids.length; position++) {
+    const { error } = await supabase
+      .from(table as "collections")
+      .update({ sort_order: position })
+      .eq("id", ids[position]);
+    if (error) {
+      console.error(`${table}: failed to reorder ${ids[position]}: ${error.message}`);
+      return;
+    }
+  }
+}
