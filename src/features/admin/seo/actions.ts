@@ -27,7 +27,7 @@ export async function updateSeoMetadata(
 
   const id = String(formData.get("id") ?? "");
   if (!id) {
-    return { ok: false, formError: "Missing SEO record." };
+    return { ok: false, formError: "Data SEO tidak ditemukan." };
   }
 
   const parsed = seoMetadataSchema.safeParse(clean(formData));
@@ -52,7 +52,7 @@ export async function updateSeoMetadata(
 
     if (insertError) {
       console.error(`seo: failed to save ${id}: ${insertError.message}`);
-      return { ok: false, formError: "Could not save SEO settings. Please try again." };
+      return { ok: false, formError: "Data SEO gagal disimpan. Silakan coba lagi." };
     }
   }
 

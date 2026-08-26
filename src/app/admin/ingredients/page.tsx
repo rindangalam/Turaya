@@ -1,21 +1,24 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowDownIcon, ArrowUpIcon, Flower2Icon, PencilIcon, PlusIcon } from "lucide-react";
+import { Flower2Icon, PencilIcon, PlusIcon } from "lucide-react";
 
 import { requireAuth } from "@/lib/auth/guards";
+import { MoveButtons } from "@/components/admin/move-buttons";
 import { PageHeader } from "@/components/admin/page-header";
 import { EmptyState } from "@/components/admin/empty-state";
+import { SortableList } from "@/components/admin/sortable-list";
 import { Button } from "@/components/ui/button";
 import { ContentStatusBadge } from "@/features/admin/shared/content-status-badge";
 import { ConfirmDeleteButton } from "@/features/admin/shared/confirm-delete-button";
 import {
   deleteIngredient,
   moveIngredient,
+  reorderIngredients,
 } from "@/features/admin/ingredients/actions";
 import { listIngredients } from "@/services/ingredients";
 import type { Ingredient } from "@/services/ingredients";
 
-export const metadata: Metadata = { title: "Ingredients" };
+export const metadata: Metadata = { title: "Bahan" };
 
 export default async function IngredientsPage() {
   await requireAuth();
@@ -24,39 +27,38 @@ export default async function IngredientsPage() {
   return (
     <div className="flex flex-col gap-6">
       <PageHeader
-        title="Ingredients"
-        description="Raw materials used in the fragrance pyramid."
+        title="Bahan"
+        description="Bahan baku yang dipakai dalam piramida wewangian."
       >
         <Button size="sm" render={<Link href="/admin/ingredients/new" />}>
           <PlusIcon aria-hidden="true" />
-          New ingredient
+          Bahan baru
         </Button>
       </PageHeader>
 
       {ingredients.length === 0 ? (
         <EmptyState
           icon={<Flower2Icon className="size-6" aria-hidden="true" />}
-          title="No ingredients yet"
-          description="Create your first ingredient to map fragrance notes."
+          title="Belum ada bahan"
+          description="Buat bahan pertama untuk memetakan nada wewangian."
           action={
             <Button size="sm" render={<Link href="/admin/ingredients/new" />}>
               <PlusIcon aria-hidden="true" />
-              New ingredient
+              Bahan baru
             </Button>
           }
         />
       ) : (
-        <ol className="flex flex-col gap-3">
+        <SortableList ids={ingredients.map((item) => item.id)} action={reorderIngredients}>
           {ingredients.map((ingredient, index) => (
-            <li key={ingredient.id}>
-              <IngredientRow
-                ingredient={ingredient}
-                isFirst={index === 0}
-                isLast={index === ingredients.length - 1}
-              />
-            </li>
+            <IngredientRow
+              key={ingredient.id}
+              ingredient={ingredient}
+              isFirst={index === 0}
+              isLast={index === ingredients.length - 1}
+            />
           ))}
-        </ol>
+        </SortableList>
       )}
     </div>
   );
@@ -90,32 +92,13 @@ function IngredientRow({
       </div>
 
       <div className="flex shrink-0 items-center gap-1">
-        <form action={moveIngredient}>
-          <input type="hidden" name="id" value={ingredient.id} />
-          <input type="hidden" name="direction" value="up" />
-          <Button
-            type="submit"
-            variant="ghost"
-            size="icon-sm"
-            disabled={isFirst}
-            aria-label={`Move ${ingredient.name} up`}
-          >
-            <ArrowUpIcon className="size-3.5" aria-hidden="true" />
-          </Button>
-        </form>
-        <form action={moveIngredient}>
-          <input type="hidden" name="id" value={ingredient.id} />
-          <input type="hidden" name="direction" value="down" />
-          <Button
-            type="submit"
-            variant="ghost"
-            size="icon-sm"
-            disabled={isLast}
-            aria-label={`Move ${ingredient.name} down`}
-          >
-            <ArrowDownIcon className="size-3.5" aria-hidden="true" />
-          </Button>
-        </form>
+        <MoveButtons
+          id={ingredient.id}
+          name={ingredient.name}
+          isFirst={isFirst}
+          isLast={isLast}
+          action={moveIngredient}
+        />
         <Button
           variant="ghost"
           size="icon-sm"

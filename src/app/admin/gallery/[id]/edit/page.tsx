@@ -1,16 +1,14 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { ArrowLeftIcon } from "lucide-react";
 import { notFound } from "next/navigation";
 
 import { requireAuth } from "@/lib/auth/guards";
+import { Breadcrumb } from "@/components/admin/breadcrumb";
 import { PageHeader } from "@/components/admin/page-header";
-import { Button } from "@/components/ui/button";
 import { GalleryForm } from "@/features/admin/gallery/gallery-form";
 import { updateGalleryItem } from "@/features/admin/gallery/actions";
 import { getGalleryItem, listGalleryCategories } from "@/services/gallery";
 
-export const metadata: Metadata = { title: "Edit gallery image" };
+export const metadata: Metadata = { title: "Edit gambar" };
 
 export default async function EditGalleryItemPage({
   params,
@@ -28,17 +26,23 @@ export default async function EditGalleryItemPage({
 
   return (
     <div className="flex flex-col gap-6">
-      <PageHeader title="Edit gallery image" description="Update the caption, category and status.">
-        <Button variant="outline" size="sm" render={<Link href="/admin/gallery" />}>
-          <ArrowLeftIcon aria-hidden="true" />
-          Back to gallery
-        </Button>
-      </PageHeader>
+      <PageHeader
+        title="Edit gambar"
+        description="Perbarui keterangan, kategori, dan status."
+        breadcrumb={
+          <Breadcrumb
+            items={[
+              { href: "/admin/gallery", label: "Galeri" },
+              { href: `/admin/gallery/${item.id}`, label: item.alt },
+            ]}
+          />
+        }
+      />
       <GalleryForm
         action={updateGalleryItem}
         item={item}
         categories={categories}
-        submitLabel="Save image"
+        submitLabel="Simpan gambar"
       />
     </div>
   );

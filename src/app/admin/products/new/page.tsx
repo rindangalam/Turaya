@@ -1,16 +1,14 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { ArrowLeftIcon } from "lucide-react";
 
 import { requireAuth } from "@/lib/auth/guards";
+import { Breadcrumb } from "@/components/admin/breadcrumb";
 import { PageHeader } from "@/components/admin/page-header";
-import { Button } from "@/components/ui/button";
 import { ProductForm } from "@/features/admin/products/product-form";
 import { createProduct } from "@/features/admin/products/actions";
 import { getProductOptions } from "@/services/products";
 import { getIngredientOptions } from "@/services/ingredients";
 
-export const metadata: Metadata = { title: "New product" };
+export const metadata: Metadata = { title: "Produk baru" };
 
 export default async function NewProductPage() {
   await requireAuth();
@@ -22,20 +20,23 @@ export default async function NewProductPage() {
   return (
     <div className="flex flex-col gap-6">
       <PageHeader
-        title="New product"
-        description="Add a fragrance to the catalog."
-      >
-        <Button variant="outline" size="sm" render={<Link href="/admin/products" />}>
-          <ArrowLeftIcon aria-hidden="true" />
-          Back to products
-        </Button>
-      </PageHeader>
+        title="Produk baru"
+        description="Tambahkan parfum ke katalog."
+        breadcrumb={
+          <Breadcrumb
+            items={[
+              { href: "/admin/products", label: "Produk" },
+              { href: "/admin/products/new", label: "Baru" },
+            ]}
+          />
+        }
+      />
       <ProductForm
         action={createProduct}
         categories={categories}
         collections={collections}
         ingredients={ingredients}
-        submitLabel="Create product"
+        submitLabel="Buat produk"
       />
     </div>
   );

@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowLeftIcon } from "lucide-react";
+import { ExternalLinkIcon } from "lucide-react";
 import { notFound } from "next/navigation";
 
 import { requireAuth } from "@/lib/auth/guards";
+import { Breadcrumb } from "@/components/admin/breadcrumb";
 import { PageHeader } from "@/components/admin/page-header";
 import { Button } from "@/components/ui/button";
 import { ProductForm } from "@/features/admin/products/product-form";
@@ -11,7 +12,7 @@ import { updateProduct } from "@/features/admin/products/actions";
 import { getProduct, getProductNotes, getProductOptions } from "@/services/products";
 import { getIngredientOptions } from "@/services/ingredients";
 
-export const metadata: Metadata = { title: "Edit product" };
+export const metadata: Metadata = { title: "Edit produk" };
 
 export default async function EditProductPage({
   params,
@@ -36,12 +37,27 @@ export default async function EditProductPage({
     <div className="flex flex-col gap-6">
       <PageHeader
         title={`Edit ${product.name}`}
-        description="Update the product and its images."
+        description="Perbarui produk dan gambarnya."
+        breadcrumb={
+          <Breadcrumb
+            items={[
+              { href: "/admin/products", label: "Produk" },
+              { href: `/admin/products/${product.id}`, label: product.name },
+            ]}
+          />
+        }
       >
-        <Button variant="outline" size="sm" render={<Link href="/admin/products" />}>
-          <ArrowLeftIcon aria-hidden="true" />
-          Back to products
-        </Button>
+        {product.status === "published" ? (
+          <Button
+            variant="ghost"
+            size="sm"
+            render={<Link href={`/products/${product.slug}`} target="_blank" rel="noopener noreferrer" />}
+            aria-label="Lihat produk di situs publik"
+          >
+            <ExternalLinkIcon aria-hidden="true" />
+            Lihat di situs
+          </Button>
+        ) : null}
       </PageHeader>
       <ProductForm
         action={updateProduct}
@@ -51,7 +67,7 @@ export default async function EditProductPage({
         collections={collections}
         ingredients={ingredients}
         notes={notes}
-        submitLabel="Save product"
+        submitLabel="Simpan produk"
       />
     </div>
   );

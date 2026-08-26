@@ -6,7 +6,7 @@ import { requireAuth } from "@/lib/auth/guards";
 import { createClient } from "@/lib/supabase/server";
 import { categorySchema } from "@/lib/validation/collections";
 import type { ActionResult } from "@/lib/validation/action-result";
-import { moveRow } from "@/features/admin/shared/reorder";
+import { moveRow, reorderRows } from "@/features/admin/shared/reorder";
 
 const CATEGORY_FIELDS = ["name", "slug", "description"] as const;
 
@@ -22,7 +22,7 @@ function clean(formData: FormData): Record<string, unknown> {
 }
 
 function slugConflict(): ActionResult {
-  return { ok: false, fieldErrors: { slug: ["A category with this slug already exists."] } };
+  return { ok: false, fieldErrors: { slug: ["Sudah ada Kategori dengan slug ini."] } };
 }
 
 export async function createCategory(
@@ -47,7 +47,7 @@ export async function createCategory(
   if (error) {
     if (error.code === "23505") return slugConflict();
     console.error(`categories: failed to create: ${error.message}`);
-    return { ok: false, formError: "Could not create the category. Please try again." };
+    return { ok: false, formError: "Kategori gagal dibuat. Silakan coba lagi." };
   }
 
   revalidatePath("/admin/categories");
@@ -62,7 +62,7 @@ export async function updateCategory(
 
   const id = String(formData.get("id") ?? "");
   if (!id) {
-    return { ok: false, formError: "Missing category record." };
+    return { ok: false, formError: "Data kategori tidak ditemukan." };
   }
 
   const parsed = categorySchema.safeParse(clean(formData));
@@ -79,7 +79,7 @@ export async function updateCategory(
   if (error) {
     if (error.code === "23505") return slugConflict();
     console.error(`categories: failed to update ${id}: ${error.message}`);
-    return { ok: false, formError: "Could not save the category. Please try again." };
+    return { ok: false, formError: "Kategori gagal disimpan. Silakan coba lagi." };
   }
 
   revalidatePath("/admin/categories");
@@ -94,7 +94,7 @@ export async function deleteCategory(
 
   const id = String(formData.get("id") ?? "");
   if (!id) {
-    return { ok: false, formError: "Missing category record." };
+    return { ok: false, formError: "Data kategori tidak ditemukan." };
   }
 
   const supabase = await createClient();
@@ -105,7 +105,7 @@ export async function deleteCategory(
 
   if (error) {
     console.error(`categories: failed to archive ${id}: ${error.message}`);
-    return { ok: false, formError: "Could not archive the category. Please try again." };
+    return { ok: false, formError: "Kategori gagal diarsipkan. Silakan coba lagi." };
   }
 
   revalidatePath("/admin/categories");
@@ -119,5 +119,12 @@ export async function moveCategory(formData: FormData): Promise<void> {
     String(formData.get("id") ?? ""),
     formData.get("direction") === "down" ? 1 : -1,
   );
+  revalidatePath("/admin/categories");
+}
+
+export async function reorderCategories(formData: FormData): Promise<void> {
+  await requireAuth();
+  const ids = formData.getAll("ids").map(String).filter(Boolean);
+  await reorderRows("categories", ids);
   revalidatePath("/admin/categories");
 }

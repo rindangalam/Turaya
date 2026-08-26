@@ -26,15 +26,15 @@ function collectImage(formData: FormData): { ok: true; file: File } | { ok: fals
   const file = entry instanceof File && entry.size > 0 ? entry : null;
 
   if (!file) {
-    return { ok: false, error: "Select an image to upload." };
+    return { ok: false, error: "Pilih gambar untuk diunggah." };
   }
 
   if (!ALLOWED_IMAGE_TYPES.has(file.type)) {
-    return { ok: false, error: "Only JPEG, PNG, WebP or AVIF images are allowed." };
+    return { ok: false, error: "Hanya gambar JPEG, PNG, WebP, atau AVIF yang diizinkan." };
   }
 
   if (file.size > MAX_IMAGE_BYTES) {
-    return { ok: false, error: "Each image must be 8 MB or smaller." };
+    return { ok: false, error: "Ukuran setiap gambar maksimal 8 MB." };
   }
 
   return { ok: true, file };
@@ -60,7 +60,7 @@ async function uploadImage(
 
   if (error) {
     console.error(`gallery: image upload failed: ${error.message}`);
-    return { ok: false, error: "The image could not be uploaded. Please try again." };
+    return { ok: false, error: "Gambar gagal diunggah. Silakan coba lagi." };
   }
 
   return { ok: true, path };
@@ -106,7 +106,7 @@ export async function createGalleryItem(
   if (error) {
     await removeImage(uploaded.path);
     console.error(`gallery: failed to create item: ${error.message}`);
-    return { ok: false, formError: "Could not save the gallery item. Please try again." };
+    return { ok: false, formError: "Item galeri gagal disimpan. Silakan coba lagi." };
   }
 
   revalidatePath("/admin/gallery");
@@ -121,7 +121,7 @@ export async function updateGalleryItem(
 
   const id = String(formData.get("id") ?? "");
   if (!id) {
-    return { ok: false, formError: "Missing gallery item." };
+    return { ok: false, formError: "Data item galeri tidak ditemukan." };
   }
 
   const parsed = galleryItemSchema.safeParse(clean(formData));
@@ -134,10 +134,10 @@ export async function updateGalleryItem(
 
   if (replacement) {
     if (!ALLOWED_IMAGE_TYPES.has(replacement.type)) {
-      return { ok: false, formError: "Only JPEG, PNG, WebP or AVIF images are allowed." };
+      return { ok: false, formError: "Hanya gambar JPEG, PNG, WebP, atau AVIF yang diizinkan." };
     }
     if (replacement.size > MAX_IMAGE_BYTES) {
-      return { ok: false, formError: "Each image must be 8 MB or smaller." };
+      return { ok: false, formError: "Ukuran setiap gambar maksimal 8 MB." };
     }
   }
 
@@ -149,7 +149,7 @@ export async function updateGalleryItem(
     .maybeSingle();
 
   if (!existing) {
-    return { ok: false, formError: "Gallery item not found." };
+    return { ok: false, formError: "Item galeri tidak ditemukan." };
   }
 
   let path = existing.path;
@@ -169,7 +169,7 @@ export async function updateGalleryItem(
   if (error) {
     if (replacement) await removeImage(path);
     console.error(`gallery: failed to update ${id}: ${error.message}`);
-    return { ok: false, formError: "Could not save the gallery item. Please try again." };
+    return { ok: false, formError: "Item galeri gagal disimpan. Silakan coba lagi." };
   }
 
   if (replacement && path !== existing.path) {
@@ -189,7 +189,7 @@ export async function deleteGalleryItem(
 
   const id = String(formData.get("id") ?? "");
   if (!id) {
-    return { ok: false, formError: "Missing gallery item." };
+    return { ok: false, formError: "Data item galeri tidak ditemukan." };
   }
 
   const supabase = await createClient();
@@ -200,7 +200,7 @@ export async function deleteGalleryItem(
     .maybeSingle();
 
   if (!existing) {
-    return { ok: false, formError: "Gallery item not found." };
+    return { ok: false, formError: "Item galeri tidak ditemukan." };
   }
 
   await removeImage(existing.path);
@@ -208,7 +208,7 @@ export async function deleteGalleryItem(
   const { error } = await supabase.from("gallery_items").delete().eq("id", id);
   if (error) {
     console.error(`gallery: failed to delete ${id}: ${error.message}`);
-    return { ok: false, formError: "Could not delete the gallery item. Please try again." };
+    return { ok: false, formError: "Item galeri gagal dihapus. Silakan coba lagi." };
   }
 
   revalidatePath("/admin/gallery");

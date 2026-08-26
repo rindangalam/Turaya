@@ -53,15 +53,15 @@ function collectNewImages(
     .filter((entry): entry is File => entry instanceof File && entry.size > 0);
 
   if (files.length > MAX_NEW_IMAGES) {
-    return { ok: false, error: `Upload at most ${MAX_NEW_IMAGES} images per product.` };
+    return { ok: false, error: `Maksimal ${MAX_NEW_IMAGES} gambar per produk.` };
   }
 
   for (const file of files) {
     if (!ALLOWED_IMAGE_TYPES.has(file.type)) {
-      return { ok: false, error: "Only JPEG, PNG or WebP images are allowed." };
+      return { ok: false, error: "Hanya gambar JPEG, PNG, atau WebP yang diizinkan." };
     }
     if (file.size > MAX_IMAGE_BYTES) {
-      return { ok: false, error: "Each image must be 5 MB or smaller." };
+      return { ok: false, error: "Ukuran setiap gambar maksimal 5 MB." };
     }
   }
 
@@ -69,7 +69,7 @@ function collectNewImages(
 }
 
 function slugConflict(): ActionResult {
-  return { ok: false, fieldErrors: { slug: ["A product with this slug already exists."] } };
+  return { ok: false, fieldErrors: { slug: ["Produk dengan slug ini sudah ada."] } };
 }
 
 async function uploadNewImages(
@@ -89,7 +89,7 @@ async function uploadNewImages(
 
     if (uploadError) {
       console.error(`products: image upload failed for ${productId}: ${uploadError.message}`);
-      return { ok: false, error: "One or more images failed to upload. Please try again." };
+      return { ok: false, error: "Sebagian gambar gagal diunggah. Silakan coba lagi." };
     }
 
     const { error: insertError } = await supabase
@@ -98,7 +98,7 @@ async function uploadNewImages(
 
     if (insertError) {
       console.error(`products: image row insert failed: ${insertError.message}`);
-      return { ok: false, error: "One or more images could not be saved. Please try again." };
+      return { ok: false, error: "Sebagian gambar gagal disimpan. Silakan coba lagi." };
     }
   }
 
@@ -123,7 +123,7 @@ async function manageExistingImages(
         const { error: removeError } = await supabase.storage.from("products").remove([path]);
         if (removeError) {
           console.error(`products: failed to remove image ${path}: ${removeError.message}`);
-          return { ok: false, error: "Some images could not be removed. Please try again." };
+          return { ok: false, error: "Sebagian gambar gagal dihapus. Silakan coba lagi." };
         }
       }
 
@@ -135,7 +135,7 @@ async function manageExistingImages(
 
       if (deleteError) {
         console.error(`products: failed to delete image row ${imageId}: ${deleteError.message}`);
-        return { ok: false, error: "Some images could not be removed. Please try again." };
+        return { ok: false, error: "Sebagian gambar gagal dihapus. Silakan coba lagi." };
       }
       continue;
     }
@@ -151,7 +151,24 @@ async function manageExistingImages(
 
     if (error) {
       console.error(`products: failed to update image ${imageId}: ${error.message}`);
-      return { ok: false, error: "Image details could not be saved. Please try again." };
+      return { ok: false, error: "Detail gambar gagal disimpan. Silakan coba lagi." };
+    }
+  }
+
+  const order = String(formData.get("existing_image_order") ?? "");
+  if (order) {
+    const ids = order.split(",").map((id) => id.trim()).filter(Boolean);
+    for (let position = 0; position < ids.length; position++) {
+      const { error } = await supabase
+        .from("product_images")
+        .update({ sort_order: position })
+        .eq("id", ids[position])
+        .eq("product_id", productId);
+
+      if (error) {
+        console.error(`products: failed to order image ${ids[position]}: ${error.message}`);
+        return { ok: false, error: "Urutan gambar gagal disimpan. Silakan coba lagi." };
+      }
     }
   }
 
@@ -193,14 +210,14 @@ async function replaceNotes(
     .eq("product_id", productId);
   if (deleteError) {
     console.error(`products: failed to reset notes for ${productId}: ${deleteError.message}`);
-    return { ok: false, error: "Fragrance notes could not be saved. Please try again." };
+    return { ok: false, error: "Nada wewangian gagal disimpan. Silakan coba lagi." };
   }
 
   if (rows.length > 0) {
     const { error: insertError } = await supabase.from("product_ingredients").insert(rows);
     if (insertError) {
       console.error(`products: failed to save notes for ${productId}: ${insertError.message}`);
-      return { ok: false, error: "Fragrance notes could not be saved. Please try again." };
+      return { ok: false, error: "Nada wewangian gagal disimpan. Silakan coba lagi." };
     }
   }
 
@@ -233,7 +250,7 @@ export async function createProduct(
   if (error) {
     if (error.code === "23505") return slugConflict();
     console.error(`products: failed to create: ${error.message}`);
-    return { ok: false, formError: "Could not create the product. Please try again." };
+    return { ok: false, formError: "Produk gagal dibuat. Silakan coba lagi." };
   }
 
   const uploaded = await uploadNewImages(supabase, created.id, images.files, 0);
@@ -259,7 +276,7 @@ export async function updateProduct(
 
   const id = String(formData.get("id") ?? "");
   if (!id) {
-    return { ok: false, formError: "Missing product record." };
+    return { ok: false, formError: "Data produk tidak ditemukan." };
   }
 
   const parsed = productSchema.safeParse(clean(formData));
@@ -278,7 +295,7 @@ export async function updateProduct(
   if (error) {
     if (error.code === "23505") return slugConflict();
     console.error(`products: failed to update ${id}: ${error.message}`);
-    return { ok: false, formError: "Could not save the product. Please try again." };
+    return { ok: false, formError: "Produk gagal disimpan. Silakan coba lagi." };
   }
 
   const existingCount = Number(formData.get("existing_count") ?? 0);
@@ -320,7 +337,7 @@ export async function deleteProduct(
 
   const id = String(formData.get("id") ?? "");
   if (!id) {
-    return { ok: false, formError: "Missing product record." };
+    return { ok: false, formError: "Data produk tidak ditemukan." };
   }
 
   const supabase = await createClient();
@@ -331,7 +348,7 @@ export async function deleteProduct(
 
   if (error) {
     console.error(`products: failed to archive ${id}: ${error.message}`);
-    return { ok: false, formError: "Could not archive the product. Please try again." };
+    return { ok: false, formError: "Produk gagal diarsipkan. Silakan coba lagi." };
   }
 
   revalidatePath("/admin/products");

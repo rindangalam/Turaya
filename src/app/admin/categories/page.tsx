@@ -1,21 +1,24 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowDownIcon, ArrowUpIcon, PencilIcon, PlusIcon, TagIcon } from "lucide-react";
+import { PencilIcon, PlusIcon, TagIcon } from "lucide-react";
 
 import { requireAuth } from "@/lib/auth/guards";
+import { MoveButtons } from "@/components/admin/move-buttons";
 import { PageHeader } from "@/components/admin/page-header";
 import { EmptyState } from "@/components/admin/empty-state";
+import { SortableList } from "@/components/admin/sortable-list";
 import { Button } from "@/components/ui/button";
 import { ContentStatusBadge } from "@/features/admin/shared/content-status-badge";
 import { ConfirmDeleteButton } from "@/features/admin/shared/confirm-delete-button";
 import {
   deleteCategory,
   moveCategory,
+  reorderCategories,
 } from "@/features/admin/categories/actions";
 import { listCategories } from "@/services/categories";
 import type { Category } from "@/services/categories";
 
-export const metadata: Metadata = { title: "Categories" };
+export const metadata: Metadata = { title: "Kategori" };
 
 export default async function CategoriesPage() {
   await requireAuth();
@@ -24,39 +27,38 @@ export default async function CategoriesPage() {
   return (
     <div className="flex flex-col gap-6">
       <PageHeader
-        title="Categories"
-        description="Product types such as Eau de Parfum or Home Fragrance."
+        title="Kategori"
+        description="Jenis produk seperti Eau de Parfum atau Pewangi Ruangan."
       >
         <Button size="sm" render={<Link href="/admin/categories/new" />}>
           <PlusIcon aria-hidden="true" />
-          New category
+          Kategori baru
         </Button>
       </PageHeader>
 
       {categories.length === 0 ? (
         <EmptyState
           icon={<TagIcon className="size-6" aria-hidden="true" />}
-          title="No categories yet"
-          description="Create your first product category."
+          title="Belum ada kategori"
+          description="Buat kategori produk pertama."
           action={
             <Button size="sm" render={<Link href="/admin/categories/new" />}>
               <PlusIcon aria-hidden="true" />
-              New category
+              Kategori baru
             </Button>
           }
         />
       ) : (
-        <ol className="flex flex-col gap-3">
+        <SortableList ids={categories.map((item) => item.id)} action={reorderCategories}>
           {categories.map((category, index) => (
-            <li key={category.id}>
-              <CategoryRow
-                category={category}
-                isFirst={index === 0}
-                isLast={index === categories.length - 1}
-              />
-            </li>
+            <CategoryRow
+              key={category.id}
+              category={category}
+              isFirst={index === 0}
+              isLast={index === categories.length - 1}
+            />
           ))}
-        </ol>
+        </SortableList>
       )}
     </div>
   );
@@ -87,32 +89,13 @@ function CategoryRow({
       </div>
 
       <div className="flex shrink-0 items-center gap-1">
-        <form action={moveCategory}>
-          <input type="hidden" name="id" value={category.id} />
-          <input type="hidden" name="direction" value="up" />
-          <Button
-            type="submit"
-            variant="ghost"
-            size="icon-sm"
-            disabled={isFirst}
-            aria-label={`Move ${category.name} up`}
-          >
-            <ArrowUpIcon className="size-3.5" aria-hidden="true" />
-          </Button>
-        </form>
-        <form action={moveCategory}>
-          <input type="hidden" name="id" value={category.id} />
-          <input type="hidden" name="direction" value="down" />
-          <Button
-            type="submit"
-            variant="ghost"
-            size="icon-sm"
-            disabled={isLast}
-            aria-label={`Move ${category.name} down`}
-          >
-            <ArrowDownIcon className="size-3.5" aria-hidden="true" />
-          </Button>
-        </form>
+        <MoveButtons
+          id={category.id}
+          name={category.name}
+          isFirst={isFirst}
+          isLast={isLast}
+          action={moveCategory}
+        />
         <Button
           variant="ghost"
           size="icon-sm"

@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeftIcon, ReplyIcon } from "lucide-react";
+import { ReplyIcon } from "lucide-react";
 
 import { requireAuth } from "@/lib/auth/guards";
+import { Breadcrumb } from "@/components/admin/breadcrumb";
 import { PageHeader } from "@/components/admin/page-header";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
@@ -12,7 +12,7 @@ import { MessageStatusControl } from "@/features/admin/messages/message-status-c
 import { getMessage } from "@/services/messages";
 import { formatDateTime } from "@/lib/format";
 
-export const metadata: Metadata = { title: "Message" };
+export const metadata: Metadata = { title: "Pesan" };
 
 export default async function MessageDetailPage({
   params,
@@ -28,23 +28,29 @@ export default async function MessageDetailPage({
   }
 
   const replyHref = `mailto:${message.email}?subject=${encodeURIComponent(
-    `Re: ${message.subject ?? "your message"}`,
+    `Re: ${message.subject ?? "pesan Anda"}`,
   )}`;
 
   return (
     <div className="flex flex-col gap-6">
-      <PageHeader title="Message" description={`From ${message.email}`}>
-        <Button variant="outline" size="sm" render={<Link href="/admin/messages" />}>
-          <ArrowLeftIcon aria-hidden="true" />
-          Back to inbox
-        </Button>
-      </PageHeader>
+      <PageHeader
+        title="Pesan"
+        description={`Dari ${message.email}`}
+        breadcrumb={
+          <Breadcrumb
+            items={[
+              { href: "/admin/messages", label: "Pesan" },
+              { href: `/admin/messages/${message.id}`, label: message.name },
+            ]}
+          />
+        }
+      />
 
       <Card>
         <CardHeader>
           <div className="flex flex-wrap items-center justify-between gap-2">
             <h2 className="text-heading-md font-semibold">
-              {message.subject || "No subject"}
+              {message.subject || "Tanpa subjek"}
             </h2>
             <MessageStatusBadge status={message.status} />
           </div>
@@ -60,7 +66,7 @@ export default async function MessageDetailPage({
           <MessageStatusControl id={message.id} status={message.status} />
           <Button variant="outline" size="sm" render={<a href={replyHref} />}>
             <ReplyIcon aria-hidden="true" />
-            Reply by email
+            Balas via email
           </Button>
         </CardFooter>
       </Card>

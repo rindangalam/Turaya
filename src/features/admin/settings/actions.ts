@@ -37,7 +37,7 @@ export async function updateSettings(
 
   const id = String(formData.get("id") ?? "");
   if (!id) {
-    return { ok: false, formError: "Missing settings record." };
+    return { ok: false, formError: "Data pengaturan tidak ditemukan." };
   }
 
   const parsed = settingsSchema.safeParse(clean(formData));
@@ -63,7 +63,7 @@ export async function updateSettings(
 
     if (insertError) {
       console.error(`settings: failed to save: ${insertError.message}`);
-      return { ok: false, formError: "Could not save settings. Please try again." };
+      return { ok: false, formError: "Pengaturan gagal disimpan. Silakan coba lagi." };
     }
   }
 

@@ -8,7 +8,7 @@ import { createClient } from "@/lib/supabase/server";
 import { collectionSchema } from "@/lib/validation/collections";
 import type { ActionResult } from "@/lib/validation/action-result";
 import type { Database } from "@/lib/supabase/database.types";
-import { moveRow } from "@/features/admin/shared/reorder";
+import { moveRow, reorderRows } from "@/features/admin/shared/reorder";
 
 const COLLECTION_FIELDS = [
   "name",
@@ -33,7 +33,7 @@ function clean(formData: FormData): Record<string, unknown> {
 }
 
 function slugConflict(): ActionResult {
-  return { ok: false, fieldErrors: { slug: ["A collection with this slug already exists."] } };
+  return { ok: false, fieldErrors: { slug: ["Sudah ada Koleksi dengan slug ini."] } };
 }
 
 async function replaceProducts(
@@ -52,7 +52,7 @@ async function replaceProducts(
     .eq("collection_id", collectionId);
   if (deleteError) {
     console.error(`collections: failed to reset products for ${collectionId}: ${deleteError.message}`);
-    return { ok: false, error: "Products could not be saved. Please try again." };
+    return { ok: false, error: "Produk gagal disimpan. Silakan coba lagi." };
   }
 
   if (ids.length > 0) {
@@ -64,7 +64,7 @@ async function replaceProducts(
     const { error: insertError } = await supabase.from("collection_products").insert(rows);
     if (insertError) {
       console.error(`collections: failed to save products for ${collectionId}: ${insertError.message}`);
-      return { ok: false, error: "Products could not be saved. Please try again." };
+      return { ok: false, error: "Produk gagal disimpan. Silakan coba lagi." };
     }
   }
 
@@ -95,7 +95,7 @@ export async function createCollection(
   if (error) {
     if (error.code === "23505") return slugConflict();
     console.error(`collections: failed to create: ${error.message}`);
-    return { ok: false, formError: "Could not create the collection. Please try again." };
+    return { ok: false, formError: "Koleksi gagal dibuat. Silakan coba lagi." };
   }
 
   const products = await replaceProducts(supabase, created.id, formData);
@@ -115,7 +115,7 @@ export async function updateCollection(
 
   const id = String(formData.get("id") ?? "");
   if (!id) {
-    return { ok: false, formError: "Missing collection record." };
+    return { ok: false, formError: "Data koleksi tidak ditemukan." };
   }
 
   const parsed = collectionSchema.safeParse(clean(formData));
@@ -132,7 +132,7 @@ export async function updateCollection(
   if (error) {
     if (error.code === "23505") return slugConflict();
     console.error(`collections: failed to update ${id}: ${error.message}`);
-    return { ok: false, formError: "Could not save the collection. Please try again." };
+    return { ok: false, formError: "Koleksi gagal disimpan. Silakan coba lagi." };
   }
 
   const products = await replaceProducts(supabase, id, formData);
@@ -153,7 +153,7 @@ export async function deleteCollection(
 
   const id = String(formData.get("id") ?? "");
   if (!id) {
-    return { ok: false, formError: "Missing collection record." };
+    return { ok: false, formError: "Data koleksi tidak ditemukan." };
   }
 
   const supabase = await createClient();
@@ -164,7 +164,7 @@ export async function deleteCollection(
 
   if (error) {
     console.error(`collections: failed to archive ${id}: ${error.message}`);
-    return { ok: false, formError: "Could not archive the collection. Please try again." };
+    return { ok: false, formError: "Koleksi gagal diarsipkan. Silakan coba lagi." };
   }
 
   revalidatePath("/admin/collections");
@@ -178,6 +178,13 @@ export async function moveCollection(formData: FormData): Promise<void> {
     String(formData.get("id") ?? ""),
     formData.get("direction") === "down" ? 1 : -1,
   );
+  revalidatePath("/admin/collections");
+}
+
+export async function reorderCollections(formData: FormData): Promise<void> {
+  await requireAuth();
+  const ids = formData.getAll("ids").map(String).filter(Boolean);
+  await reorderRows("collections", ids);
   revalidatePath("/admin/collections");
 }
 

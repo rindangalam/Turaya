@@ -6,7 +6,7 @@ import { requireAuth } from "@/lib/auth/guards";
 import { createClient } from "@/lib/supabase/server";
 import { ingredientSchema } from "@/lib/validation/collections";
 import type { ActionResult } from "@/lib/validation/action-result";
-import { moveRow } from "@/features/admin/shared/reorder";
+import { moveRow, reorderRows } from "@/features/admin/shared/reorder";
 
 const INGREDIENT_FIELDS = ["name", "slug", "origin", "description", "story", "image_path"] as const;
 
@@ -22,7 +22,7 @@ function clean(formData: FormData): Record<string, unknown> {
 }
 
 function slugConflict(): ActionResult {
-  return { ok: false, fieldErrors: { slug: ["An ingredient with this slug already exists."] } };
+  return { ok: false, fieldErrors: { slug: ["Sudah ada Bahan dengan slug ini."] } };
 }
 
 export async function createIngredient(
@@ -47,7 +47,7 @@ export async function createIngredient(
   if (error) {
     if (error.code === "23505") return slugConflict();
     console.error(`ingredients: failed to create: ${error.message}`);
-    return { ok: false, formError: "Could not create the ingredient. Please try again." };
+    return { ok: false, formError: "Bahan gagal dibuat. Silakan coba lagi." };
   }
 
   revalidatePath("/admin/ingredients");
@@ -62,7 +62,7 @@ export async function updateIngredient(
 
   const id = String(formData.get("id") ?? "");
   if (!id) {
-    return { ok: false, formError: "Missing ingredient record." };
+    return { ok: false, formError: "Data bahan tidak ditemukan." };
   }
 
   const parsed = ingredientSchema.safeParse(clean(formData));
@@ -79,7 +79,7 @@ export async function updateIngredient(
   if (error) {
     if (error.code === "23505") return slugConflict();
     console.error(`ingredients: failed to update ${id}: ${error.message}`);
-    return { ok: false, formError: "Could not save the ingredient. Please try again." };
+    return { ok: false, formError: "Bahan gagal disimpan. Silakan coba lagi." };
   }
 
   revalidatePath("/admin/ingredients");
@@ -94,7 +94,7 @@ export async function deleteIngredient(
 
   const id = String(formData.get("id") ?? "");
   if (!id) {
-    return { ok: false, formError: "Missing ingredient record." };
+    return { ok: false, formError: "Data bahan tidak ditemukan." };
   }
 
   const supabase = await createClient();
@@ -105,7 +105,7 @@ export async function deleteIngredient(
 
   if (error) {
     console.error(`ingredients: failed to archive ${id}: ${error.message}`);
-    return { ok: false, formError: "Could not archive the ingredient. Please try again." };
+    return { ok: false, formError: "Bahan gagal diarsipkan. Silakan coba lagi." };
   }
 
   revalidatePath("/admin/ingredients");
@@ -119,5 +119,12 @@ export async function moveIngredient(formData: FormData): Promise<void> {
     String(formData.get("id") ?? ""),
     formData.get("direction") === "down" ? 1 : -1,
   );
+  revalidatePath("/admin/ingredients");
+}
+
+export async function reorderIngredients(formData: FormData): Promise<void> {
+  await requireAuth();
+  const ids = formData.getAll("ids").map(String).filter(Boolean);
+  await reorderRows("ingredients", ids);
   revalidatePath("/admin/ingredients");
 }

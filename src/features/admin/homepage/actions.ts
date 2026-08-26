@@ -6,6 +6,7 @@ import { requireAuth } from "@/lib/auth/guards";
 import { createClient } from "@/lib/supabase/server";
 import { homepageSectionSchema } from "@/lib/validation/homepage";
 import type { ActionResult } from "@/lib/validation/action-result";
+import { reorderRows } from "@/features/admin/shared/reorder";
 
 const FIELD_KEYS = [
   "name",
@@ -56,7 +57,7 @@ export async function createHomepageSection(
 
   if (error || !data) {
     console.error(`homepage: failed to create section: ${error?.message ?? "no row returned"}`);
-    return { ok: false, formError: "Could not create the section. Please try again." };
+    return { ok: false, formError: "Bagian gagal dibuat. Silakan coba lagi." };
   }
 
   revalidatePath("/admin/homepage");
@@ -72,7 +73,7 @@ export async function updateHomepageSection(
 
   const id = String(formData.get("id") ?? "");
   if (!id) {
-    return { ok: false, formError: "Missing section record." };
+    return { ok: false, formError: "Data bagian tidak ditemukan." };
   }
 
   const parsed = parse(clean(formData));
@@ -90,7 +91,7 @@ export async function updateHomepageSection(
 
   if (error || !updated) {
     console.error(`homepage: failed to update ${id}: ${error?.message ?? "no row returned"}`);
-    return { ok: false, formError: "Could not save the section. Please try again." };
+    return { ok: false, formError: "Bagian gagal disimpan. Silakan coba lagi." };
   }
 
   revalidatePath("/admin/homepage");
@@ -141,7 +142,7 @@ export async function deleteHomepageSection(
 
   const id = String(formData.get("id") ?? "");
   if (!id) {
-    return { ok: false, formError: "Missing section record." };
+    return { ok: false, formError: "Data bagian tidak ditemukan." };
   }
 
   const supabase = await createClient();
@@ -149,7 +150,7 @@ export async function deleteHomepageSection(
 
   if (error) {
     console.error(`homepage: failed to delete ${id}: ${error.message}`);
-    return { ok: false, formError: "Could not delete the section. Please try again." };
+    return { ok: false, formError: "Bagian gagal dihapus. Silakan coba lagi." };
   }
 
   revalidatePath("/admin/homepage");
@@ -196,4 +197,11 @@ export async function moveHomepageSection(formData: FormData): Promise<void> {
 
   revalidatePath("/admin/homepage");
   revalidatePath("/");
+}
+
+export async function reorderHomepageSections(formData: FormData): Promise<void> {
+  await requireAuth();
+  const ids = formData.getAll("ids").map(String).filter(Boolean);
+  await reorderRows("homepage_sections", ids);
+  revalidatePath("/admin/homepage");
 }

@@ -3,20 +3,29 @@ import Link from "next/link";
 import { ImagesIcon, PlusIcon } from "lucide-react";
 
 import { requireAuth } from "@/lib/auth/guards";
+import { FilterTabs } from "@/components/admin/filter-tabs";
 import { PageHeader } from "@/components/admin/page-header";
 import { EmptyState } from "@/components/admin/empty-state";
+import { Pagination } from "@/components/admin/pagination";
 import { Button } from "@/components/ui/button";
 import { GalleryList } from "@/features/admin/gallery/gallery-list";
-import { listGalleryItems, listGalleryCategories } from "@/services/gallery";
+import {
+  countGalleryItems,
+  getGalleryStatusCounts,
+  listGalleryItems,
+  listGalleryCategories,
+} from "@/services/gallery";
 import { CONTENT_STATUSES } from "@/lib/validation/collections";
-import { cn } from "@/lib/utils";
+import { contentStatusLabel } from "@/lib/labels";
 
-export const metadata: Metadata = { title: "Gallery" };
+export const metadata: Metadata = { title: "Galeri" };
+
+const PAGE_SIZE = 24;
 
 export default async function GalleryPage({
   searchParams,
 }: {
-  searchParams: Promise<{ status?: string; category?: string }>;
+  searchParams: Promise<{ status?: string; category?: string; page?: string }>;
 }) {
   await requireAuth();
   const params = await searchParams;
@@ -26,86 +35,107 @@ export default async function GalleryPage({
       ? params.status
       : undefined;
   const category = params.category?.trim() || undefined;
+  const page = Math.max(1, Number.parseInt(params.page ?? "1", 10) || 1);
 
-  const [categories] = await Promise.all([listGalleryCategories()]);
+  const [categories, statusCounts] = await Promise.all([
+    listGalleryCategories(),
+    getGalleryStatusCounts(),
+  ]);
 
   const categoryFilter = category && categories.includes(category) ? category : undefined;
-  const items = await listGalleryItems({ status, category: categoryFilter });
+  const [items, total] = await Promise.all([
+    listGalleryItems({ status, category: categoryFilter, page, pageSize: PAGE_SIZE }),
+    countGalleryItems({ status, category: categoryFilter }),
+  ]);
 
   return (
     <div className="flex flex-col gap-6">
       <PageHeader
-        title="Gallery"
-        description="Upload, caption, categorize and order the editorial gallery."
+        title="Galeri"
+        description="Unggah, beri keterangan, kategorikan, dan atur urutan galeri editorial."
       >
         <Button size="sm" render={<Link href="/admin/gallery/new" />}>
           <PlusIcon aria-hidden="true" />
-          Upload image
+          Unggah gambar
         </Button>
       </PageHeader>
 
       <div className="flex flex-col gap-6 lg:flex-row lg:items-start">
         <aside
-          aria-label="Gallery filters"
+          aria-label="Filter galeri"
           className="w-full shrink-0 rounded-xl border border-border bg-card p-4 lg:sticky lg:top-20 lg:w-60"
         >
           <p className="overline text-xs uppercase tracking-wider text-muted-foreground">Status</p>
-          <nav aria-label="Gallery status filter" className="mt-2 flex flex-wrap gap-1 lg:flex-col">
-            <FilterTab
-              href={categoryHref(undefined, categoryFilter)}
-              label="All"
-              active={status === undefined}
-            />
-            {CONTENT_STATUSES.map((candidate) => (
-              <FilterTab
-                key={candidate}
-                href={categoryHref(candidate, categoryFilter)}
-                label={candidate.charAt(0).toUpperCase() + candidate.slice(1)}
-                active={status === candidate}
-              />
-            ))}
-          </nav>
+          <FilterTabs
+            label="Filter status galeri"
+            className="mt-2 lg:flex-col"
+            items={[
+              {
+                href: categoryHref(undefined, categoryFilter),
+                label: "Semua",
+                count: Object.values(statusCounts).reduce((sum, count) => sum + count, 0),
+                active: status === undefined,
+              },
+              ...CONTENT_STATUSES.map((candidate) => ({
+                href: categoryHref(candidate, categoryFilter),
+                label: contentStatusLabel(candidate),
+                count: statusCounts[candidate] ?? 0,
+                active: status === candidate,
+              })),
+            ]}
+          />
 
           <p className="overline mt-5 text-xs uppercase tracking-wider text-muted-foreground">
-            Category
+            Kategori
           </p>
-          <nav aria-label="Gallery category filter" className="mt-2 flex flex-wrap gap-1 lg:flex-col">
-            <FilterTab
-              href={categoryHref(status ?? undefined, undefined)}
-              label="All categories"
-              active={!categoryFilter}
-            />
-            {categories.map((candidate) => (
-              <FilterTab
-                key={candidate}
-                href={categoryHref(status ?? undefined, candidate)}
-                label={candidate}
-                active={categoryFilter === candidate}
-              />
-            ))}
-          </nav>
+          <FilterTabs
+            label="Filter kategori galeri"
+            className="mt-2 lg:flex-col"
+            items={[
+              {
+                href: categoryHref(status ?? undefined, undefined),
+                label: "Semua kategori",
+                active: !categoryFilter,
+              },
+              ...categories.map((candidate) => ({
+                href: categoryHref(status ?? undefined, candidate),
+                label: candidate,
+                active: categoryFilter === candidate,
+              })),
+            ]}
+          />
         </aside>
 
         <div className="min-w-0 flex-1">
           {items.length === 0 ? (
             <EmptyState
               icon={<ImagesIcon className="size-6" aria-hidden="true" />}
-              title="No gallery items"
+              title="Belum ada gambar"
               description={
                 categoryFilter
-                  ? "Nothing in this category yet. Upload the first image or clear the filter."
-                  : "Upload the first editorial image to start building the gallery."
+                  ? "Belum ada gambar di kategori ini. Unggah gambar pertama atau hapus filter."
+                  : "Unggah gambar editorial pertama untuk mulai membangun galeri."
               }
               action={
                 <Button size="sm" render={<Link href="/admin/gallery/new" />}>
                   <PlusIcon aria-hidden="true" />
-                  Upload image
+                  Unggah gambar
                 </Button>
               }
             />
           ) : (
             <GalleryList items={items} />
           )}
+
+          <div className="mt-6">
+            <Pagination
+              page={page}
+              pageSize={PAGE_SIZE}
+              total={total}
+              label="galeri"
+              hrefFor={(target) => pageHref(target, status, categoryFilter)}
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -120,25 +150,11 @@ function categoryHref(status: string | undefined, category: string | undefined) 
   return query ? `/admin/gallery?${query}` : "/admin/gallery";
 }
 
-function FilterTab({
-  href,
-  label,
-  active,
-}: {
-  href: string;
-  label: string;
-  active: boolean;
-}) {
-  return (
-    <Link
-      href={href}
-      aria-current={active ? "page" : undefined}
-      className={cn(
-        "rounded-lg border border-transparent px-3 py-1.5 text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50",
-        active && "border-border bg-background font-medium text-foreground",
-      )}
-    >
-      {label}
-    </Link>
-  );
+function pageHref(page: number, status: string | undefined, category: string | undefined) {
+  const params = new URLSearchParams();
+  if (status) params.set("status", status);
+  if (category) params.set("category", category);
+  if (page > 1) params.set("page", String(page));
+  const query = params.toString();
+  return query ? `/admin/gallery?${query}` : "/admin/gallery";
 }

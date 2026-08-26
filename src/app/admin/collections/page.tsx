@@ -1,29 +1,25 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import {
-  ArrowDownIcon,
-  ArrowUpIcon,
-  FolderIcon,
-  PencilIcon,
-  PlusIcon,
-  StarIcon,
-} from "lucide-react";
+import { FolderIcon, PencilIcon, PlusIcon, StarIcon } from "lucide-react";
 
 import { requireAuth } from "@/lib/auth/guards";
+import { MoveButtons } from "@/components/admin/move-buttons";
 import { PageHeader } from "@/components/admin/page-header";
 import { EmptyState } from "@/components/admin/empty-state";
+import { SortableList } from "@/components/admin/sortable-list";
 import { Button } from "@/components/ui/button";
 import { ContentStatusBadge } from "@/features/admin/shared/content-status-badge";
 import { ConfirmDeleteButton } from "@/features/admin/shared/confirm-delete-button";
 import {
   deleteCollection,
   moveCollection,
+  reorderCollections,
   toggleCollectionFeatured,
 } from "@/features/admin/collections/actions";
 import { listCollections } from "@/services/collections";
 import type { Collection } from "@/services/collections";
 
-export const metadata: Metadata = { title: "Collections" };
+export const metadata: Metadata = { title: "Koleksi" };
 
 export default async function CollectionsPage() {
   await requireAuth();
@@ -32,39 +28,38 @@ export default async function CollectionsPage() {
   return (
     <div className="flex flex-col gap-6">
       <PageHeader
-        title="Collections"
-        description="Group fragrances into collections and control their order and prominence."
+        title="Koleksi"
+        description="Kelompokkan parfum ke dalam koleksi dan atur urutan serta penonjolannya."
       >
         <Button size="sm" render={<Link href="/admin/collections/new" />}>
           <PlusIcon aria-hidden="true" />
-          New collection
+          Koleksi baru
         </Button>
       </PageHeader>
 
       {collections.length === 0 ? (
         <EmptyState
           icon={<FolderIcon className="size-6" aria-hidden="true" />}
-          title="No collections yet"
-          description="Create your first collection to start grouping products."
+          title="Belum ada koleksi"
+          description="Buat koleksi pertama untuk mengelompokkan produk."
           action={
             <Button size="sm" render={<Link href="/admin/collections/new" />}>
               <PlusIcon aria-hidden="true" />
-              New collection
+              Koleksi baru
             </Button>
           }
         />
       ) : (
-        <ol className="flex flex-col gap-3">
+        <SortableList ids={collections.map((item) => item.id)} action={reorderCollections}>
           {collections.map((collection, index) => (
-            <li key={collection.id}>
-              <CollectionRow
-                collection={collection}
-                isFirst={index === 0}
-                isLast={index === collections.length - 1}
-              />
-            </li>
+            <CollectionRow
+              key={collection.id}
+              collection={collection}
+              isFirst={index === 0}
+              isLast={index === collections.length - 1}
+            />
           ))}
-        </ol>
+        </SortableList>
       )}
     </div>
   );
@@ -92,7 +87,7 @@ function CollectionRow({
               {collection.featured ? (
                 <StarIcon
                   className="size-3.5 shrink-0 fill-champagne-500 text-champagne-500"
-                  aria-label="Featured"
+                  aria-label="Unggulan"
                 />
               ) : null}
             </span>
@@ -103,32 +98,13 @@ function CollectionRow({
       </div>
 
       <div className="flex shrink-0 items-center gap-1">
-        <form action={moveCollection}>
-          <input type="hidden" name="id" value={collection.id} />
-          <input type="hidden" name="direction" value="up" />
-          <Button
-            type="submit"
-            variant="ghost"
-            size="icon-sm"
-            disabled={isFirst}
-            aria-label={`Move ${collection.name} up`}
-          >
-            <ArrowUpIcon className="size-3.5" aria-hidden="true" />
-          </Button>
-        </form>
-        <form action={moveCollection}>
-          <input type="hidden" name="id" value={collection.id} />
-          <input type="hidden" name="direction" value="down" />
-          <Button
-            type="submit"
-            variant="ghost"
-            size="icon-sm"
-            disabled={isLast}
-            aria-label={`Move ${collection.name} down`}
-          >
-            <ArrowDownIcon className="size-3.5" aria-hidden="true" />
-          </Button>
-        </form>
+        <MoveButtons
+          id={collection.id}
+          name={collection.name}
+          isFirst={isFirst}
+          isLast={isLast}
+          action={moveCollection}
+        />
         <form action={toggleCollectionFeatured}>
           <input type="hidden" name="id" value={collection.id} />
           <Button

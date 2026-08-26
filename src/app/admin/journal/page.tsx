@@ -3,23 +3,29 @@ import Link from "next/link";
 import { PlusIcon } from "lucide-react";
 
 import { requireAuth } from "@/lib/auth/guards";
+import { FilterTabs } from "@/components/admin/filter-tabs";
 import { PageHeader } from "@/components/admin/page-header";
+import { Pagination } from "@/components/admin/pagination";
 import { Button } from "@/components/ui/button";
 import { JournalList } from "@/features/admin/journal/journal-list";
 import { JournalToolbar } from "@/features/admin/journal/journal-toolbar";
 import {
-  listJournalPosts,
+  countJournalPosts,
+  getJournalStatusCounts,
   listJournalCategories,
+  listJournalPosts,
 } from "@/services/journal";
 import { CONTENT_STATUSES } from "@/lib/validation/collections";
-import { cn } from "@/lib/utils";
+import { contentStatusLabel } from "@/lib/labels";
 
-export const metadata: Metadata = { title: "Journal" };
+export const metadata: Metadata = { title: "Jurnal" };
+
+const PAGE_SIZE = 20;
 
 export default async function JournalPage({
   searchParams,
 }: {
-  searchParams: Promise<{ q?: string; status?: string; category?: string }>;
+  searchParams: Promise<{ q?: string; status?: string; category?: string; page?: string }>;
 }) {
   await requireAuth();
   const params = await searchParams;
@@ -30,44 +36,68 @@ export default async function JournalPage({
       ? params.status
       : undefined;
   const category = params.category?.trim() || undefined;
+  const page = Math.max(1, Number.parseInt(params.page ?? "1", 10) || 1);
 
-  const [categories] = await Promise.all([listJournalCategories()]);
+  const [categories, statusCounts] = await Promise.all([
+    listJournalCategories(),
+    getJournalStatusCounts(),
+  ]);
 
   const categoryFilter = category && categories.some((c) => c.id === category) ? category : undefined;
-  const posts = await listJournalPosts({ q: q || undefined, status, categoryId: categoryFilter });
+  const [posts, total] = await Promise.all([
+    listJournalPosts({
+      q: q || undefined,
+      status,
+      categoryId: categoryFilter,
+      page,
+      pageSize: PAGE_SIZE,
+    }),
+    countJournalPosts({ q: q || undefined, status, categoryId: categoryFilter }),
+  ]);
+  const statusTotal = Object.values(statusCounts).reduce((sum, count) => sum + count, 0);
 
   return (
     <div className="flex flex-col gap-6">
       <PageHeader
-        title="Journal"
-        description="Write, publish and archive stories for the journal."
+        title="Jurnal"
+        description="Tulis, terbitkan, dan arsipkan cerita untuk jurnal."
       >
         <Button size="sm" render={<Link href="/admin/journal/new" />}>
           <PlusIcon aria-hidden="true" />
-          New post
+          Artikel baru
         </Button>
       </PageHeader>
 
       <div className="flex flex-col gap-4">
         <JournalToolbar q={q} status={status ?? ""} category={categoryFilter ?? ""} categories={categories} />
-        <nav aria-label="Journal status filter" className="flex flex-wrap gap-1">
-          <FilterTab
-            href={filterHref(undefined, q, categoryFilter)}
-            label="All"
-            active={status === undefined}
-          />
-          {CONTENT_STATUSES.map((candidate) => (
-            <FilterTab
-              key={candidate}
-              href={filterHref(candidate, q, categoryFilter)}
-              label={candidate}
-              active={status === candidate}
-            />
-          ))}
-        </nav>
+        <FilterTabs
+          label="Filter status jurnal"
+          items={[
+            {
+              href: filterHref(undefined, q, categoryFilter),
+              label: "Semua",
+              count: statusTotal,
+              active: status === undefined,
+            },
+            ...CONTENT_STATUSES.map((candidate) => ({
+              href: filterHref(candidate, q, categoryFilter),
+              label: contentStatusLabel(candidate),
+              count: statusCounts[candidate] ?? 0,
+              active: status === candidate,
+            })),
+          ]}
+        />
       </div>
 
       <JournalList posts={posts} />
+
+      <Pagination
+        page={page}
+        pageSize={PAGE_SIZE}
+        total={total}
+        label="artikel"
+        hrefFor={(target) => pageHref(target, q, status, categoryFilter)}
+      />
     </div>
   );
 }
@@ -81,25 +111,12 @@ function filterHref(status: string | undefined, q: string, category: string | un
   return query ? `/admin/journal?${query}` : "/admin/journal";
 }
 
-function FilterTab({
-  href,
-  label,
-  active,
-}: {
-  href: string;
-  label: string;
-  active: boolean;
-}) {
-  return (
-    <Link
-      href={href}
-      aria-current={active ? "page" : undefined}
-      className={cn(
-        "rounded-lg border border-transparent px-3 py-1.5 text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50",
-        active && "border-border bg-background font-medium text-foreground",
-      )}
-    >
-      {label}
-    </Link>
-  );
+function pageHref(page: number, q: string, status: string | undefined, category: string | undefined) {
+  const params = new URLSearchParams();
+  if (status) params.set("status", status);
+  if (q) params.set("q", q);
+  if (category) params.set("category", category);
+  if (page > 1) params.set("page", String(page));
+  const query = params.toString();
+  return query ? `/admin/journal?${query}` : "/admin/journal";
 }

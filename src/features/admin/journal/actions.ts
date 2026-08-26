@@ -34,7 +34,7 @@ function clean(formData: FormData): Record<string, unknown> {
 }
 
 function slugConflict(): ActionResult {
-  return { ok: false, fieldErrors: { slug: ["A post with this slug already exists."] } };
+  return { ok: false, fieldErrors: { slug: ["Sudah ada Artikel dengan slug ini."] } };
 }
 
 function collectCover(formData: FormData): { ok: true; file: File } | { ok: true; file: null } | { ok: false; error: string } {
@@ -46,11 +46,11 @@ function collectCover(formData: FormData): { ok: true; file: File } | { ok: true
   }
 
   if (!ALLOWED_IMAGE_TYPES.has(file.type)) {
-    return { ok: false, error: "Only JPEG, PNG, WebP or AVIF images are allowed." };
+    return { ok: false, error: "Hanya gambar JPEG, PNG, WebP, atau AVIF yang diizinkan." };
   }
 
   if (file.size > MAX_IMAGE_BYTES) {
-    return { ok: false, error: "The cover image must be 8 MB or smaller." };
+    return { ok: false, error: "Ukuran gambar sampul maksimal 8 MB." };
   }
 
   return { ok: true, file };
@@ -77,7 +77,7 @@ async function uploadCover(
 
   if (error) {
     console.error(`journal: cover upload failed: ${error.message}`);
-    return { ok: false, error: "The cover image could not be uploaded. Please try again." };
+    return { ok: false, error: "Gambar sampul gagal diunggah. Silakan coba lagi." };
   }
 
   return { ok: true, path };
@@ -109,7 +109,7 @@ async function resolveCategoryId(
 
     if (error && error.code !== "23505") {
       console.error(`journal: failed to create category: ${error.message}`);
-      return { ok: false, error: "The category could not be created. Please try again." };
+      return { ok: false, error: "Kategori gagal dibuat. Silakan coba lagi." };
     }
 
     const id = created?.id;
@@ -122,7 +122,7 @@ async function resolveCategoryId(
       if (existing) {
         return { ok: true, id: existing.id };
       }
-      return { ok: false, error: "The category could not be created. Please try again." };
+      return { ok: false, error: "Kategori gagal dibuat. Silakan coba lagi." };
     }
 
     return { ok: true, id };
@@ -156,7 +156,7 @@ async function resolveTagIds(
 
     if (error && error.code !== "23505") {
       console.error(`journal: failed to create tag: ${error.message}`);
-      return { ok: false, error: "One or more tags could not be created. Please try again." };
+      return { ok: false, error: "Satu atau lebih tag gagal dibuat. Silakan coba lagi." };
     }
 
     if (created?.id) {
@@ -256,12 +256,12 @@ export async function createJournalPost(
     if (coverImagePath) await removeCover(coverImagePath);
     if (error.code === "23505") return slugConflict();
     console.error(`journal: failed to create post: ${error.message}`);
-    return { ok: false, formError: "Could not create the post. Please try again." };
+    return { ok: false, formError: "Artikel gagal dibuat. Silakan coba lagi." };
   }
 
   const tagsSaved = await replacePostTags(supabase, created.id, tags.ids);
   if (!tagsSaved) {
-    return { ok: false, formError: "The post was saved but tags could not be attached. Please try again." };
+    return { ok: false, formError: "Artikel tersimpan tetapi tag gagal dilampirkan. Silakan coba lagi." };
   }
 
   revalidatePath("/admin/journal");
@@ -276,7 +276,7 @@ export async function updateJournalPost(
 
   const id = String(formData.get("id") ?? "");
   if (!id) {
-    return { ok: false, formError: "Missing post record." };
+    return { ok: false, formError: "Data artikel tidak ditemukan." };
   }
 
   const parsed = journalPostSchema.safeParse(clean(formData));
@@ -298,7 +298,7 @@ export async function updateJournalPost(
     .maybeSingle();
 
   if (!existing) {
-    return { ok: false, formError: "Post not found." };
+    return { ok: false, formError: "Artikel tidak ditemukan." };
   }
 
   const category = await resolveCategoryId(supabase, formData);
@@ -341,7 +341,7 @@ export async function updateJournalPost(
     }
     if (error.code === "23505") return slugConflict();
     console.error(`journal: failed to update ${id}: ${error.message}`);
-    return { ok: false, formError: "Could not save the post. Please try again." };
+    return { ok: false, formError: "Artikel gagal disimpan. Silakan coba lagi." };
   }
 
   if (cover.file && coverImagePath !== existing.cover_image_path) {
@@ -350,7 +350,7 @@ export async function updateJournalPost(
 
   const tagsSaved = await replacePostTags(supabase, id, tags.ids);
   if (!tagsSaved) {
-    return { ok: false, formError: "The post was saved but tags could not be attached. Please try again." };
+    return { ok: false, formError: "Artikel tersimpan tetapi tag gagal dilampirkan. Silakan coba lagi." };
   }
 
   revalidatePath("/admin/journal");
@@ -366,7 +366,7 @@ export async function deleteJournalPost(
 
   const id = String(formData.get("id") ?? "");
   if (!id) {
-    return { ok: false, formError: "Missing post record." };
+    return { ok: false, formError: "Data artikel tidak ditemukan." };
   }
 
   const supabase = await createClient();
@@ -377,7 +377,7 @@ export async function deleteJournalPost(
 
   if (error) {
     console.error(`journal: failed to archive ${id}: ${error.message}`);
-    return { ok: false, formError: "Could not archive the post. Please try again." };
+    return { ok: false, formError: "Artikel gagal diarsipkan. Silakan coba lagi." };
   }
 
   revalidatePath("/admin/journal");

@@ -1,16 +1,14 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { ArrowLeftIcon } from "lucide-react";
 import { notFound } from "next/navigation";
 
 import { requireAuth } from "@/lib/auth/guards";
+import { Breadcrumb } from "@/components/admin/breadcrumb";
 import { PageHeader } from "@/components/admin/page-header";
-import { Button } from "@/components/ui/button";
 import { CategoryForm } from "@/features/admin/categories/category-form";
 import { updateCategory } from "@/features/admin/categories/actions";
 import { getCategory } from "@/services/categories";
 
-export const metadata: Metadata = { title: "Edit category" };
+export const metadata: Metadata = { title: "Edit kategori" };
 
 export default async function EditCategoryPage({
   params,
@@ -29,14 +27,17 @@ export default async function EditCategoryPage({
     <div className="flex flex-col gap-6">
       <PageHeader
         title={`Edit ${category.name}`}
-        description="Update the category details."
-      >
-        <Button variant="outline" size="sm" render={<Link href="/admin/categories" />}>
-          <ArrowLeftIcon aria-hidden="true" />
-          Back to categories
-        </Button>
-      </PageHeader>
-      <CategoryForm action={updateCategory} category={category} submitLabel="Save category" />
+        description="Perbarui detail kategori."
+        breadcrumb={
+          <Breadcrumb
+            items={[
+              { href: "/admin/categories", label: "Kategori" },
+              { href: `/admin/categories/${category.id}`, label: category.name },
+            ]}
+          />
+        }
+      />
+      <CategoryForm action={updateCategory} category={category} submitLabel="Simpan kategori" />
     </div>
   );
 }

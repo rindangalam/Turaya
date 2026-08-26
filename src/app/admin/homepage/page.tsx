@@ -1,21 +1,24 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowDownIcon, ArrowUpIcon, EyeIcon, EyeOffIcon, LayoutTemplateIcon, PencilIcon, PlusIcon } from "lucide-react";
+import { EyeIcon, EyeOffIcon, LayoutTemplateIcon, PencilIcon, PlusIcon } from "lucide-react";
 
 import { requireAuth } from "@/lib/auth/guards";
+import { MoveButtons } from "@/components/admin/move-buttons";
 import { PageHeader } from "@/components/admin/page-header";
 import { EmptyState } from "@/components/admin/empty-state";
+import { SortableList } from "@/components/admin/sortable-list";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   moveHomepageSection,
+  reorderHomepageSections,
   toggleSectionVisibility,
 } from "@/features/admin/homepage/actions";
 import { DeleteSectionButton } from "@/features/admin/homepage/delete-section-button";
 import { listSections } from "@/services/homepage";
 import type { HomepageSection } from "@/services/homepage";
 
-export const metadata: Metadata = { title: "Homepage" };
+export const metadata: Metadata = { title: "Bagian beranda" };
 
 export default async function HomepagePage() {
   await requireAuth();
@@ -24,39 +27,38 @@ export default async function HomepagePage() {
   return (
     <div className="flex flex-col gap-6">
       <PageHeader
-        title="Homepage sections"
-        description="Order and visibility control what the public homepage renders."
+        title="Bagian beranda"
+        description="Urutan dan visibilitas menentukan apa yang dirender beranda publik."
       >
         <Button size="sm" render={<Link href="/admin/homepage/new" />}>
           <PlusIcon aria-hidden="true" />
-          New section
+          Bagian baru
         </Button>
       </PageHeader>
 
       {sections.length === 0 ? (
         <EmptyState
           icon={<LayoutTemplateIcon className="size-6" aria-hidden="true" />}
-          title="No sections yet"
-          description="Create your first homepage section to start composing the page."
+          title="Belum ada bagian"
+          description="Buat bagian beranda pertama untuk menyusun halaman."
           action={
             <Button size="sm" render={<Link href="/admin/homepage/new" />}>
               <PlusIcon aria-hidden="true" />
-              New section
+              Bagian baru
             </Button>
           }
         />
       ) : (
-        <ol className="flex flex-col gap-3">
+        <SortableList ids={sections.map((item) => item.id)} action={reorderHomepageSections}>
           {sections.map((section, index) => (
-            <li key={section.id}>
-              <SectionRow
-                section={section}
-                isFirst={index === 0}
-                isLast={index === sections.length - 1}
-              />
-            </li>
+            <SectionRow
+              key={section.id}
+              section={section}
+              isFirst={index === 0}
+              isLast={index === sections.length - 1}
+            />
           ))}
-        </ol>
+        </SortableList>
       )}
     </div>
   );
@@ -81,7 +83,7 @@ function SectionRow({
           <p className="flex flex-wrap items-center gap-2 text-sm font-medium">
             <span className="truncate">{section.name}</span>
             <Badge variant={section.visible ? "default" : "secondary"}>
-              {section.visible ? "visible" : "hidden"}
+              {section.visible ? "Tampil" : "Tersembunyi"}
             </Badge>
           </p>
           <p className="truncate text-xs text-muted-foreground">
@@ -92,32 +94,13 @@ function SectionRow({
       </div>
 
       <div className="flex shrink-0 items-center gap-1">
-        <form action={moveHomepageSection}>
-          <input type="hidden" name="id" value={section.id} />
-          <input type="hidden" name="direction" value="up" />
-          <Button
-            type="submit"
-            variant="ghost"
-            size="icon-sm"
-            disabled={isFirst}
-            aria-label={`Move ${section.name} up`}
-          >
-            <ArrowUpIcon className="size-3.5" aria-hidden="true" />
-          </Button>
-        </form>
-        <form action={moveHomepageSection}>
-          <input type="hidden" name="id" value={section.id} />
-          <input type="hidden" name="direction" value="down" />
-          <Button
-            type="submit"
-            variant="ghost"
-            size="icon-sm"
-            disabled={isLast}
-            aria-label={`Move ${section.name} down`}
-          >
-            <ArrowDownIcon className="size-3.5" aria-hidden="true" />
-          </Button>
-        </form>
+        <MoveButtons
+          id={section.id}
+          name={section.name}
+          isFirst={isFirst}
+          isLast={isLast}
+          action={moveHomepageSection}
+        />
         <form action={toggleSectionVisibility}>
           <input type="hidden" name="id" value={section.id} />
           <Button

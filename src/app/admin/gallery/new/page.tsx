@@ -1,15 +1,13 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { ArrowLeftIcon } from "lucide-react";
 
 import { requireAuth } from "@/lib/auth/guards";
+import { Breadcrumb } from "@/components/admin/breadcrumb";
 import { PageHeader } from "@/components/admin/page-header";
-import { Button } from "@/components/ui/button";
 import { GalleryForm } from "@/features/admin/gallery/gallery-form";
 import { createGalleryItem } from "@/features/admin/gallery/actions";
 import { listGalleryCategories } from "@/services/gallery";
 
-export const metadata: Metadata = { title: "Upload gallery image" };
+export const metadata: Metadata = { title: "Unggah gambar" };
 
 export default async function NewGalleryItemPage() {
   await requireAuth();
@@ -17,16 +15,22 @@ export default async function NewGalleryItemPage() {
 
   return (
     <div className="flex flex-col gap-6">
-      <PageHeader title="Upload gallery image" description="Add an editorial image to the gallery.">
-        <Button variant="outline" size="sm" render={<Link href="/admin/gallery" />}>
-          <ArrowLeftIcon aria-hidden="true" />
-          Back to gallery
-        </Button>
-      </PageHeader>
+      <PageHeader
+        title="Unggah gambar"
+        description="Tambahkan gambar editorial ke galeri."
+        breadcrumb={
+          <Breadcrumb
+            items={[
+              { href: "/admin/gallery", label: "Galeri" },
+              { href: "/admin/gallery/new", label: "Unggah" },
+            ]}
+          />
+        }
+      />
       <GalleryForm
         action={createGalleryItem}
         categories={categories}
-        submitLabel="Upload image"
+        submitLabel="Unggah gambar"
       />
     </div>
   );

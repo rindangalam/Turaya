@@ -17,13 +17,13 @@ export default async function SeoPage() {
     <div className="flex flex-col gap-6">
       <PageHeader
         title="SEO metadata"
-        description="Meta title, description and social sharing settings per page."
+        description="Meta judul, deskripsi, dan pengaturan berbagi sosial per halaman."
       />
       {rows.length === 0 ? (
         <EmptyState
           icon={<SearchXIcon className="size-6" aria-hidden="true" />}
-          title="No SEO records yet"
-          description="Per-page SEO settings will appear here once they have been seeded."
+          title="Belum ada data SEO"
+          description="Pengaturan SEO per halaman akan muncul setelah data awal diisi."
         />
       ) : (
         <div className="flex flex-col gap-4">

@@ -1,14 +1,12 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { ArrowLeftIcon } from "lucide-react";
 
 import { requireAuth } from "@/lib/auth/guards";
+import { Breadcrumb } from "@/components/admin/breadcrumb";
 import { PageHeader } from "@/components/admin/page-header";
-import { Button } from "@/components/ui/button";
 import { CategoryForm } from "@/features/admin/categories/category-form";
 import { createCategory } from "@/features/admin/categories/actions";
 
-export const metadata: Metadata = { title: "New category" };
+export const metadata: Metadata = { title: "Kategori baru" };
 
 export default async function NewCategoryPage() {
   await requireAuth();
@@ -16,15 +14,18 @@ export default async function NewCategoryPage() {
   return (
     <div className="flex flex-col gap-6">
       <PageHeader
-        title="New category"
-        description="Add a product category."
-      >
-        <Button variant="outline" size="sm" render={<Link href="/admin/categories" />}>
-          <ArrowLeftIcon aria-hidden="true" />
-          Back to categories
-        </Button>
-      </PageHeader>
-      <CategoryForm action={createCategory} submitLabel="Create category" />
+        title="Kategori baru"
+        description="Tambahkan kategori produk."
+        breadcrumb={
+          <Breadcrumb
+            items={[
+              { href: "/admin/categories", label: "Kategori" },
+              { href: "/admin/categories/new", label: "Baru" },
+            ]}
+          />
+        }
+      />
+      <CategoryForm action={createCategory} submitLabel="Buat kategori" />
     </div>
   );
 }

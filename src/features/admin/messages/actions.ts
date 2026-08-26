@@ -19,7 +19,7 @@ export async function updateMessageStatus(
 
   const parsedStatus = messageStatusSchema.safeParse(status);
   if (!parsedStatus.success || !id) {
-    return { ok: false, formError: "Invalid request." };
+    return { ok: false, formError: "Permintaan tidak valid." };
   }
 
   const supabase = await createClient();
@@ -32,7 +32,7 @@ export async function updateMessageStatus(
 
   if (error || !data) {
     console.error(`messages: failed to update ${id}: ${error?.message ?? "no row returned"}`);
-    return { ok: false, formError: "Could not update the message. Please try again." };
+    return { ok: false, formError: "Pesan gagal diperbarui. Silakan coba lagi." };
   }
 
   revalidatePath("/admin/messages");
