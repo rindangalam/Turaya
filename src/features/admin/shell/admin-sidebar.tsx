@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import type { ComponentType } from "react";
+import { useRouter, usePathname } from "next/navigation";
+import { type ComponentType, useCallback } from "react";
 import {
   BookOpenIcon,
   BoxIcon,
@@ -26,7 +26,7 @@ import {
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { logout } from "@/features/auth/actions";
+import { createClient } from "@/lib/supabase/browser";
 import { cn } from "@/lib/utils";
 import type { AdminShellUser } from "@/features/admin/shell/types";
 
@@ -141,6 +141,13 @@ export function AdminSidebar({
   onClose: () => void;
 }) {
   const isAdmin = user.role === "admin" || user.role === "super_admin";
+  const router = useRouter();
+
+  const handleLogout = useCallback(async () => {
+    const supabase = createClient();
+    await supabase.auth.signOut();
+    router.push("/login");
+  }, [router]);
 
   const opsNav: NavItem[] =
     unreadCount > 0
@@ -185,7 +192,7 @@ export function AdminSidebar({
           <CircleHelpIcon className="size-4 shrink-0" aria-hidden="true" />
           {!collapsed ? <span>Bantuan</span> : null}
         </Link>
-        <form action={logout} className={cn("flex w-full", collapsed && "flex justify-center")}>
+        <form action={handleLogout} className={cn("flex w-full", collapsed && "flex justify-center")}>
           <Button
             variant="ghost"
             size="sm"
@@ -267,7 +274,7 @@ export function AdminSidebar({
               <p className="min-w-0 flex-1 truncate text-xs text-muted-foreground">
                 {user.displayName ?? user.email}
               </p>
-              <form action={logout}>
+              <form action={handleLogout}>
                 <Button variant="ghost" size="sm" className="text-muted-foreground">
                   <LogOutIcon className="size-4" aria-hidden="true" />
                   Keluar
