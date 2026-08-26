@@ -1,4 +1,4 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import type { DailyActivity } from "@/services/dashboard";
 
 const W = 560;
@@ -6,14 +6,16 @@ const H = 220;
 const PAD = { top: 14, right: 14, bottom: 28, left: 36 };
 
 /**
- * "Aktivitas konten" — Stitch-style line chart over the last 7 days of
- * audit-log events. Pure server-rendered SVG; no client JS.
+ * "Aktivitas konten" — line chart over the last 7 days of audit-log events.
+ * Pure server-rendered SVG; no client JS. Colors come from the admin theme
+ * tokens (chart-1, border) so it follows the .admin palette.
  */
 export function ActivityChart({ data }: { data: DailyActivity[] }) {
   const innerW = W - PAD.left - PAD.right;
   const innerH = H - PAD.top - PAD.bottom;
   const rawMax = Math.max(...data.map((d) => d.count), 0);
   const yMax = Math.max(4, Math.ceil(rawMax / 4) * 4);
+  const total = data.reduce((sum, d) => sum + d.count, 0);
 
   const x = (index: number) =>
     PAD.left + (data.length <= 1 ? innerW / 2 : (index * innerW) / (data.length - 1));
@@ -27,16 +29,21 @@ export function ActivityChart({ data }: { data: DailyActivity[] }) {
   const gridValues = [0.25, 0.5, 0.75, 1].map((fraction) => Math.round(yMax * fraction));
 
   return (
-    <Card className="lg:col-span-2">
+    <Card className="h-full lg:col-span-2">
       <CardHeader>
         <CardTitle>Aktivitas konten</CardTitle>
         <CardDescription>Log aksi staf selama 7 hari terakhir.</CardDescription>
+        <CardAction>
+          <span className="inline-flex items-center rounded-full bg-muted px-2.5 py-1 text-xs font-medium tabular-nums text-muted-foreground">
+            {total} aksi
+          </span>
+        </CardAction>
       </CardHeader>
-      <CardContent>
+      <CardContent className="relative flex flex-1 items-center">
         <svg
           viewBox={`0 0 ${W} ${H}`}
           role="img"
-          aria-label="Grafik jumlah aksi staf per hari selama tujuh hari terakhir"
+          aria-label={`Grafik jumlah aksi staf per hari selama tujuh hari terakhir, total ${total} aksi`}
           className="w-full"
         >
           {gridValues.map((value) => (
@@ -46,7 +53,7 @@ export function ActivityChart({ data }: { data: DailyActivity[] }) {
                 x2={W - PAD.right}
                 y1={y(value)}
                 y2={y(value)}
-                stroke="#e5e7eb"
+                className="stroke-border"
                 strokeDasharray="3 4"
               />
               <text x={PAD.left - 8} y={y(value) + 4} textAnchor="end" className="fill-muted-foreground text-[10px]">
@@ -59,22 +66,29 @@ export function ActivityChart({ data }: { data: DailyActivity[] }) {
             x2={W - PAD.right}
             y1={y(0)}
             y2={y(0)}
-            stroke="#d1d5db"
+            className="stroke-border"
           />
 
           {rawMax > 0 ? (
             <>
-              <path d={areaPath} fill="#eef0f2" />
+              <path d={areaPath} className="fill-chart-1/5" />
               <polyline
                 points={points}
                 fill="none"
-                stroke="#191c1e"
+                className="stroke-chart-1"
                 strokeWidth="2"
                 strokeLinejoin="round"
                 strokeLinecap="round"
               />
               {data.map((d, i) => (
-                <circle key={d.date} cx={x(i)} cy={y(d.count)} r="3.5" fill="#ffffff" stroke="#191c1e" strokeWidth="2" />
+                <circle
+                  key={d.date}
+                  cx={x(i)}
+                  cy={y(d.count)}
+                  r="3.5"
+                  className="fill-card stroke-chart-1"
+                  strokeWidth="2"
+                />
               ))}
             </>
           ) : null}
@@ -85,6 +99,12 @@ export function ActivityChart({ data }: { data: DailyActivity[] }) {
             </text>
           ))}
         </svg>
+
+        {rawMax === 0 ? (
+          <p className="absolute inset-x-0 top-1/3 text-center text-sm text-muted-foreground">
+            Belum ada aktivitas dalam 7 hari terakhir.
+          </p>
+        ) : null}
       </CardContent>
     </Card>
   );
