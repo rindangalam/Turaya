@@ -11,7 +11,7 @@
 
 ---
 
-## 📋 Overview
+## Overview
 
 **Turaya** is a luxury perfume brand digital experience platform featuring a sophisticated public-facing website and a comprehensive CMS admin dashboard. Built with modern web technologies, it delivers a premium, editorial-style brand presence with full content management capabilities.
 
@@ -23,9 +23,9 @@
 
 ---
 
-## ✨ Features
+## Features
 
-### 🌐 Public Website (`/`)
+### Public Website (`/`)
 **Premium Brand Experience for Visitors**
 
 - **Homepage** with WebGL hero animations and scroll-based storytelling
@@ -42,7 +42,7 @@
 - **Page Transitions** with Motion
 - **SEO Optimized** with metadata, JSON-LD, sitemap, robots.txt
 
-### 🛠️ Admin Dashboard (`/admin`)
+### Admin Dashboard (`/admin`)
 **Content Management System for Brand Managers**
 
 - **Dashboard** with business overview
@@ -59,7 +59,7 @@
 - **Site Settings** (global configuration)
 - **Role-based Access Control** (Super Admin, Admin, Editor)
 
-### 🎨 Design System
+### Design System
 - **Tailwind CSS v4** custom design tokens
 - **shadcn/ui** component library (Base UI)
 - **GSAP** for advanced animations
@@ -68,7 +68,7 @@
 - **Cursor Preview** interactions
 - **Reduced-motion** accessibility paths
 
-### 🔐 Security Features
+### Security Features
 - **Row Level Security (RLS)** on all Supabase tables
 - **Server-side authorization** enforcement
 - **Authentication** via Supabase Auth
@@ -77,7 +77,7 @@
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 | Layer | Technology |
 |-------|-----------|
@@ -92,7 +92,7 @@
 
 ---
 
-## 📋 Requirements
+## Requirements
 
 - **Node.js** >= 18
 - **npm** >= 9
@@ -100,7 +100,7 @@
 
 ---
 
-## 🚀 Installation
+## Installation
 
 ### 1. Clone Repository
 
@@ -158,53 +158,53 @@ Open [http://localhost:3000](http://localhost:3000)
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 Turaya/
-├── src/
-│   ├── app/                    # Next.js App Router
-│   │   ├── (public)/           # Public website routes
-│   │   │   ├── products/
-│   │   │   ├── collections/
-│   │   │   ├── gallery/
-│   │   │   ├── journal/
-│   │   │   ├── about/
-│   │   │   └── contact/
-│   │   ├── admin/              # Admin CMS routes
-│   │   │   ├── products/
-│   │   │   ├── collections/
-│   │   │   ├── journal/
-│   │   │   ├── gallery/
-│   │   │   └── settings/
-│   │   └── api/                # API routes
-│   ├── features/               # Feature-oriented architecture
-│   │   ├── products/
-│   │   ├── collections/
-│   │   ├── auth/
-│   │   └── ...
-│   ├── components/             # Shared UI components
-│   ├── lib/                    # Utilities & helpers
-│   └── styles/                 # Global styles
-├── supabase/
-│   ├── migrations/             # Database migrations
-│   └── seed.sql                # Seed data
-├── docs/                       # Documentation
-│   ├── README.md               # Documentation index
-│   ├── DEPLOYMENT.md           # Deployment guide
-│   ├── SUPABASE.md             # Database setup
-│   └── SPRINTS.md              # Development sprints
-├── scripts/                    # Build scripts
-├── skills/                     # Skill system
-├── AGENT.md                    # Engineering constitution
-├── PROJECT_RULES.md            # Development rules
-├── PROJECT_CONTEXT.md          # Project identity
-└── package.json
+ src/
+    app/                    # Next.js App Router
+       (public)/           # Public website routes
+          products/
+          collections/
+          gallery/
+          journal/
+          about/
+          contact/
+       admin/              # Admin CMS routes
+          products/
+          collections/
+          journal/
+          gallery/
+          settings/
+       api/                # API routes
+    features/               # Feature-oriented architecture
+       products/
+       collections/
+       auth/
+       ...
+    components/             # Shared UI components
+    lib/                    # Utilities & helpers
+    styles/                 # Global styles
+ supabase/
+    migrations/             # Database migrations
+    seed.sql                # Seed data
+ docs/                       # Documentation
+    README.md               # Documentation index
+    DEPLOYMENT.md           # Deployment guide
+    SUPABASE.md             # Database setup
+    SPRINTS.md              # Development sprints
+ scripts/                    # Build scripts
+ skills/                     # Skill system
+ AGENT.md                    # Engineering constitution
+ PROJECT_RULES.md            # Development rules
+ PROJECT_CONTEXT.md          # Project identity
+ package.json
 ```
 
 ---
 
-## 🎯 Deployment
+## Deployment
 
 ### Dual Deployment Strategy
 
@@ -251,7 +251,7 @@ npm run typecheck    # TypeScript type checking
 
 ---
 
-## 📚 Documentation
+## Documentation
 
 Comprehensive documentation is available in the `/docs` directory:
 
@@ -265,7 +265,7 @@ Comprehensive documentation is available in the `/docs` directory:
 
 ---
 
-## 🌿 Branching Strategy
+## Branching Strategy
 
 - `main` - Production branch
 - `develop` - Integration branch
@@ -275,7 +275,7 @@ Comprehensive documentation is available in the `/docs` directory:
 
 ---
 
-## 🎨 Design Principles
+## Design Principles
 
 ### Brand Experience
 - **No AI slop** - Every UI element must earn its place
@@ -292,7 +292,7 @@ Comprehensive documentation is available in the `/docs` directory:
 
 ---
 
-## 🔐 User Roles
+## User Roles
 
 | Role | Permissions |
 |------|-------------|
@@ -302,7 +302,7 @@ Comprehensive documentation is available in the `/docs` directory:
 
 ---
 
-## 🌍 SEO Features
+## SEO Features
 
 - **Dynamic metadata** per page
 - **Open Graph** tags for social sharing
@@ -315,17 +315,17 @@ Comprehensive documentation is available in the `/docs` directory:
 
 ---
 
-## 📊 Current Status
+## Current Status
 
 **Sprints 1-13 Complete:**
-- ✅ Design System implementation
-- ✅ CMS Admin (all modules)
-- ✅ Public Website (all pages)
-- ✅ Motion System (animations, transitions)
-- ✅ SEO Implementation
-- ✅ Supabase integration (migrations 0000-0008)
-- ✅ Admin user bootstrapped
-- ✅ End-to-end browser verification
+-  Design System implementation
+-  CMS Admin (all modules)
+-  Public Website (all pages)
+-  Motion System (animations, transitions)
+-  SEO Implementation
+-  Supabase integration (migrations 0000-0008)
+-  Admin user bootstrapped
+-  End-to-end browser verification
 
 **Connected to Supabase:**
 - Project ref: `yuzsroqibdylpqihrbsh`
@@ -333,7 +333,7 @@ Comprehensive documentation is available in the `/docs` directory:
 
 ---
 
-## 🚧 Important Notes
+## Important Notes
 
 ### Placeholder Content
 As of the documentation phase, **no real Turaya brand content exists in this repository.** All copy, fragrance names, ingredients, and imagery are **placeholders** marked with `[PLACEHOLDER — description]`.
@@ -352,20 +352,20 @@ This is a proprietary project. For internal development:
 
 ---
 
-## 📄 License
+## License
 
 Proprietary - Internal use only
 
 ---
 
-## 👤 Author
+## Author
 
 **Rindang Alam Nur Muhammad**  
 GitHub: [@rindangalam](https://github.com/rindangalam)
 
 ---
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 Built with:
 - [Next.js](https://nextjs.org/) - React framework
@@ -377,7 +377,7 @@ Built with:
 
 ---
 
-## 📧 Contact
+## Contact
 
 For project inquiries:
 - **GitHub**: [@rindangalam](https://github.com/rindangalam)
